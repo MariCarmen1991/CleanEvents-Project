@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">CleanEvents</string>
+    <string name="txt_nombre">Nombre</string>
+    <string name="txt_apellido">Apellido</string>
+    <string name="txt_correo">nombre@dominio.com</string>
+    <string name="txt_Password">Password</string>
+    <string name="txt_Política">Política de Privacidad</string>
+    <string name="txt_boton_registro">Registrarme</string>
+    <string name="txt_boton_acceso">Acceder</string>
+    <string name="txt_mensaje_1">Nos encanta que te unas a los cleaners</string>
+    <string name="txt_mensaje_2">¡ BIENVENIDO !</string>
+    <string name="txt_mensaje_3">Todavía no tengo una cuenta  </string>
+
+
+
+
+
+
+
+
 </resources>
