@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Politicas Privacidad"
+        android:id="@+id/politica_privacidad"/>
+    <item android:id="@+id/quienes_somos"
+        android:title="Quienes somos"/>
+    <item android:id="@+id/acerca_de"
+        android:title="Acerca de.."/>
+</menu>
