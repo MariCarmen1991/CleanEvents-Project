@@ -53,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.home:
                     Toast.makeText(MainActivity.this, "HOME", Toast.LENGTH_SHORT).show();
                     return true;
-                /*case R.id.perfil_usurio:
+                case R.id.perfil_usuario:
                     Toast.makeText(MainActivity.this, "PERFIL USUARIO", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.anadir_evento:
                     Toast.makeText(MainActivity.this, "NUEVO EVENTO", Toast.LENGTH_SHORT).show();
-                    return true;*/
+                    return true;
             }
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer ,selectFragment).commit();
             return false;
