@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/color_corporativo"
         android:text="@string/txt_boton_registro"
+        app:cornerRadius="30dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline4" />
