@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CleanEvents">
-        <activity android:name=".AccesoActivity"></activity>
+        <activity android:name=".AcercaDeActivity"></activity>
+        <activity android:name=".QuienesSomosActivity" />
+        <activity android:name=".AccesoActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -22,7 +24,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-               <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
     </application>

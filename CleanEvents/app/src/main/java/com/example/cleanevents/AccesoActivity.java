@@ -43,6 +43,10 @@ public class AccesoActivity extends AppCompatActivity {
         btnAcceder=findViewById(R.id.btn_acceso);
         firebaseAuth=FirebaseAuth.getInstance();
 
+    }
+
+    public void logInOut(){
+
 
     }
 
