@@ -11,6 +11,7 @@
         android:theme="@style/Theme.CleanEvents">
         <activity android:name=".AcercaDeActivity"></activity>
         <activity android:name=".QuienesSomosActivity" />
+        <activity android:name=".PoliticaPrivacidadActivity"/>
         <activity android:name=".AccesoActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".SplashActivity">
