@@ -8,5 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="color_corporativo">#0D8A71</color>
+    <color name="color_acento">#86D38A1C</color>
+
 
 </resources>

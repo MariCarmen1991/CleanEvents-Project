@@ -20,5 +20,6 @@ ProgressBar progressBar;
     public void cargaActivity(){
         Intent i=new Intent(SplashActivity.this, AccesoActivity.class);
         startActivity(i);
+        SplashActivity.this.finish();
     }
 }
