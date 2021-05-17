@@ -12,10 +12,6 @@
     <string name="txt_Política">Política de Privacidad</string>
     <string name="txt_boton_registro">Registrarme</string>
     <string name="txt_boton_acceso">Acceder</string>
-    <string name="txt_mensaje_1">Nos encanta que te unas a los cleaners</string>
-    <string name="txt_mensaje_2">¡ BIENVENIDO !</string>
-    <string name="txt_mensaje_3">Todavía no tengo una cuenta  </string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_olvido_pass">¿Has olvidado tu contraseña?  </string>
     <string name="txt_btn_solicitar">Solicitar  </string>

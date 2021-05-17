@@ -20,7 +20,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     Button abrirMapa;
     Button abrirFiltros;
-    RecyclerView recyclerView;
+    //RecyclerView recyclerView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
