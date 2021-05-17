@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +30,6 @@ public class AccesoActivity extends AppCompatActivity {
     TextView twOlvido;
     Button btnRegistrarse, btnAcceder;
     FirebaseAuth firebaseAuth;
-    FirebaseDatabase firebaseDatabase;
     FirebaseUser user;
 
     @Override
@@ -57,8 +55,7 @@ public class AccesoActivity extends AppCompatActivity {
         btnAcceder=findViewById(R.id.btn_acceso);
         twOlvido=findViewById(R.id.tw_olvido);
         firebaseAuth=FirebaseAuth.getInstance();
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        firebaseDatabase.setPersistenceEnabled(true);
+
 
     }
 
