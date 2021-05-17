@@ -4,22 +4,46 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.color_corporativo));
+        bottomNavigationView.setOnNavigationItemSelectedListener(bNavigationView);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new HomeFragment()).commit();
     }
+    private BottomNavigationView.OnNavigationItemSelectedListener bNavigationView =  new BottomNavigationView.OnNavigationItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectFragment = null;
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        selectFragment = new HomeFragment();
+                        break;
+                    case R.id.perfil_usuario:
+                        selectFragment = new PerfilFragment();
+                        break;
+                    case R.id.anadir_evento:
+                        selectFragment = new NuevoEventoFragment();
+                        break;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectFragment).commit();
+                return true;
+            }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,36 +56,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.politica_privacidad:
-                Toast.makeText(this, "POLITICA PRIVACIDAD", Toast.LENGTH_SHORT).show();
+                Intent politica_privacidad = new Intent(MainActivity.this, PoliticaPrivacidadActivity.class);
+                startActivity(politica_privacidad);
                 return true;
             case R.id.quienes_somos:
-                Toast.makeText(this, "QUIENES SOMOS", Toast.LENGTH_SHORT).show();
+                Intent quienes_somos = new Intent(MainActivity.this, QuienesSomosActivity.class);
+                startActivity(quienes_somos);
                 return true;
             case R.id.acerca_de:
-                Toast.makeText(this, "ACERCA DE", Toast.LENGTH_SHORT).show();
+                Intent acerca_de = new Intent(MainActivity.this, AcercaDeActivity.class);
+                startActivity(acerca_de);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationView = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectFragment = null;
-            switch (item.getItemId()) {
-                case R.id.home:
-                    Toast.makeText(MainActivity.this, "HOME", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.perfil_usuario:
-                    Toast.makeText(MainActivity.this, "PERFIL USUARIO", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.anadir_evento:
-                    Toast.makeText(MainActivity.this, "NUEVO EVENTO", Toast.LENGTH_SHORT).show();
-                    return true;
-            }
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer ,selectFragment).commit();
-            return false;
-        }
-    };
 }
