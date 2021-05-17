@@ -21,13 +21,46 @@
     <string name="txt_bottom_home">Home</string>
     <string name="txt_bottom_plus">Añadir</string>
     <string name="txt_bottom_perfil">Perfil</string>
+    <string name="txt_acerca_de_Clean">Acerca de Clean Events</string>
+
 
 
     <!--STRINGS MENSAJES Y TEXTOS LARGOS-->
 
     <string name="txt_mensaje_1">¡Estás a punto de convertirte en un Cleaner!</string>
     <string name="txt_mensaje_2">¡ BIENVENIDO !</string>
-    <string name="txt_mensaje_3">¿Has olvidado tu contraseña? Introduce tu dirección de correo electrónic. Si estás registrado te enviaremos una nueva contraseña.</string>
+    <string name="txt_mensaje_3">¿Has olvidado tu contraseña? Introduce tu dirección de correo electrónico. Si estás registrado te enviaremos una nueva contraseña.</string>
+    <string name="txt_mensaje_acerca1"><b>Clean Events</b> es una aplicación para la organización de eventos relacionados con la limpieza de playas, bosques, fondos marinos, parques y ciudades.
+          </string>
+    <string name="txt_mensaje_principales"><br>Principales Funciones</br></string>
+    <string name="txt_func_1"><br><br>1. Organizar un evento público.</br></br></string>
+    <string name="txt_func_2"><br>2. Introduce coordenadas</br></string>
+    <string name="txt_func_3"><br>3.Permite unirse al evento a otros participantes</br></string>
+    <string name="txt_func_4"><br><br>4. Propón un punto de encuentro </br></br></string>
+    <string name="txt_mensaje_acerca2"><b>Versión:</b> 1.0 beta </string>
+    <string name="txt_mensaje_acerca3"><b>Derechos:</b> © Clean Events 2021 </string>
+
+    <string name="txt_mensaje_somos1">
+        Clean Events nace con el objetivo de ser un punto de encuentro entre diferentes personas motivadas por las mismas preocupaciones: la emergencia climática y mantener los entornos naturales libres de plásticos y basura.  </string>
+    <string name="txt_mensaje_somos2"> ¿Qué queremos Conseguir?</string>
+    <string name="txt_mensaje_somos3"> Por un lado, concienciar del daño que hacen los plásticos y en general todos los desechos que no reciclamos correctamente o que directamente tiramos al suelo. Por otro
+lado crear una red de <b>cleaners</b> dispuestos a pasar un rato entretenido con la posibilidad de conocer a otras personas y además poner su granito de arena para mantener
+nuestros entornos naturales limpios. </string>
+    <string name="txt_mensaje_somos4"> ¿Qué nos Motiva?</string>
+
+
+    <!--STRINGS RECYCLER-->
+    <string name="txt_nombre_actividad">Nombre de la Actividad</string>
+    <string name="txt_lugar_actividad">Lugar Actividad</string>
+    <string name="txt_fecha_actividad">10/10/2021</string>
+    <string name="txt_participantes_actividad">10</string>
+    <string name="txt_organizador_actividad">Organizador</string>
+
+
+
+
+
+
 
 
 </resources>

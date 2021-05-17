@@ -7,6 +7,51 @@
     tools:context=".AccesoActivity">
 
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="236dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/et_correo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:ems="10"
+            android:hint="@string/txt_correo"
+            android:inputType="textPersonName"
+            android:textAlignment="viewStart"
+            android:textColorHint="@color/material_on_background_disabled"
+            android:textColorLink="@color/color_acento"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:ems="10"
+                android:hint="@string/txt_Password"
+                android:inputType="textPassword"
+                android:textAlignment="viewStart"
+                android:textColorHint="@color/material_on_background_disabled"
+                android:textColorLink="@color/color_acento"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="0dp"
@@ -57,25 +102,24 @@
         android:id="@+id/tw_olvido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/txt_olvido_pass"
         android:textColor="@color/color_corporativo"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/et_password" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <Button
         android:id="@+id/btn_acceso"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="64dp"
         android:backgroundTint="@color/color_corporativo"
         android:text="@string/txt_boton_acceso"
         app:cornerRadius="30dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/et_password" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <Button
         android:id="@+id/btn_registrarse"
@@ -97,59 +141,32 @@
         android:id="@+id/imageView3"
         android:layout_width="31dp"
         android:layout_height="31dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:tint="@color/color_acento"
         app:layout_constraintBottom_toTopOf="@+id/tw_olvido"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/baseline_vpn_key_24" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="31dp"
         android:layout_height="31dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:tint="@color/color_acento"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:srcCompat="@drawable/baseline_email_24" />
 
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:hint="@string/txt_Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/et_correo" />
-
-    <EditText
-        android:id="@+id/et_correo"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="256dp"
-        android:ems="10"
-        android:hint="@string/txt_correo"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/txt_Política"
         android:textColor="@color/color_corporativo"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/et_password" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_registrarse" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,17 +50,22 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.politica_privacidad:
                 Toast.makeText(this, "POLITICA PRIVACIDAD", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(MainActivity.this, PoliticaPrivacidadActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.quienes_somos:
                 Toast.makeText(this, "QUIENES SOMOS", Toast.LENGTH_SHORT).show();
+                Intent i= new Intent(MainActivity.this, QuienesSomosActivity.class);
+                startActivity(i);
                 return true;
             case R.id.acerca_de:
+                Intent j= new Intent(MainActivity.this, AcercaDeActivity.class);
+                startActivity(j);
                 Toast.makeText(this, "ACERCA DE", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.log_out:
                 Toast.makeText(this, "HAS CERRADO SESIÓN", Toast.LENGTH_SHORT).show();
-                logout();
-
+                LogOut.cerrarSesion(MainActivity.this, AccesoActivity.class);
 
         }
         return super.onOptionsItemSelected(item);
@@ -87,15 +92,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private void logout(){
-        //cierra sesión y vuelve a la activity de Inicio de Sesión borra el id de usuario de preferences
-        FirebaseAuth.getInstance().signOut();
-        SharedPreferences.Editor editor = getSharedPreferences("prefs", MODE_PRIVATE).edit();
-        editor.clear().apply();
-        Intent i= new Intent(MainActivity.this, AccesoActivity.class);
-        startActivity(i);
-        finish();
-    }
+
 
 
 }
