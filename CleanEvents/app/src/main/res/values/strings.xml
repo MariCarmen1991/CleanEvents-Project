@@ -15,6 +15,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_olvido_pass">¿Has olvidado tu contraseña?  </string>
     <string name="txt_btn_solicitar">Solicitar  </string>
+    <string name="btn_filtro">Filtros </string>
+    <string name="btn_mapa">Mapa</string>
+    <string name="btn_listado">Listado</string>
+
 
 
     <!--STRINGS MENÚ-->
@@ -26,7 +30,6 @@
     <string name="txt_bottom_plus">Añadir</string>
     <string name="txt_bottom_perfil">Perfil</string>
     <string name="txt_acerca_de_Clean">Acerca de Clean Events</string>
-
 
 
     <!--STRINGS MENSAJES Y TEXTOS LARGOS-->
@@ -59,6 +62,14 @@ nuestros entornos naturales limpios. </string>
     <string name="txt_fecha_actividad">10/10/2021</string>
     <string name="txt_participantes_actividad">10</string>
     <string name="txt_organizador_actividad">Organizador</string>
+
+    <string name="txt_lugar_estatic">Lugar Actividad</string>
+    <string name="txt_fecha_estatic">Fecha</string>
+    <string name="txt_participantes_estatic">10</string>
+    <string name="txt_organizador_estatic">Organizador</string>
+
+
+
 
 
 </resources>

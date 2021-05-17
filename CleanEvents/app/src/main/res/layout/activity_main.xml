@@ -7,6 +7,45 @@
     tools:context=".MainActivity">
 
 
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/color_corporativo"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mytoolbar">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_filtros"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_horizontal|center_vertical"
+                android:backgroundTint="@color/white_trans"
+                android:text="@string/btn_filtro"
+                android:textColor="@color/color_corporativo"
+                app:cornerRadius="30dp" />
+
+            <Button
+                android:id="@+id/btn_mapa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_horizontal|center_vertical"
+                android:backgroundTint="@color/white_trans"
+                android:text="@string/btn_mapa"
+                android:textColor="@color/color_corporativo"
+                app:cornerRadius="30dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/mytoolbar"
         android:layout_width="match_parent"
@@ -17,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/white"/>
+        app:titleTextColor="@color/white" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
@@ -26,8 +65,9 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mytoolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -41,4 +81,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navegation_bar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
