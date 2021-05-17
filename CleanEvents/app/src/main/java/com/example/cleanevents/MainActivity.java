@@ -25,6 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
+
     Button btnFiltros, btnMapa;
     Toolbar bar;
     BottomNavigationView bottomNavigationView;
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "NUEVO EVENTO", Toast.LENGTH_SHORT).show();
                     return true;
             }
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer ,selectFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView ,selectFragment).commit();
             return false;
         }
     };
