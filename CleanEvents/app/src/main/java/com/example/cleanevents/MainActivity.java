@@ -25,10 +25,13 @@ public class MainActivity extends AppCompatActivity {
     Toolbar bar;
     BottomNavigationView bottomNavigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bar=findViewById(R.id.mytoolbar);
+        setSupportActionBar(bar);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(bNavigationView);
