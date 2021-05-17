@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -12,16 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.Timestamp;
+
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment  {
 
-    Button abrirMapa;
-    Button abrirFiltros;
-    //RecyclerView recyclerView;
+
+
+    RecyclerView recyclerView;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,29 +74,54 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate( R.layout.fragment_home, container, false );
-        abrirMapa = rootView.findViewById(R.id.mapa);
-        abrirMapa.setOnClickListener(this);
-        abrirFiltros = rootView.findViewById(R.id.filtros);
-        abrirFiltros.setOnClickListener(this);
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        ArrayList<Evento> eventos = new ArrayList<>();
+        Evento nuevoEvento = new Evento();
+        nuevoEvento.setNombre("LIMPIEMOS LA PLAYA");
+        nuevoEvento.setIdUsuario(2);
+        nuevoEvento.setNumParticipantes(10);
+        nuevoEvento.setPoblacion("LLORET DE MAR");
+
+        eventos.add(nuevoEvento);
+        eventos.add(nuevoEvento);
+        eventos.add(nuevoEvento);
+        eventos.add(nuevoEvento);
+
+        //Cargar recyclerView
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        EventosAdapter adapter = new EventosAdapter(eventos, getActivity());
+
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+
         return rootView;//inflater.inflate(R.layout.fragment_home, container, false);
-    }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.mapa:
-                cargarFragment(new MapsFragment());
-                break;
-            case R.id.filtros:
-                //cargarFragment();
-                startActivity(new Intent(getActivity(),FiltrosActivity.class));
-                break;
+
+        @Override
+        public void onClick (View v){
+            switch (v.getId()) {
+                case R.id.mapa:
+                    cargarFragment(new MapsFragment());
+                    break;
+                case R.id.filtros:
+                    //cargarFragment();
+                    startActivity(new Intent(getActivity(), FiltrosActivity.class));
+                    break;
+            }
         }
+
     }
 
-    private void cargarFragment(Fragment fragment) {
+
+
+    /*private void cargarFragment(Fragment fragment) {
         FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentContainerView, fragment).addToBackStack(null).commit();
-    }
+    }*/
+
 }

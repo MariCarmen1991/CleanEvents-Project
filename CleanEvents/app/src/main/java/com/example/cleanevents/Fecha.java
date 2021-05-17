@@ -8,7 +8,7 @@ public class Fecha {
     Timestamp horaInicio;
     Timestamp horaFinal;
 
-    public Fecha() {
+    public Fecha(int i) {
         this.dia = null;
         this.horaInicio = null;
         this.horaFinal = null;

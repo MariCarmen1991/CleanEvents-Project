@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button btnFiltros, btnMapa;
     Toolbar bar;
     BottomNavigationView bottomNavigationView;
 
@@ -34,13 +38,14 @@ public class MainActivity extends AppCompatActivity {
         bar=findViewById(R.id.mytoolbar);
         setSupportActionBar(bar);
 
+        btnFiltros=findViewById(R.id.btn_filtros);
+        btnMapa=findViewById(R.id.btn_mapa);
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(bNavigationView);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new HomeFragment()).commit();
 
-        //bar=findViewById(R.id.toolBar);
-        //setSupportActionBar(bar);
-
+        cargarMapa();
     }
     private BottomNavigationView.OnNavigationItemSelectedListener bNavigationView =  new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
@@ -118,6 +123,22 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+
+    public void cargarMapa(){
+        btnMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cargarFragment(new MapsFragment());
+            }
+        });
+
+    }
+
+    private void cargarFragment(Fragment fragment) {
+        FragmentTransaction ft =  MainActivity.this.getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentContainerView, fragment).addToBackStack(null).commit();
+    }
 
 
 
