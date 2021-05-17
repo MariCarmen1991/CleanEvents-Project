@@ -30,6 +30,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".OlvidoPassActivity"></activity>
         <activity android:name=".AcercaDeActivity" />
         <activity android:name=".QuienesSomosActivity" />
         <activity android:name=".PoliticaPrivacidadActivity" />

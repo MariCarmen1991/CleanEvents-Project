@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title="Politicas Privacidad"
+
+    <item
         android:id="@+id/politica_privacidad"
-        app:showAsAction="never"/>
-    <item android:id="@+id/quienes_somos"
-        android:title="Quienes somos"
-        app:showAsAction="never"/>
-    <item android:id="@+id/acerca_de"
-        android:title="Acerca de.."
-        app:showAsAction="never"/>
+        android:title="@string/txt_men_privacidad"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/quienes_somos"
+        android:title="@string/txt_men_quienes"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/acerca_de"
+        android:title="@string/txt_men_acerca"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/log_out"
+        android:title="@string/txt_men_cerrar" />
 </menu>
