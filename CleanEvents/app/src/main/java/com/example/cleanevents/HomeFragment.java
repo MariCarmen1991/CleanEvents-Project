@@ -101,20 +101,6 @@ public class HomeFragment extends Fragment  {
 
         return rootView;//inflater.inflate(R.layout.fragment_home, container, false);
 
-
-        @Override
-        public void onClick (View v){
-            switch (v.getId()) {
-                case R.id.mapa:
-                    cargarFragment(new MapsFragment());
-                    break;
-                case R.id.filtros:
-                    //cargarFragment();
-                    startActivity(new Intent(getActivity(), FiltrosActivity.class));
-                    break;
-            }
-        }
-
     }
 
 
