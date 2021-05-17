@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar bar;
-
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -35,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(bNavigationView);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new HomeFragment()).commit();
 
-        bar=findViewById(R.id.toolBar);
-        setSupportActionBar(bar);
+        //bar=findViewById(R.id.toolBar);
+        //setSupportActionBar(bar);
 
     }
     private BottomNavigationView.OnNavigationItemSelectedListener bNavigationView =  new BottomNavigationView.OnNavigationItemSelectedListener(){
