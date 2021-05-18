@@ -73,6 +73,7 @@
         android:layout_margin="2dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:clickable="true"
         android:text="@string/txt_filtro_tipo_rio"
         app:layout_constraintBottom_toTopOf="@+id/guideline20"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
