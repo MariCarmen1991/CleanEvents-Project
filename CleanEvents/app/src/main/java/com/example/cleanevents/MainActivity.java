@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         btnListado.setVisibility(View.GONE);
         cargarMapa();
         cargarListado();
+        cargarFiltro();
 
     }
 
@@ -130,7 +131,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    public void cargarFiltro()
+    {
+        btnFiltros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, FiltrosActivity.class));
+            }
+        });
     }
 
 
