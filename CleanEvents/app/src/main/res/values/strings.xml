@@ -22,6 +22,17 @@
 
 
 
+    <string name="txt_filtro_tipo_actividad">Tipo de Actividad</string>
+    <string name="txt_filtro_tipo_playa">Playa</string>
+    <string name="txt_filtro_tipo_montanya">Montaña</string>
+    <string name="txt_filtro_tipo_fondo_marino">Fondo Marino</string>
+    <string name="txt_filtro_tipo_bosque">Bosque</string>
+    <string name="txt_filtro_tipo_ciudad">Ciudad</string>
+    <string name="txt_filtro_tipo_rio">Rio</string>
+    <string name="txt_filtro_fecha">Fecha</string>
+    <string name="txt_filtro_zona">Zona/Lugar</string>
+    <string name="txt_btn_filtro_aceptar">Aplicar</string>
+
 
     <!--STRINGS MENÚ-->
     <string name="txt_men_privacidad">Políticas de Privacidad </string>

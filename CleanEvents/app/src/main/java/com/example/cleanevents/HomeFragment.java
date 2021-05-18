@@ -154,5 +154,4 @@ public class HomeFragment extends Fragment  {
         ft.replace(R.id.fragmentContainerView, fragment).addToBackStack(null).commit();
     }*/
 
-
 }
