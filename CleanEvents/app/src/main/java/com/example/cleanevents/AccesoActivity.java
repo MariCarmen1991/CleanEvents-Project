@@ -26,8 +26,9 @@ import org.jetbrains.annotations.NotNull;
 public class AccesoActivity extends AppCompatActivity {
 
     private static String PREF_KEY="prefs";
+
     EditText etPassword, etCorreo;
-    TextView twOlvido;
+    TextView twOlvido, twPoltica;
     Button btnRegistrarse, btnAcceder;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
@@ -38,6 +39,7 @@ public class AccesoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_acceso);
         inicializar();
         accesoRegistro();
+        muestraPolitica();
         if(!leerValor(AccesoActivity.this,"userId").isEmpty()){
             muestraHome();
         }
@@ -54,6 +56,7 @@ public class AccesoActivity extends AppCompatActivity {
         btnRegistrarse=findViewById(R.id.btn_registrarse);
         btnAcceder=findViewById(R.id.btn_acceso);
         twOlvido=findViewById(R.id.tw_olvido);
+        twPoltica=findViewById(R.id.etiqueta_política);
         firebaseAuth=FirebaseAuth.getInstance();
 
 
@@ -148,5 +151,16 @@ public class AccesoActivity extends AppCompatActivity {
     public static String leerValor(Context context, String keyPref){
         SharedPreferences preferences = context.getSharedPreferences(PREF_KEY, MODE_PRIVATE);
         return  preferences.getString(keyPref, "");
+    }
+
+    //acceso a política de privacidad
+    public void muestraPolitica(){
+        twPoltica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(AccesoActivity.this, PoliticaPrivacidadActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

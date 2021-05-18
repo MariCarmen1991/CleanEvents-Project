@@ -44,14 +44,15 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(bNavigationView);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new HomeFragment()).commit();
-
         btnListado.setVisibility(View.GONE);
         cargarMapa();
         cargarListado();
 
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener bNavigationView = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+    //BOTTOM NAVIGATION BAR  : Carga los fragments del menú inferior (listado eventos, añdir eventos, perfil usuario)
+    private BottomNavigationView.OnNavigationItemSelectedListener bNavigationView =  new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment selectFragment = null;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -106,20 +109,27 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void cargarMapa() {
+    //función para abrir el fragment mapa con los eventos: cuando
+    public void cargarMapa(){
+
         btnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cargarFragment(new MapsFragment());
-                btnMapa.setVisibility(View.GONE);
-                btnListado.setVisibility(View.VISIBLE);
+                btnMapa.setVisibility(View.GONE); //Oculta botón mapa
+                btnListado.setVisibility(View.VISIBLE); //muestra botón listado
 
             }
         });
 
     }
 
-    public void cargarListado() {
+
+
+
+    //función para cargar el listado de los eventos
+    public void cargarListado(){
+
         btnListado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //función para cargar fragments.
 
     private void cargarFragment(Fragment fragment) {
         FragmentTransaction ft = MainActivity.this.getSupportFragmentManager().beginTransaction();
@@ -140,3 +151,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+

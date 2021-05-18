@@ -17,19 +17,31 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class RegistroActivity extends AppCompatActivity {
     EditText etNombre, etApellido, etCorreo, etPassword;
     Button btnRegistro;
-    FirebaseAuth firebaseAut;
+    private FirebaseAuth firebaseAut;
+    private FirebaseFirestore baseDatos;
+    private DatabaseReference db;
+    Usuario usuario;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         inicializar();
         registro();
+        datosUsuario();
     }
 
 
@@ -40,6 +52,23 @@ public class RegistroActivity extends AppCompatActivity {
         etPassword=findViewById(R.id.et_password);
         firebaseAut=FirebaseAuth.getInstance();
         btnRegistro=findViewById(R.id.btn_acceso);
+    }
+
+    public void datosUsuario(){
+        usuario= new Usuario();
+        String nombre=etNombre.getText().toString();
+        String mail=etCorreo.getText().toString();
+        Random r= new Random();
+        int idUsuario=r.nextInt();
+        Log.d("MARICARMEN", ""+idUsuario);
+        int rol=0;
+
+        usuario.setNombre(nombre);
+        usuario.setEmail(mail);
+        usuario.setRol(rol);
+        usuario.setIdUsuario(idUsuario);
+
+
     }
 
     public void registro(){
@@ -58,7 +87,8 @@ public class RegistroActivity extends AppCompatActivity {
                                                 if(task.isSuccessful()){
                                                     FirebaseUser user=firebaseAut.getCurrentUser();
                                                     user.sendEmailVerification();
-
+                                                    datosUsuario();
+                                                    guardarUsuario(usuario);
                                                     Toast.makeText(RegistroActivity.this, "Registro Completado", Toast.LENGTH_SHORT).show();
                                                     Intent i= new Intent(RegistroActivity.this,MainActivity.class);
                                                     startActivity(i);
@@ -94,6 +124,14 @@ public class RegistroActivity extends AppCompatActivity {
     private boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
+    }
+
+
+    private void guardarUsuario(Usuario usuario ){
+
+        db=FirebaseDatabase.getInstance().getReference();
+        db.child("usuario").setValue(usuario);
+
     }
 
 
