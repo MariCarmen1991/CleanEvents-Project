@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnFiltros, btnMapa;
+    Button btnFiltros, btnMapa, btnListado;
     Toolbar bar;
     BottomNavigationView bottomNavigationView;
 
@@ -37,15 +37,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bar=findViewById(R.id.mytoolbar);
         setSupportActionBar(bar);
-
         btnFiltros=findViewById(R.id.btn_filtros);
         btnMapa=findViewById(R.id.btn_mapa);
+        btnListado=findViewById(R.id.btn_listado);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(bNavigationView);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new HomeFragment()).commit();
 
+        btnListado.setVisibility(View.GONE);
         cargarMapa();
+        cargarListado();
+
     }
     private BottomNavigationView.OnNavigationItemSelectedListener bNavigationView =  new BottomNavigationView.OnNavigationItemSelectedListener(){
             @Override
@@ -130,10 +133,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cargarFragment(new MapsFragment());
+                btnMapa.setVisibility(View.GONE);
+                btnListado.setVisibility(View.VISIBLE);
+
             }
         });
 
     }
+    public void cargarListado(){
+        btnListado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cargarFragment(new HomeFragment());
+                btnListado.setVisibility(View.GONE);
+                btnMapa.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+
+    }
+
+
 
     private void cargarFragment(Fragment fragment) {
         FragmentTransaction ft =  MainActivity.this.getSupportFragmentManager().beginTransaction();

@@ -37,9 +37,13 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
             listener.onClick(v);
         }
     }
+    public void setOnClickListener(View.OnClickListener listener){
+
+        this.listener=listener;
+    }
 
     @Override
-    public EventosAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public EventosAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View v=mInflater.inflate(R.layout.card_evento, null);
         v.setOnClickListener(this);
         Log.d("MARICARMEN", "HOLAAAAAA1!");
@@ -82,7 +86,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
         public void bindData(final Evento item) {
             nombreActividad.setText(item.getNombre());
             //fechaActividad.setText(item.getFecha().toString());//modificar si es necesario pueden haber problemas con el tipo
-            organizadorActividad.setText(usuario.getNombre());
+            organizadorActividad.setText("organizador "+item.getIdUsuario());
             lugarActividad.setText(item.getPoblacion());
             //falta hacer el set de las imágenes
 

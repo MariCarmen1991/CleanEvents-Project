@@ -19,29 +19,48 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="61dp"
             android:layout_gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_filtros"
-                android:layout_width="wrap_content"
+                android:layout_width="165dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|center_horizontal|center_vertical"
-                android:backgroundTint="@color/white_trans"
+                android:backgroundTint="@color/color_boton_main"
                 android:text="@string/btn_filtro"
-                android:textColor="@color/color_corporativo"
-                app:cornerRadius="30dp" />
+                android:textColor="@color/white"
+                app:cornerRadius="30dp"
+                app:strokeColor="@color/cardview_shadow_start_color"
+                app:strokeWidth="1dp" />
 
             <Button
                 android:id="@+id/btn_mapa"
-                android:layout_width="wrap_content"
+                android:layout_width="165dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|center_horizontal|center_vertical"
-                android:backgroundTint="@color/white_trans"
+                android:layout_marginStart="20dp"
+                android:backgroundTint="@color/color_boton_main"
                 android:text="@string/btn_mapa"
-                android:textColor="@color/color_corporativo"
-                app:cornerRadius="30dp" />
+                android:textColor="@color/white"
+                app:cornerRadius="30dp"
+                app:strokeColor="@color/cardview_shadow_start_color"
+                app:strokeWidth="1dp" />
+
+            <Button
+                android:id="@+id/btn_listado"
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_horizontal|center_vertical"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/color_boton_main"
+                android:text="@string/btn_listado"
+                android:textColor="@color/white"
+                app:cornerRadius="30dp"
+                app:strokeColor="@color/cardview_shadow_start_color"
+                app:strokeWidth="1dp" />
         </LinearLayout>
 
     </LinearLayout>

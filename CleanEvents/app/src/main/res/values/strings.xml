@@ -18,6 +18,8 @@
     <string name="btn_filtro">Filtros </string>
     <string name="btn_mapa">Mapa</string>
     <string name="btn_listado">Listado</string>
+    <string name="btn_unirse">Unirse al Evento</string>
+
 
 
 
@@ -67,6 +69,10 @@ nuestros entornos naturales limpios. </string>
     <string name="txt_fecha_estatic">Fecha</string>
     <string name="txt_participantes_estatic">10</string>
     <string name="txt_organizador_estatic">Organizador</string>
+    <string name="txt_hora_inicio">Hora Inicio :</string>
+    <string name="txt_hora_final">Hora Final :</string>
+    <string name="txt_descripción">Descripción</string>
+    <string name="txt_h">h</string>
 
 
 

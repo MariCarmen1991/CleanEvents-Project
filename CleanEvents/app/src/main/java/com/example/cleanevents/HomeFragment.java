@@ -1,18 +1,30 @@
 package com.example.cleanevents;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +39,7 @@ public class HomeFragment extends Fragment  {
 
 
     RecyclerView recyclerView;
+    FirebaseFirestore baseDatos;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -88,6 +101,8 @@ public class HomeFragment extends Fragment  {
         eventos.add(nuevoEvento);
         eventos.add(nuevoEvento);
 
+        leerBaseDatos("evento");
+
         //Cargar recyclerView
         recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -97,9 +112,39 @@ public class HomeFragment extends Fragment  {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(getContext(),DetalleActivity.class);
+                startActivity(i);
+            }
+        });
+
 
         return rootView;//inflater.inflate(R.layout.fragment_home, container, false);
 
+    }
+
+    public void leerBaseDatos(String colection){
+        baseDatos=FirebaseFirestore.getInstance();
+        Log.d("maricarmen", "gggg");
+
+        baseDatos.collection(colection)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document: task.getResult()) {
+                                Log.d("maricarmen", "" + document.getId()+ " "+document.getData());
+                            }
+
+                        }
+                        else {
+                            Log.w("maricarmen" ,"ha habido un error");
+                        }
+                    }
+                });
     }
 
 
