@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button btnFiltros, btnMapa, btnListado;
     Toolbar bar;
     BottomNavigationView bottomNavigationView;
 
@@ -31,35 +35,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bar=findViewById(R.id.mytoolbar);
+        bar = findViewById(R.id.mytoolbar);
         setSupportActionBar(bar);
+        btnFiltros = findViewById(R.id.btn_filtros);
+        btnMapa = findViewById(R.id.btn_mapa);
+        btnListado = findViewById(R.id.btn_listado);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(bNavigationView);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new HomeFragment()).commit();
 
-        //bar=findViewById(R.id.toolBar);
-        //setSupportActionBar(bar);
+        btnListado.setVisibility(View.GONE);
+        cargarMapa();
+        cargarListado();
 
     }
-    private BottomNavigationView.OnNavigationItemSelectedListener bNavigationView =  new BottomNavigationView.OnNavigationItemSelectedListener(){
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment selectFragment = null;
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        selectFragment = new HomeFragment();
-                        break;
-                    case R.id.perfil_usuario:
-                        selectFragment = new PerfilFragment();
-                        break;
-                    case R.id.anadir_evento:
-                        selectFragment = new NuevoEventoFragment();
-                        break;
-                }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectFragment).commit();
-                return true;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener bNavigationView = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment selectFragment = null;
+            switch (item.getItemId()) {
+                case R.id.home:
+                    selectFragment = new HomeFragment();
+                    break;
+                case R.id.perfil_usuario:
+                    selectFragment = new PerfilFragment();
+                    break;
+                case R.id.anadir_evento:
+                    selectFragment = new NuevoEventoFragment();
+                    break;
             }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, selectFragment).commit();
+            return true;
+        }
     };
 
     @Override
@@ -76,16 +85,16 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.politica_privacidad:
                 Toast.makeText(this, "POLITICA PRIVACIDAD", Toast.LENGTH_SHORT).show();
-                Intent intent= new Intent(MainActivity.this, PoliticaPrivacidadActivity.class);
+                Intent intent = new Intent(MainActivity.this, PoliticaPrivacidadActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.quienes_somos:
                 Toast.makeText(this, "QUIENES SOMOS", Toast.LENGTH_SHORT).show();
-                Intent i= new Intent(MainActivity.this, QuienesSomosActivity.class);
+                Intent i = new Intent(MainActivity.this, QuienesSomosActivity.class);
                 startActivity(i);
                 return true;
             case R.id.acerca_de:
-                Intent j= new Intent(MainActivity.this, AcercaDeActivity.class);
+                Intent j = new Intent(MainActivity.this, AcercaDeActivity.class);
                 startActivity(j);
                 Toast.makeText(this, "ACERCA DE", Toast.LENGTH_SHORT).show();
                 return true;
@@ -96,4 +105,38 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void cargarMapa() {
+        btnMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cargarFragment(new MapsFragment());
+                btnMapa.setVisibility(View.GONE);
+                btnListado.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+    }
+
+    public void cargarListado() {
+        btnListado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cargarFragment(new HomeFragment());
+                btnListado.setVisibility(View.GONE);
+                btnMapa.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+
+    }
+
+
+    private void cargarFragment(Fragment fragment) {
+        FragmentTransaction ft = MainActivity.this.getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentContainerView, fragment).addToBackStack(null).commit();
+    }
+
 }

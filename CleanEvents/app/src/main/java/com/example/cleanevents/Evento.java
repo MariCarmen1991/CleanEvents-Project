@@ -15,6 +15,7 @@ public class Evento {
     GeoPoint geopoint;
     int numParticipantes;
 
+
     public Evento() {
         this.idEvento = 0;
         this.nombre = "";

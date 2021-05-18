@@ -9,6 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_trans">#B7FFFFFF</color>
     <color name="color_corporativo">#369C8D</color>
+    <color name="color_boton_main">#257569</color>
+    <color name="color_boton_card">#51257569</color>
     <color name="color_corporativo_trans">#EE369C8D</color>
     <color name="color_acento">#86D38A1C</color>
 

@@ -15,6 +15,23 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_olvido_pass">¿Has olvidado tu contraseña?  </string>
     <string name="txt_btn_solicitar">Solicitar  </string>
+    <string name="btn_filtro">Filtros </string>
+    <string name="btn_mapa">Mapa</string>
+    <string name="btn_listado">Listado</string>
+    <string name="btn_unirse">Unirse al Evento</string>
+
+
+
+    <string name="txt_filtro_tipo_actividad">Tipo de Actividad</string>
+    <string name="txt_filtro_tipo_playa">Playa</string>
+    <string name="txt_filtro_tipo_montanya">Montaña</string>
+    <string name="txt_filtro_tipo_fondo_marino">Fondo Marino</string>
+    <string name="txt_filtro_tipo_bosque">Bosque</string>
+    <string name="txt_filtro_tipo_ciudad">Ciudad</string>
+    <string name="txt_filtro_tipo_rio">Rio</string>
+    <string name="txt_filtro_fecha">Fecha</string>
+    <string name="txt_filtro_zona">Zona/Lugar</string>
+    <string name="txt_btn_filtro_aceptar">Aplicar</string>
 
 
     <!--STRINGS MENÚ-->
@@ -26,7 +43,6 @@
     <string name="txt_bottom_plus">Añadir</string>
     <string name="txt_bottom_perfil">Perfil</string>
     <string name="txt_acerca_de_Clean">Acerca de Clean Events</string>
-
 
 
     <!--STRINGS MENSAJES Y TEXTOS LARGOS-->
@@ -73,5 +89,13 @@ nuestros entornos naturales limpios. </string>
     <string name="txt_mapa">Mapa</string>
     <string name="txt_zona">Zona:</string>
     <string name="txt_pista">Pista:</string>
+    <string name="txt_lugar_estatic">Lugar Actividad</string>
+    <string name="txt_fecha_estatic">Fecha</string>
+    <string name="txt_participantes_estatic">10</string>
+    <string name="txt_organizador_estatic">Organizador</string>
+    <string name="txt_hora_inicio">Hora Inicio :</string>
+    <string name="txt_hora_final">Hora Final :</string>
+    <string name="txt_descripción">Descripción</string>
+    <string name="txt_h">h</string>
 
 </resources>
