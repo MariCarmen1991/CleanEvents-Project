@@ -1,6 +1,7 @@
 package com.example.cleanevents;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -17,13 +18,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -31,8 +38,9 @@ public class RegistroActivity extends AppCompatActivity {
     EditText etNombre, etApellido, etCorreo, etPassword;
     Button btnRegistro;
     private FirebaseAuth firebaseAut;
-    private FirebaseFirestore baseDatos;
-    private DatabaseReference db;
+    private FirebaseDatabase baseDatos;
+    private FirebaseFirestore bd;
+    private DatabaseReference dbReference;
     Usuario usuario;
 
     @Override
@@ -52,10 +60,11 @@ public class RegistroActivity extends AppCompatActivity {
         etPassword=findViewById(R.id.et_password);
         firebaseAut=FirebaseAuth.getInstance();
         btnRegistro=findViewById(R.id.btn_acceso);
+        usuario= new Usuario();
     }
 
     public void datosUsuario(){
-        usuario= new Usuario();
+
         String nombre=etNombre.getText().toString();
         String mail=etCorreo.getText().toString();
         Random r= new Random();
@@ -67,6 +76,23 @@ public class RegistroActivity extends AppCompatActivity {
         usuario.setEmail(mail);
         usuario.setRol(rol);
         usuario.setIdUsuario(idUsuario);
+        Log.d("maricarmen","ha funcionado"+usuario.toString());
+
+
+
+    }
+
+    private void guardarUsuario(Usuario usuario ){
+
+
+        bd=FirebaseFirestore.getInstance();
+        baseDatos=FirebaseDatabase.getInstance();
+        Log.d("maricarmen","ha funcionado");
+        dbReference=baseDatos.getReference().child("usuario");
+        dbReference.setValue(usuario);
+        bd.collection("usuario").add(usuario);
+
+
 
 
     }
@@ -127,12 +153,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
 
-    private void guardarUsuario(Usuario usuario ){
 
-        db=FirebaseDatabase.getInstance().getReference();
-        db.child("usuario").setValue(usuario);
-
-    }
 
 
 }

@@ -152,6 +152,8 @@ public class FiltrosActivity extends AppCompatActivity {
         btn_aplicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                finish();
                 // TODO: CREACION DE LA QUERY PARA LA BASE DE DATOS
             }
         });
