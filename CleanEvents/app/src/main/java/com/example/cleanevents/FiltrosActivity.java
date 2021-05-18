@@ -159,31 +159,36 @@ public class FiltrosActivity extends AppCompatActivity {
 
     public void hacer_query()
     {
-        btn_aplicar.setOnClickListener(new View.OnClickListener() {
+        btn_aplicar.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+
                 // TODO: CREACION DE LA QUERY PARA LA BASE DE DATOS (las horas tienen k ser exactas)
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 Log.d("ian",filtro_tipo);
 
-                db.collection("evento").whereEqualTo("tipoActividad", filtro_tipo)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful())
-                                {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Log.d("ian", document.getId() + " => " + document.getData());
-                                    }
-                                } else {
-                                    Log.d("ian", "Error getting documents: ", task.getException());
-                                }
+                db.collection("evento").whereEqualTo("tipoActividad", filtro_tipo).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                    {
+                        if(task.isSuccessful())
+                        {
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                Log.d("ian", document.getId() + " => " + document.getData());
                             }
-                        });
-
+                        }
+                        else
+                        {
+                            Log.d("ian", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
             }
         });
     }
