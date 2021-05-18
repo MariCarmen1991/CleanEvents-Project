@@ -60,5 +60,18 @@ nuestros entornos naturales limpios. </string>
     <string name="txt_participantes_actividad">10</string>
     <string name="txt_organizador_actividad">Organizador</string>
 
+    <!--STRINGS NUEVO EVENTO-->
+    <string name="txt_lugar">Lugar:</string>
+    <string name="txt_fecha">Fecha:</string>
+    <string name="txt_cordenadas">Cordenadas:</string>
+    <string name="txt_descripcion">Descripcion:</string>
+    <string name="txt_busqueda_tesoro">¿quieres añadir un tesoro a tu evento?</string>
+    <string name="txt_guardar">Guardar</string>
+    <string name="txt_hacer_foto">Hacer Foto</string>
+    <string name="txt_poner_foto">Poner Foto</string>
+    <string name="txt_date">Fecha</string>
+    <string name="txt_mapa">Mapa</string>
+    <string name="txt_zona">Zona:</string>
+    <string name="txt_pista">Pista:</string>
 
 </resources>

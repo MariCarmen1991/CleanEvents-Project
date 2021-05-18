@@ -96,30 +96,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationView = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectFragment = null;
-            switch (item.getItemId()) {
-                case R.id.home:
-                    Toast.makeText(MainActivity.this, "HOME", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.perfil_usuario:
-                    Toast.makeText(MainActivity.this, "PERFIL USUARIO", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.anadir_evento:
-                    Toast.makeText(MainActivity.this, "NUEVO EVENTO", Toast.LENGTH_SHORT).show();
-                    return true;
-            }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView ,selectFragment).commit();
-            return false;
-        }
-    };
-
-
-
-
 }
