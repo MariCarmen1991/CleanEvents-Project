@@ -6,10 +6,12 @@ import android.app.DatePickerDialog;
 
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,16 +19,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,35 +42,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.api.Context;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.firebase.storage.internal.StorageReferenceUri;
-import com.google.firestore.v1.WriteResult;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -79,12 +81,13 @@ import static android.app.Activity.RESULT_OK;
  */
 public class NuevoEventoFragment extends Fragment {
 
-    TextView get_fecha;
+    TextView get_fecha, get_lonlat;
     EditText lugar, descripcion, zona, pista;
     Button btnFecha, btnGuardar, btnCargarFoto, btnMap;
     ImageView imagen;
     Switch anadir_tesoro;
     String txtLugar, txtDescripcion, txtZona, txtPista;
+    double lon, lat;
 
     Boolean tesoro = false;
 
@@ -106,7 +109,10 @@ public class NuevoEventoFragment extends Fragment {
 
     FirebaseFirestore db;
     FirebaseDatabase fb;
+    FirebaseStorage fs = FirebaseStorage.getInstance();
     StorageReference storage = FirebaseStorage.getInstance().getReference();
+    StorageReference downloadsStorage = fs.getReference().child("fotos").child("21147");
+    DatabaseReference data = FirebaseDatabase.getInstance().getReference().child("evento").child("C6uBVl8H1c9UbEZhhTSM").child("descripcion");
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -146,6 +152,11 @@ public class NuevoEventoFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    public void cargarMap() {
+        FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentContainerView, new AlertMapsFragment()).addToBackStack(null).commit();
     }
 
     @Override
@@ -226,12 +237,18 @@ public class NuevoEventoFragment extends Fragment {
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragmentContainerView, new MapsFragment()).addToBackStack(null).commit();
+                cargarMap();
+                //FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
+                //ft.replace(R.id.fragmentContainerView, new MapsFragment()).addToBackStack(null).commit();
             }
         });
 
-
+        /* CAPTURAR DATOS DEL MAPA*/
+        AlertMapsFragment dataMap = new AlertMapsFragment();
+        lat = dataMap.lat;
+        lon = dataMap.lon;
+        get_lonlat = rootView.findViewById(R.id.input_cordenadas);
+        get_lonlat.setText("Lon:"+String.valueOf(lon)+" - Lat:"+String.valueOf(lat));
 
         /* BOTON GUARDAR */
 
@@ -254,7 +271,9 @@ public class NuevoEventoFragment extends Fragment {
                         txtZona = zona.getText().toString();
                         pista = rootView.findViewById(R.id.input_pista);
                         txtPista = pista.getText().toString();
+                        subirImagenStorage();
                         crearEventos();
+                        bajarImagenStorage();
                         Toast.makeText(getActivity(), "Has Aceptado", Toast.LENGTH_LONG).show();
                         Log.d("spinner", actividadTexto);
                     }
@@ -290,12 +309,14 @@ public class NuevoEventoFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         hacerFoto();
+                        //leerDatosFB();
                     }
                 });
                 builder.setNeutralButton("Cargar Foto", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         cargarFoto();
+                        //eliminarDatosFB();
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -304,15 +325,6 @@ public class NuevoEventoFragment extends Fragment {
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference ref = storage.getReference().child("image/240");
-
-        //Glide.with(getActivity()).load();
     }
 
     @Override
@@ -351,11 +363,20 @@ public class NuevoEventoFragment extends Fragment {
         });
     }
 
-    public void bajarImagenStorage(){
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference ref = storage.getReference().child("image/*");
+    String url;
 
-        //Glide.with(getActivity()).load(new FirebaseImage)
+    public void bajarImagenStorage(){
+        FirebaseStorage down = FirebaseStorage.getInstance();
+        StorageReference imageRef = down.getReference().child("fotos").child("21147");
+        imageRef.getBytes(1024*1024)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory
+                                .decodeByteArray(bytes, 0, bytes.length);
+                        imagen.setImageBitmap(bitmap);
+                    }
+                });
     }
 
     public void goTocamera() {
@@ -383,18 +404,45 @@ public class NuevoEventoFragment extends Fragment {
         startActivityForResult(gallery, PICK_IMAGE);
     }
 
+    Random r = new Random();
+    int idEvento = r.nextInt(1000)+1;
+    int idUsuario = r.nextInt(1000)+1;
+
     public void crearEventos(){
         Map<String, Object> evento = new HashMap<>();
-        evento.put("lugar", txtLugar);
-        evento.put("fecha", (String)dateLog);
+        evento.put("idEvento", idEvento);
+        evento.put("idUsuario", idUsuario);
+        evento.put("nombre", txtLugar);
+        evento.put("dia", (String)dateLog);
+        evento.put("Longitud", lon);
+        evento.put("Latitud", lat);
         evento.put("descripcion", txtDescripcion);
         evento.put("tesoro", tesoro);
         evento.put("pista", txtPista);
-        evento.put("zona", txtZona);
-        evento.put("actividad", actividadTexto);
-        //evento.put("imagen", bajarImagenStorage(path));
+        evento.put("poblacion", txtZona);
+        evento.put("tipoActividad", actividadTexto);
+        evento.put("imagen", url);
         DatabaseReference dr = fb.getReference().child("evento");
         dr.setValue(evento);
         db.collection("evento").add(evento);
     }
+
+    /*public void leerDatosFB(){
+        Query recuperar = (Query) data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                String valor = (String) snapshot.getValue();
+                get_fecha.setText(valor);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                Log.e("TAGLOG", "Error!", error.toException());
+            }
+        });
+    }
+
+    public void eliminarDatosFB(){
+        db.collection("evento").document("7Kr1STuyuIIcVNNMAXcW").delete();
+    }*/
 }
