@@ -244,4 +244,17 @@
         app:layout_constraintStart_toStartOf="@+id/guideline13"
         app:layout_constraintTop_toTopOf="@+id/guideline22" />
 
+    <Button
+        android:id="@+id/btn_borrar_filtros"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="@string/txt_btn_borrar_filtros"
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toBottomOf="@+id/et_zona_lugar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

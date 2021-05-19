@@ -31,6 +31,7 @@
     <string name="txt_filtro_fecha">Fecha</string>
     <string name="txt_filtro_zona">Zona/Lugar</string>
     <string name="txt_btn_filtro_aceptar">Aplicar</string>
+    <string name="txt_btn_borrar_filtros">Borrar</string>
 
 
     <!--STRINGS MENÚ-->

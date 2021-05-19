@@ -55,7 +55,7 @@ public class FiltrosActivity extends AppCompatActivity {
     static String filtro_zona_lugar = "";
 
     EditText et_PlannedDate, et_PlannedHora, et_FinishHora, et_zona_lugar;
-    Button btn_filtro_playa, btn_filtro_ciudad, btn_filtro_montanya;
+    Button btn_filtro_playa, btn_filtro_ciudad, btn_filtro_montanya, btn_borrar_filtros;
     Button btn_filtro_fondo_marino,btn_filtro_bosque, btn_filtro_rio, btn_aplicar;
     FirebaseFirestore db;
 
@@ -68,15 +68,24 @@ public class FiltrosActivity extends AppCompatActivity {
         filtros_tipo();
         filtros_tiempo();
         filtros_zona_lugar();
+/*
+        btn_borrar_filtros.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                et_FinishHora.setText("");
+                et_PlannedHora.setText("");
+                et_PlannedDate.setText("");
+                et_zona_lugar.setText("");
+            }
+        });
+ */
 
         btn_aplicar.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-
                 hacer_query();
-
             }
         });
 
@@ -120,6 +129,7 @@ public class FiltrosActivity extends AppCompatActivity {
         btn_filtro_rio = findViewById(R.id.btn_filtro_rio);
 
         btn_aplicar = findViewById(R.id.btn_aplicar);
+        btn_borrar_filtros = findViewById(R.id.btn_borrar_filtros);
 
         db = FirebaseFirestore.getInstance();
     }
