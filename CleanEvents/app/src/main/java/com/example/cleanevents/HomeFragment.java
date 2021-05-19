@@ -5,21 +5,17 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,7 +23,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +34,10 @@ public class HomeFragment extends Fragment  {
 
 
     RecyclerView recyclerView;
+    EventosAdapter adapter;
     FirebaseFirestore baseDatos;
+    Evento eventObject;
+    ArrayList<Evento> eventos= new ArrayList<>();
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -87,47 +85,29 @@ public class HomeFragment extends Fragment  {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerView =rootView.findViewById(R.id.recyclerView); //inicializa recycler
 
 
-        ArrayList<Evento> eventos = new ArrayList<>();
+        ArrayList<Evento> lista = new ArrayList<>();
         Evento nuevoEvento = new Evento();
         nuevoEvento.setNombre("LIMPIEMOS LA PLAYA");
         nuevoEvento.setIdUsuario(2);
         nuevoEvento.setNumParticipantes(10);
         nuevoEvento.setPoblacion("LLORET DE MAR");
-
-        eventos.add(nuevoEvento);
-        eventos.add(nuevoEvento);
-        eventos.add(nuevoEvento);
-        eventos.add(nuevoEvento);
-
-        leerBaseDatos("evento");
-
-        //Cargar recyclerView
-        recyclerView = rootView.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        EventosAdapter adapter = new EventosAdapter(eventos, getActivity());
-
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-        adapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i= new Intent(getContext(),DetalleActivity.class);
-                startActivity(i);
-            }
-        });
-
+        lista.add(nuevoEvento);
+        lista.add(nuevoEvento);
+        lista.add(nuevoEvento);
+        lista.add(nuevoEvento);
+        //cargarRecycler(lista);
+        leerBaseDatos("eventos");
+        Log.d("maricarmen",""+leerBaseDatos("evento").toString());
 
         return rootView;//inflater.inflate(R.layout.fragment_home, container, false);
 
     }
 
-    public void leerBaseDatos(String colection){
+    public  ArrayList<Evento> leerBaseDatos(String colection){
         baseDatos=FirebaseFirestore.getInstance();
-        Log.d("maricarmen", "gggg");
 
         baseDatos.collection(colection)
                 .get()
@@ -135,11 +115,19 @@ public class HomeFragment extends Fragment  {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document: task.getResult()) {
-                                Log.d("maricarmen", "" + document.getId()+ " "+document.getData());
-                                Log.d("maricarmen", "" + document.getId()+ " "+document.getData());
+                            for(QueryDocumentSnapshot evento: task.getResult()) {
+                                Log.d("maricarmen"," EVENTO RECUPERADO--> "+evento.getData());
+                                eventObject=new Evento();
+                                eventObject.setNombre((String) evento.getData().get("nombre"));
+                                eventObject.setPoblacion((String) evento.getData().get("poblacion"));
+                                //eventObject.setNumParticipantes( evento.getData().get("numParticipantes"));
+                                eventObject.setImagen((String) evento.getData().get("imagen"));
+                                eventos.add(eventObject);
+                                cargarRecycler(eventos);
 
+                                Log.d("maricarmen"," OBJETOGUARDADO--> "+eventos.toString());
                             }
+
 
                         }
                         else {
@@ -147,6 +135,29 @@ public class HomeFragment extends Fragment  {
                         }
                     }
                 });
+
+        return eventos;
+    }
+
+    public void cargarRecycler(ArrayList<Evento> listaEvento){
+
+        //Cargar recyclerView
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new EventosAdapter(listaEvento, getActivity());
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position=recyclerView.getChildAdapterPosition(v);
+                Intent i= new Intent(getContext(),DetalleActivity.class);
+                i.putExtra("eventoActual",  listaEvento.get(position));
+                startActivity(i);
+            }
+        });
+
     }
 
 

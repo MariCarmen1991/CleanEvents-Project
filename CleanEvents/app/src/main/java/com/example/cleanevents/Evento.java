@@ -2,7 +2,9 @@ package com.example.cleanevents;
 
 import com.google.firebase.firestore.GeoPoint;
 
-public class Evento {
+import java.io.Serializable;
+
+public class Evento implements Serializable {
 
     int idEvento;
     String nombre;
@@ -13,7 +15,7 @@ public class Evento {
     String descripcion;
     String poblacion;
     GeoPoint geopoint;
-    int numParticipantes;
+    Integer numParticipantes;
 
 
     public Evento() {

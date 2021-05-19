@@ -54,11 +54,10 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
     @Override
     public void onBindViewHolder(final EventosAdapter.ViewHolder holder, int position) {
         holder.bindData(listEventos.get(position));
-
         Picasso.get()
-                .load(Uri.parse("https://www.ecestaticos.com/image/clipping/557/418/149b110413c188544b89212ad842c8c1/dos-playas-espanolas-entran-en-el-ranking-de-las-10-mejores-de-europa.jpg")) // internet path
+                .load(listEventos.get(position).getImagen()) // internet path
                 .placeholder(R.mipmap.ic_launcher)  // preload
-                .error(R.mipmap.ic_launcher_round)        // load error
+                .error(R.mipmap.ic_launcher_round) // load error
                 .into(holder.imagenActividad);
 
     }
