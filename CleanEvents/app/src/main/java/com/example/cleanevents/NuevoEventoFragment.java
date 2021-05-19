@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,16 +27,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,6 +54,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -52,6 +64,8 @@ import com.google.firestore.v1.WriteResult;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +77,7 @@ import static android.app.Activity.RESULT_OK;
  * Use the {@link NuevoEventoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NuevoEventoFragment extends Fragment{
+public class NuevoEventoFragment extends Fragment {
 
     TextView get_fecha;
     EditText lugar, descripcion, zona, pista;
@@ -81,11 +95,17 @@ public class NuevoEventoFragment extends Fragment{
     String dateLog;
     Uri txtImagen;
 
+    Spinner tipo_actividad;
+    ArrayList<String> actividadList;
+    ArrayAdapter<String> actividadAdapter;
+    String actividadTexto;
+
     private static final int REQUEST_PERMISSION_CAMERA = 101;
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
 
     FirebaseFirestore db;
+    FirebaseDatabase fb;
     StorageReference storage = FirebaseStorage.getInstance().getReference();
 
     // TODO: Rename parameter arguments, choose names that match
@@ -132,10 +152,36 @@ public class NuevoEventoFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate( R.layout.fragment_nuevo_evento, container, false );
+        imagen = rootView.findViewById(R.id.image_lugar_tesoro);
+
+        /* Spiner Actividades */
+
+        tipo_actividad = rootView.findViewById(R.id.actividades);
+        actividadList = new ArrayList<String>();
+        actividadList.add("Playa");
+        actividadList.add("Montaña");
+        actividadList.add("Fondo Marino");
+        actividadList.add("Bosque");
+        actividadList.add("Ciudad");
+        actividadList.add("Rio");
+        actividadAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, actividadList);
+        tipo_actividad.setAdapter(actividadAdapter);
+        tipo_actividad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                actividadTexto = actividadList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         /* SWITCH BUTTON */
 
         db = FirebaseFirestore.getInstance();
+        fb = FirebaseDatabase.getInstance();
 
         anadir_tesoro = rootView.findViewById(R.id.anadir_tesoro);
         anadir_tesoro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -185,6 +231,8 @@ public class NuevoEventoFragment extends Fragment{
             }
         });
 
+
+
         /* BOTON GUARDAR */
 
         btnGuardar = rootView.findViewById(R.id.btn_guardar);
@@ -200,16 +248,15 @@ public class NuevoEventoFragment extends Fragment{
                         // Guardar evento
                         lugar = rootView.findViewById(R.id.input_lugar);
                         txtLugar = lugar.getText().toString();
-                        descripcion = rootView.findViewById(R.id.input_lugar);
+                        descripcion = rootView.findViewById(R.id.input_descripcion);
                         txtDescripcion = descripcion.getText().toString();
-                        zona = rootView.findViewById(R.id.input_lugar);
+                        zona = rootView.findViewById(R.id.input_zona);
                         txtZona = zona.getText().toString();
-                        pista = rootView.findViewById(R.id.input_lugar);
+                        pista = rootView.findViewById(R.id.input_pista);
                         txtPista = pista.getText().toString();
+                        crearEventos();
                         Toast.makeText(getActivity(), "Has Aceptado", Toast.LENGTH_LONG).show();
-                        Log.d("NuevoEvento", "Lugar: "+txtLugar+"\n"+"Fecha:"+dateLog+"\n"+"Coordenadas:"+0+"\n"+"Descripcion:"+txtDescripcion+"\n"+"Tesoro:"+tesoro+"\n"+"Zona:"+txtZona+"\n"+"Pista:"+txtPista+"\n"+"Imagen:"+txtImagen+"\n");
-                        subirImagenStorage();
-                        //crearEventos();
+                        Log.d("spinner", actividadTexto);
                     }
                 });
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -260,6 +307,15 @@ public class NuevoEventoFragment extends Fragment{
     }
 
     @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference ref = storage.getReference().child("image/240");
+
+        //Glide.with(getActivity()).load();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
         if(requestCode==REQUEST_PERMISSION_CAMERA){
             if(permissions.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
@@ -295,33 +351,12 @@ public class NuevoEventoFragment extends Fragment{
         });
     }
 
-    /*public void bajarImagenStorage(){
-        StorageReference fileref = storage.child(System.currentTimeMillis() + "" + getFileExtension(imageUri));
-        fileref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Uri downloadImage = taskSnapshot.getUploadSessionUri();
-                Glide.with(getActivity()).load(downloadImage).fitCenter().centerCrop().load(imagen);
-                Log.d("download", "Se ha descargado corectamente la imagen.");
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull @NotNull UploadTask.TaskSnapshot snapshot) {
-                Log.d("download", "La imagen esta tardando en descargarse.");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-                Log.d("download", "Ha habido una error con la imagen.");
-            }
-        });
+    public void bajarImagenStorage(){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference ref = storage.getReference().child("image/*");
+
+        //Glide.with(getActivity()).load(new FirebaseImage)
     }
-    
-    public String getFileExtension(Uri uri){
-        ContentResolver cr = getContext().getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cr.getType(uri));
-    }*/
 
     public void goTocamera() {
         Intent hacerFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -351,11 +386,15 @@ public class NuevoEventoFragment extends Fragment{
     public void crearEventos(){
         Map<String, Object> evento = new HashMap<>();
         evento.put("lugar", txtLugar);
-        evento.put("fecha", get_fecha);
+        evento.put("fecha", (String)dateLog);
         evento.put("descripcion", txtDescripcion);
         evento.put("tesoro", tesoro);
         evento.put("pista", txtPista);
         evento.put("zona", txtZona);
-        db.collection("evento").document("prueba").set(evento);
+        evento.put("actividad", actividadTexto);
+        //evento.put("imagen", bajarImagenStorage(path));
+        DatabaseReference dr = fb.getReference().child("evento");
+        dr.setValue(evento);
+        db.collection("evento").add(evento);
     }
 }

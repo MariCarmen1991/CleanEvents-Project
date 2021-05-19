@@ -171,6 +171,7 @@ Esta Política está sujeta a revisiones periódicas y la empresa puede modifica
     <string name="txt_mapa">Mapa</string>
     <string name="txt_zona">Zona:</string>
     <string name="txt_pista">Pista:</string>
+    <string name="txt_actividad">Tipo de Actividad:</string>
     <string name="txt_lugar_estatic">Lugar Actividad</string>
     <string name="txt_fecha_estatic">Fecha</string>
     <string name="txt_participantes_estatic">10</string>

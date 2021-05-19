@@ -12,6 +12,17 @@
             android:orientation="vertical"
             tools:context=".NuevoEventoFragment">
 
+            <TextView
+                android:id="@+id/pista_evento2"
+                android:layout_width="91dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="484dp"
+                android:text="@string/txt_pista"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <EditText
                 android:id="@+id/input_lugar"
                 android:layout_width="wrap_content"
@@ -52,12 +63,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/pista_evento"
-                android:layout_width="91dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="484dp"
-                android:text="@string/txt_pista"
+                android:id="@+id/actividad_evento"
+                android:layout_width="86dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="552dp"
+                android:text="@string/txt_actividad"
                 android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -212,7 +223,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/input_pista" />
+                app:layout_constraintTop_toBottomOf="@+id/actividades" />
 
             <Button
                 android:id="@+id/btn_cargar_foto"
@@ -265,6 +276,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="375dp" />
+
+            <Spinner
+                android:id="@+id/actividades"
+                android:layout_width="213dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.461"
+                app:layout_constraintStart_toEndOf="@+id/actividad_evento"
+                app:layout_constraintTop_toBottomOf="@+id/input_pista" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
