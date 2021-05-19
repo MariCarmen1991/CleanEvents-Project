@@ -68,6 +68,7 @@ public class FiltrosActivity extends AppCompatActivity {
         filtros_tipo();
         filtros_tiempo();
         filtros_zona_lugar();
+
 /*
         btn_borrar_filtros.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -79,6 +80,30 @@ public class FiltrosActivity extends AppCompatActivity {
             }
         });
  */
+
+        btn_borrar_filtros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                btn_filtro_playa.clearFocus();
+                btn_filtro_montanya.clearFocus();
+                btn_filtro_fondo_marino.clearFocus();
+                btn_filtro_bosque.clearFocus();
+                btn_filtro_ciudad.clearFocus();
+                btn_filtro_rio.clearFocus();
+
+                et_FinishHora.setText("");
+                et_PlannedHora.setText("");
+                et_PlannedDate.setText("");
+                et_zona_lugar.setText("");
+
+                filtro_tipo = "";
+                filtro_hora_final = "";
+                filtro_hora_inicio = "";
+                filtro_dia = "";
+                filtro_zona_lugar = "";
+            }
+        });
 
         btn_aplicar.setOnClickListener(new View.OnClickListener()
         {
