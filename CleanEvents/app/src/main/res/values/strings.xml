@@ -43,7 +43,6 @@
     <string name="txt_bottom_perfil">Perfil</string>
     <string name="txt_acerca_de_Clean">Acerca de Clean Events</string>
 
-
     <!--STRINGS MENSAJES Y TEXTOS LARGOS-->
 
     <string name="txt_mensaje_1">¡Estás a punto de convertirte en un Cleaner!</string>
@@ -161,8 +160,7 @@ Esta Política está sujeta a revisiones periódicas y la empresa puede modifica
     <string name="txt_descripcion">Descripcion:</string>
     <string name="txt_busqueda_tesoro">¿quieres añadir un tesoro a tu evento?</string>
     <string name="txt_guardar">Guardar</string>
-    <string name="txt_hacer_foto">Hacer Foto</string>
-    <string name="txt_poner_foto">Poner Foto</string>
+    <string name="txt_cargar_foto">Cargar Foto</string>
     <string name="txt_date">Fecha</string>
     <string name="txt_mapa">Mapa</string>
     <string name="txt_zona">Zona:</string>
@@ -175,5 +173,4 @@ Esta Política está sujeta a revisiones periódicas y la empresa puede modifica
     <string name="txt_hora_final">Hora Final :</string>
     <string name="txt_descripción">Descripción</string>
     <string name="txt_h">h</string>
-
 </resources>

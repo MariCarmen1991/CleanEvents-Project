@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -32,9 +34,27 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.firebase.storage.internal.StorageReferenceUri;
+import com.google.firestore.v1.WriteResult;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -43,11 +63,11 @@ import static android.app.Activity.RESULT_OK;
  * Use the {@link NuevoEventoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NuevoEventoFragment extends Fragment {
+public class NuevoEventoFragment extends Fragment{
 
     TextView get_fecha;
     EditText lugar, descripcion, zona, pista;
-    Button btnFecha, btnGuardar, btnHacerFoto, btnPonerFoto, btnMap;
+    Button btnFecha, btnGuardar, btnCargarFoto, btnMap;
     ImageView imagen;
     Switch anadir_tesoro;
     String txtLugar, txtDescripcion, txtZona, txtPista;
@@ -64,6 +84,9 @@ public class NuevoEventoFragment extends Fragment {
     private static final int REQUEST_PERMISSION_CAMERA = 101;
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
+
+    FirebaseFirestore db;
+    StorageReference storage = FirebaseStorage.getInstance().getReference();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -111,6 +134,8 @@ public class NuevoEventoFragment extends Fragment {
         View rootView = inflater.inflate( R.layout.fragment_nuevo_evento, container, false );
 
         /* SWITCH BUTTON */
+
+        db = FirebaseFirestore.getInstance();
 
         anadir_tesoro = rootView.findViewById(R.id.anadir_tesoro);
         anadir_tesoro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -182,7 +207,9 @@ public class NuevoEventoFragment extends Fragment {
                         pista = rootView.findViewById(R.id.input_lugar);
                         txtPista = pista.getText().toString();
                         Toast.makeText(getActivity(), "Has Aceptado", Toast.LENGTH_LONG).show();
-                        Log.d("NuevoEvento", "\n"+"Lugar: "+txtLugar+"\n"+"Fecha:"+dateLog+"\n"+"Coordenadas:"+0+"\n"+"Descripcion:"+txtDescripcion+"\n"+"Tesoro:"+tesoro+"\n"+"Zona:"+txtZona+"\n"+"Pista:"+txtPista+"\n"+"Imagen:"+txtImagen+"\n");
+                        Log.d("NuevoEvento", "Lugar: "+txtLugar+"\n"+"Fecha:"+dateLog+"\n"+"Coordenadas:"+0+"\n"+"Descripcion:"+txtDescripcion+"\n"+"Tesoro:"+tesoro+"\n"+"Zona:"+txtZona+"\n"+"Pista:"+txtPista+"\n"+"Imagen:"+txtImagen+"\n");
+                        subirImagenStorage();
+                        //crearEventos();
                     }
                 });
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -200,33 +227,32 @@ public class NuevoEventoFragment extends Fragment {
         /* CAMERA Y GALERIA DE FOTOS*/
 
         imagen = rootView.findViewById(R.id.image_lugar_tesoro);
-        btnHacerFoto = rootView.findViewById(R.id.btn_hacer_foto);
-        btnPonerFoto = rootView.findViewById(R.id.btn_poner_foto);
+        btnCargarFoto = rootView.findViewById(R.id.btn_cargar_foto);
 
         if(imagen.getDrawable()==null){
             imagen.setImageResource(R.drawable.user);
         }
 
-        btnHacerFoto.setOnClickListener(new View.OnClickListener() {
+        btnCargarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
-                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        goTocamera();
-                    } else {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSION_CAMERA);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Cargar Foto");
+                builder.setMessage("¿Quieres cargar una foto desde la galeria o hacer una foto ahota?");
+                builder.setPositiveButton("Hacer Foto", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        hacerFoto();
                     }
-                } else {
-                    goTocamera();
-                }
-            }
-        });
-
-        btnPonerFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                startActivityForResult(gallery, PICK_IMAGE);
+                });
+                builder.setNeutralButton("Cargar Foto", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        cargarFoto();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -259,10 +285,77 @@ public class NuevoEventoFragment extends Fragment {
         }
     }
 
+    public void subirImagenStorage(){
+        StorageReference filepath = storage.child("fotos").child(imageUri.getLastPathSegment());
+        filepath.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<UploadTask.TaskSnapshot> task) {
+                Log.d("up", "LA IMAGEN SE HA SUBIDO CORECTAMENTE.");
+            }
+        });
+    }
+
+    /*public void bajarImagenStorage(){
+        StorageReference fileref = storage.child(System.currentTimeMillis() + "" + getFileExtension(imageUri));
+        fileref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri downloadImage = taskSnapshot.getUploadSessionUri();
+                Glide.with(getActivity()).load(downloadImage).fitCenter().centerCrop().load(imagen);
+                Log.d("download", "Se ha descargado corectamente la imagen.");
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull @NotNull UploadTask.TaskSnapshot snapshot) {
+                Log.d("download", "La imagen esta tardando en descargarse.");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Log.d("download", "Ha habido una error con la imagen.");
+            }
+        });
+    }
+    
+    public String getFileExtension(Uri uri){
+        ContentResolver cr = getContext().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
+    }*/
+
     public void goTocamera() {
         Intent hacerFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(hacerFoto.resolveActivity(getContext().getPackageManager())!=null){
             startActivityForResult(hacerFoto, 1);
         }
+    }
+
+    public void hacerFoto() {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                goTocamera();
+            } else {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSION_CAMERA);
+            }
+        } else {
+            goTocamera();
+        }
+    }
+
+    public void cargarFoto() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        gallery.setType("image/*");
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    public void crearEventos(){
+        Map<String, Object> evento = new HashMap<>();
+        evento.put("lugar", txtLugar);
+        evento.put("fecha", get_fecha);
+        evento.put("descripcion", txtDescripcion);
+        evento.put("tesoro", tesoro);
+        evento.put("pista", txtPista);
+        evento.put("zona", txtZona);
+        db.collection("evento").document("prueba").set(evento);
     }
 }

@@ -1,15 +1,29 @@
 package com.example.cleanevents;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 
@@ -68,56 +82,52 @@ public class FiltrosActivity extends AppCompatActivity {
     // CLICK LISTENER DE LOS FILTROS DE TIPO DE ACTIVIDAD
     private void filtros_tipo()
     {
-        btn_filtro_playa.setOnClickListener(new View.OnClickListener() {
+        btn_filtro_playa.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                btn_filtro_playa.setFocusableInTouchMode(true);
+            public void onFocusChange(View view, boolean b) {
                 filtro_tipo = "playa";
+                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
             }
         });
 
-        btn_filtro_montanya.setOnClickListener(new View.OnClickListener() {
+        btn_filtro_montanya.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                btn_filtro_montanya.setFocusableInTouchMode(true);
+            public void onFocusChange(View view, boolean b) {
                 filtro_tipo = "montaña";
-
+                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
             }
         });
 
-        btn_filtro_fondo_marino.setOnClickListener(new View.OnClickListener() {
+        btn_filtro_fondo_marino.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                btn_filtro_fondo_marino.setFocusableInTouchMode(true);
+            public void onFocusChange(View view, boolean b) {
                 filtro_tipo = "fondo marino";
-
+                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
             }
         });
 
-        btn_filtro_bosque.setOnClickListener(new View.OnClickListener() {
+        btn_filtro_bosque.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                btn_filtro_bosque.setFocusableInTouchMode(true);
+            public void onFocusChange(View view, boolean b) {
                 filtro_tipo = "bosque";
-
+                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
             }
         });
 
-        btn_filtro_ciudad.setOnClickListener(new View.OnClickListener() {
+        btn_filtro_ciudad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                btn_filtro_ciudad.setFocusableInTouchMode(true);
+            public void onFocusChange(View view, boolean b) {
                 filtro_tipo = "ciudad";
-
+                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
             }
         });
 
-        btn_filtro_rio.setOnClickListener(new View.OnClickListener() {
+        btn_filtro_rio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                btn_filtro_rio.setFocusableInTouchMode(true);
+            public void onFocusChange(View view, boolean b) {
                 filtro_tipo = "rio";
-
+                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
+                //btn_filtro_rio.setFocusableInTouchMode(true);
             }
         });
     }
@@ -149,12 +159,36 @@ public class FiltrosActivity extends AppCompatActivity {
 
     public void hacer_query()
     {
-        btn_aplicar.setOnClickListener(new View.OnClickListener() {
+        btn_aplicar.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
 
-                finish();
-                // TODO: CREACION DE LA QUERY PARA LA BASE DE DATOS
+                // TODO: CREACION DE LA QUERY PARA LA BASE DE DATOS (las horas tienen k ser exactas)
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                Log.d("ian",filtro_tipo);
+
+                db.collection("evento").whereEqualTo("tipoActividad", filtro_tipo).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                    {
+                        if(task.isSuccessful())
+                        {
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                Log.d("ian", document.getId() + " => " + document.getData());
+                            }
+                        }
+                        else
+                        {
+                            Log.d("ian", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
             }
         });
     }
