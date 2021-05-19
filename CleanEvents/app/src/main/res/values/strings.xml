@@ -31,7 +31,15 @@
     <string name="txt_filtro_fecha">Fecha</string>
     <string name="txt_filtro_zona">Zona/Lugar</string>
     <string name="txt_btn_filtro_aceptar">Aplicar</string>
+    <string name="txt_btn_borrar_filtros">Borrar</string>
 
+    <!-- STRING PERFIL -->
+
+    <string name="txt_nombre_usuario">Nombre: </string>
+    <string name="txt_sobre_mi">Sobre mi: </string>
+    <string name="txt_btn_eventos_organizados">Eventos Organizados</string>
+    <string name="txt_btn_eventos_participados">Eventos Participados</string>
+    <string name="txt_btn_editar_perfil">Editar</string>
 
     <!--STRINGS MENÚ-->
     <string name="txt_men_privacidad">Políticas de Privacidad </string>
@@ -145,12 +153,6 @@ Los requisitos de esta Política complementan, y no reemplazan, cualquier otro r
 Esta Política está sujeta a revisiones periódicas y la empresa puede modificarla en cualquier momento. Cuando esto ocurra, le avisaremos de cualquier cambio y le pediremos que vuelva a leer la versión más reciente de nuestra Política y que confirme su aceptación.</string>
 
     <string name="txt_politca_inicio">Al registrarte e iniciar sesión estás aceptando las políticas de privacidad</string>
-
-
-
-
-
-
 
     <!--STRINGS RECYCLER-->
     <string name="txt_nombre_actividad">Nombre de la Actividad</string>

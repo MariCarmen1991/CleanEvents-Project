@@ -4,52 +4,52 @@ import com.google.firebase.Timestamp;
 
 public class Fecha {
 
-    Timestamp dia;
-    Timestamp horaInicio;
-    Timestamp horaFinal;
+    String dia;
+    String horaInicio;
+    String horaFinal;
 
-    public Fecha(int i) {
-        this.dia = null;
-        this.horaInicio = null;
-        this.horaFinal = null;
+    public Fecha() {
+        this.dia = "";
+        this.horaInicio = "";
+        this.horaFinal = "";
     }
 
-    public Fecha(Timestamp dia, Timestamp horaInicio, Timestamp horaFinal) {
+    public Fecha(String dia, String horaInicio, String horaFinal) {
         this.dia = dia;
         this.horaInicio = horaInicio;
         this.horaFinal = horaFinal;
     }
 
-    public Timestamp getDia() {
+    public String getDia() {
         return dia;
     }
 
-    public void setDia(Timestamp dia) {
+    public void setDia(String dia) {
         this.dia = dia;
     }
 
-    public Timestamp getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Timestamp horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Timestamp getHoraFinal() {
+    public String getHoraFinal() {
         return horaFinal;
     }
 
-    public void setHoraFinal(Timestamp horaFinal) {
+    public void setHoraFinal(String horaFinal) {
         this.horaFinal = horaFinal;
     }
 
     @Override
     public String toString() {
         return "Fecha{" +
-                "dia=" + dia +
-                ", horaInicio=" + horaInicio +
-                ", horaFinal=" + horaFinal +
+                "dia='" + dia + '\'' +
+                ", horaInicio='" + horaInicio + '\'' +
+                ", horaFinal='" + horaFinal + '\'' +
                 '}';
     }
 }
