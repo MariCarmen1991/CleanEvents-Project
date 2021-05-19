@@ -27,9 +27,6 @@ public class PoliticaPrivacidadActivity extends AppCompatActivity {
         setTitle("Política de Privacidad");
     }
 
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

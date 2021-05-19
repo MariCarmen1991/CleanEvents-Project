@@ -137,6 +137,8 @@ public class HomeFragment extends Fragment  {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot document: task.getResult()) {
                                 Log.d("maricarmen", "" + document.getId()+ " "+document.getData());
+                                Log.d("maricarmen", "" + document.getId()+ " "+document.getData());
+
                             }
 
                         }

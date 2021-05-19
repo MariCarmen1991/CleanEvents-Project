@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +34,25 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
+            LatLng sydney = new LatLng(42, 2.81);
             googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+
+
+            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    MarkerOptions markerOptions= new MarkerOptions();
+                    markerOptions.position(latLng);
+                    markerOptions.title(latLng.latitude+" , "+latLng.longitude);
+                    googleMap.clear();;
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    googleMap.addMarker(markerOptions);
+                    Log.d("maricarmen", "has hechoclick en "+latLng);
+                }
+            });
+
         }
     };
 
