@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,10 +49,15 @@ public class FiltrosActivity extends AppCompatActivity {
 
     //Variables para los filtros
     static String filtro_tipo = "";
+    static String filtro_dia = "";
+    static String filtro_hora_inicio = "";
+    static String filtro_hora_final = "";
+    static String filtro_zona_lugar = "";
 
-    EditText et_PlannedDate, et_PlannedHora, et_FinishHora;
+    EditText et_PlannedDate, et_PlannedHora, et_FinishHora, et_zona_lugar;
     Button btn_filtro_playa, btn_filtro_ciudad, btn_filtro_montanya;
     Button btn_filtro_fondo_marino,btn_filtro_bosque, btn_filtro_rio, btn_aplicar;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +67,42 @@ public class FiltrosActivity extends AppCompatActivity {
         inicializar();
         filtros_tipo();
         filtros_tiempo();
-        hacer_query();
+        filtros_zona_lugar();
 
+        btn_aplicar.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
+                hacer_query();
+
+            }
+        });
+
+
+
+    }
+
+    private void filtros_zona_lugar() {
+        et_zona_lugar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                filtro_zona_lugar = et_zona_lugar.getText().toString();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     private void inicializar()
@@ -68,6 +110,7 @@ public class FiltrosActivity extends AppCompatActivity {
         et_PlannedDate = findViewById(R.id.et_PlannedDate);
         et_PlannedHora = findViewById(R.id.et_PlannedHora);
         et_FinishHora = findViewById(R.id.et_FinishHora);
+        et_zona_lugar = findViewById(R.id.et_zona_lugar);
 
         btn_filtro_playa = findViewById(R.id.btn_filtro_playa);
         btn_filtro_montanya = findViewById(R.id.btn_filtro_montanya);
@@ -77,6 +120,8 @@ public class FiltrosActivity extends AppCompatActivity {
         btn_filtro_rio = findViewById(R.id.btn_filtro_rio);
 
         btn_aplicar = findViewById(R.id.btn_aplicar);
+
+        db = FirebaseFirestore.getInstance();
     }
 
     // CLICK LISTENER DE LOS FILTROS DE TIPO DE ACTIVIDAD
@@ -85,49 +130,42 @@ public class FiltrosActivity extends AppCompatActivity {
         btn_filtro_playa.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "playa";
-                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
+                filtro_tipo = "PLAYA";
             }
         });
 
         btn_filtro_montanya.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "montaña";
-                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
+                filtro_tipo = "MONTAÑA";
             }
         });
 
         btn_filtro_fondo_marino.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "fondo marino";
-                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
+                filtro_tipo = "FONDO MARINO";
             }
         });
 
         btn_filtro_bosque.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "bosque";
-                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
+                filtro_tipo = "BOSQUE";
             }
         });
 
         btn_filtro_ciudad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "ciudad";
-                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
+                filtro_tipo = "CIUDAD";
             }
         });
 
         btn_filtro_rio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "rio";
-                Toast.makeText(FiltrosActivity.this, filtro_tipo, Toast.LENGTH_SHORT).show();
-                //btn_filtro_rio.setFocusableInTouchMode(true);
+                filtro_tipo = "RÍO";
             }
         });
     }
@@ -146,6 +184,7 @@ public class FiltrosActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 obtenerHora(et_PlannedHora);
+                filtro_hora_inicio = et_PlannedHora.getText().toString();
             }
         });
 
@@ -153,42 +192,7 @@ public class FiltrosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 obtenerHora(et_FinishHora);
-            }
-        });
-    }
-
-    public void hacer_query()
-    {
-        btn_aplicar.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-
-                // TODO: CREACION DE LA QUERY PARA LA BASE DE DATOS (las horas tienen k ser exactas)
-
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-                Log.d("ian",filtro_tipo);
-
-                db.collection("evento").whereEqualTo("tipoActividad", filtro_tipo).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
-                {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
-                    {
-                        if(task.isSuccessful())
-                        {
-                            for (QueryDocumentSnapshot document : task.getResult())
-                            {
-                                Log.d("ian", document.getId() + " => " + document.getData());
-                            }
-                        }
-                        else
-                        {
-                            Log.d("ian", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+                filtro_hora_final = et_FinishHora.getText().toString();
             }
         });
     }
@@ -202,16 +206,16 @@ public class FiltrosActivity extends AppCompatActivity {
                 //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
                 final int mesActual = month + 1;
                 //Formateo el día obtenido: antepone el 0 si son menores de 10
-                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                String diaFormateado = String.valueOf(dayOfMonth);
                 //Formateo el mes obtenido: antepone el 0 si son menores de 10
-                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+                String mesFormateado = String.valueOf(mesActual);
                 //Muestro la fecha con el formato deseado
                 et_PlannedDate.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
+                filtro_dia = et_PlannedDate.getText().toString();
             }
         },anio, mes, dia);
         //Muestro el widget
         recogerFecha.show();
-
     }
 
     private void obtenerHora(EditText ed)
@@ -230,9 +234,356 @@ public class FiltrosActivity extends AppCompatActivity {
                 //Muestro la hora con el formato deseado
                 ed.setText(horaFormateada + DOS_PUNTOS + minutoFormateado);
                 //time = horaFormateada + DOS_PUNTOS + minutoFormateado;
+
             }
         }, hora, minuto, true);
 
         recogerHora.show();
+    }
+
+    public void hacer_query()
+    {
+        //filtro_zona_lugar = et_zona_lugar.getText().toString();
+        // TODO: CREACION DE LA QUERY PARA LA BASE DE DATOS (las horas tienen k ser exactas)
+
+        if(!filtro_tipo.isEmpty() && filtro_dia.isEmpty() && filtro_hora_inicio.isEmpty() && filtro_hora_final.isEmpty() && filtro_zona_lugar.isEmpty())
+        {
+            db.collection("evento").whereEqualTo("tipoActividad", filtro_tipo).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(filtro_tipo.isEmpty() && !filtro_dia.isEmpty() && filtro_hora_inicio.isEmpty() && filtro_hora_final.isEmpty() && filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento").whereEqualTo("dia", filtro_dia).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(filtro_tipo.isEmpty() && filtro_dia.isEmpty() && !filtro_hora_inicio.isEmpty() && !filtro_hora_final.isEmpty() && filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("horaInicio", filtro_hora_inicio)
+                    .whereEqualTo("horaFinal", filtro_hora_final)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(filtro_tipo.isEmpty() && filtro_dia.isEmpty() && filtro_hora_inicio.isEmpty() && filtro_hora_final.isEmpty() && !filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento").whereEqualTo("poblacion", filtro_zona_lugar).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(!filtro_tipo.isEmpty() && !filtro_dia.isEmpty() && filtro_hora_inicio.isEmpty() && filtro_hora_final.isEmpty() && filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("tipoActividad",filtro_tipo)
+                    .whereEqualTo("dia", filtro_dia)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(!filtro_tipo.isEmpty() && !filtro_dia.isEmpty() && !filtro_hora_inicio.isEmpty() && !filtro_hora_final.isEmpty() && filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("tipoActividad",filtro_tipo)
+                    .whereEqualTo("dia", filtro_dia)
+                    .whereEqualTo("horaInicio", filtro_hora_inicio)
+                    .whereEqualTo("horaFinal", filtro_hora_final)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(!filtro_tipo.isEmpty() && !filtro_dia.isEmpty() && !filtro_hora_inicio.isEmpty() && !filtro_hora_final.isEmpty() && !filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("tipoActividad",filtro_tipo)
+                    .whereEqualTo("dia", filtro_dia)
+                    .whereEqualTo("horaInicio", filtro_hora_inicio)
+                    .whereEqualTo("horaFinal", filtro_hora_final)
+                    .whereEqualTo("poblacion", filtro_zona_lugar)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(filtro_tipo.isEmpty() && !filtro_dia.isEmpty() && !filtro_hora_inicio.isEmpty() && !filtro_hora_final.isEmpty() && !filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("dia", filtro_dia)
+                    .whereEqualTo("horaInicio", filtro_hora_inicio)
+                    .whereEqualTo("horaFinal", filtro_hora_final)
+                    .whereEqualTo("poblacion", filtro_zona_lugar)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(filtro_tipo.isEmpty() && filtro_dia.isEmpty() && !filtro_hora_inicio.isEmpty() && !filtro_hora_final.isEmpty() && !filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("horaInicio", filtro_hora_inicio)
+                    .whereEqualTo("horaFinal", filtro_hora_final)
+                    .whereEqualTo("poblacion", filtro_zona_lugar)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+
+        if(!filtro_tipo.isEmpty() && filtro_dia.isEmpty() && !filtro_hora_inicio.isEmpty() && !filtro_hora_final.isEmpty() && filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("tipoActividad", filtro_tipo)
+                    .whereEqualTo("horaInicio", filtro_hora_inicio)
+                    .whereEqualTo("horaFinal", filtro_hora_final)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(!filtro_tipo.isEmpty() && filtro_dia.isEmpty() && filtro_hora_inicio.isEmpty() && filtro_hora_final.isEmpty() && !filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("tipoActividad", filtro_tipo)
+                    .whereEqualTo("poblacion", filtro_zona_lugar)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(filtro_tipo.isEmpty() && !filtro_dia.isEmpty() && !filtro_hora_inicio.isEmpty() && !filtro_hora_final.isEmpty() && filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("dia",filtro_dia)
+                    .whereEqualTo("horaInicio", filtro_hora_inicio)
+                    .whereEqualTo("horaFinal", filtro_hora_final)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
+        if(filtro_tipo.isEmpty() && !filtro_dia.isEmpty() && filtro_hora_inicio.isEmpty() && filtro_hora_final.isEmpty() && !filtro_zona_lugar.isEmpty())
+        {
+
+            db.collection("evento")
+                    .whereEqualTo("dia",filtro_dia)
+                    .whereEqualTo("poblacion", filtro_zona_lugar)
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+            {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task)
+                {
+                    if(task.isSuccessful())
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult())
+                        {
+                            Log.d("ian", document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else
+                    {
+                        Log.d("ian", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
+
     }
 }
