@@ -49,13 +49,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imageView10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:tint="@color/black"
-                app:srcCompat="@drawable/twotone_fmd_good_24" />
-
             <TextView
                 android:id="@+id/localizacion_id"
                 android:layout_width="wrap_content"
@@ -85,16 +78,6 @@
         app:layout_constraintTop_toBottomOf="@+id/descripcion_id"
         app:strokeColor="@color/color_boton_main"
         app:strokeWidth="1dp" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView2"
-        android:name="com.example.cleanevents.MapsFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline20" />
 
     <TextView
         android:id="@+id/nombre_evento_id"
@@ -191,7 +174,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView10"
+                android:id="@+id/imageReloj"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tint="@color/black"
@@ -231,6 +214,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView2"
+        android:name="com.example.cleanevents.MapaEstaticoFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline20" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline18"

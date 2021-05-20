@@ -160,7 +160,7 @@
         app:srcCompat="@drawable/baseline_email_24" />
 
     <TextView
-        android:id="@+id/etiqueta_política"
+        android:id="@+id/etiqueta_politica"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

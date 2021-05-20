@@ -56,7 +56,7 @@ public class AccesoActivity extends AppCompatActivity {
         btnRegistrarse=findViewById(R.id.btn_registrarse);
         btnAcceder=findViewById(R.id.btn_acceso);
         twOlvido=findViewById(R.id.tw_olvido);
-        twPoltica=findViewById(R.id.etiqueta_política);
+        twPoltica=findViewById(R.id.etiqueta_politica);
         firebaseAuth=FirebaseAuth.getInstance();
 
 

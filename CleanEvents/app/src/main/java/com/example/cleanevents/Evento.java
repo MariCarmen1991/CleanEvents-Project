@@ -1,5 +1,6 @@
 package com.example.cleanevents;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;
@@ -14,25 +15,12 @@ public class Evento implements Serializable {
     Fecha fecha;
     String descripcion;
     String poblacion;
-    GeoPoint geopoint;
     Integer numParticipantes;
+    Double latitud;
+    Double longitud;
 
 
     public Evento() {
-        this.idEvento = 0;
-        this.nombre = "";
-        this.idUsuario = 0;
-        this.tipoActividad = "";
-        this.imagen = "";
-        this.fecha = null;
-        this.descripcion = "";
-        this.poblacion = "";
-        this.geopoint = null;
-        this.numParticipantes = 0;
-    }
-
-    public Evento(int idEvento, String nombre, int idUsuario, String tipoActividad,
-                  String imagen, Fecha fecha, String descripcion, String poblacion, GeoPoint geopoint, int numParticipantes) {
         this.idEvento = idEvento;
         this.nombre = nombre;
         this.idUsuario = idUsuario;
@@ -41,8 +29,23 @@ public class Evento implements Serializable {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.poblacion = poblacion;
-        this.geopoint = geopoint;
         this.numParticipantes = numParticipantes;
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
+
+    public Evento(int idEvento, String nombre, int idUsuario, String tipoActividad, String imagen, Fecha fecha, String descripcion, String poblacion, Integer numParticipantes, Double latitud, Double longitud) {
+        this.idEvento = idEvento;
+        this.nombre = nombre;
+        this.idUsuario = idUsuario;
+        this.tipoActividad = tipoActividad;
+        this.imagen = imagen;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.poblacion = poblacion;
+        this.numParticipantes = numParticipantes;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public int getIdEvento() {
@@ -109,12 +112,24 @@ public class Evento implements Serializable {
         this.poblacion = poblacion;
     }
 
-    public GeoPoint getGeopoint() {
-        return geopoint;
+    public void setNumParticipantes(Integer numParticipantes) {
+        this.numParticipantes = numParticipantes;
     }
 
-    public void setGeopoint(GeoPoint geopoint) {
-        this.geopoint = geopoint;
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
     }
 
     public int getNumParticipantes() {
@@ -136,8 +151,11 @@ public class Evento implements Serializable {
                 ", fecha=" + fecha +
                 ", descripcion='" + descripcion + '\'' +
                 ", poblacion='" + poblacion + '\'' +
-                ", geopoint=" + geopoint +
                 ", numParticipantes=" + numParticipantes +
+                ", latitud=" + latitud +
+                ", longitud=" + longitud +
                 '}';
     }
+
+
 }

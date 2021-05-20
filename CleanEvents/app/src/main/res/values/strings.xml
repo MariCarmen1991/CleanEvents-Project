@@ -20,7 +20,6 @@
     <string name="btn_unirse">Unirse al Evento</string>
 
 
-
     <string name="txt_filtro_tipo_actividad">Tipo de Actividad</string>
     <string name="txt_filtro_tipo_playa">Playa</string>
     <string name="txt_filtro_tipo_montanya">Montaña</string>
@@ -182,4 +181,5 @@ Esta Política está sujeta a revisiones periódicas y la empresa puede modifica
     <string name="txt_hora_final">Hora Final :</string>
     <string name="txt_descripción">Descripción</string>
     <string name="txt_h">h</string>
+    <string name="title_activity_maps_estatico">Map</string>
 </resources>

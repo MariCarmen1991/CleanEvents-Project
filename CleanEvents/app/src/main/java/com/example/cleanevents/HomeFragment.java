@@ -13,14 +13,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.android.gms.maps.GoogleMap;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -120,6 +124,10 @@ public class HomeFragment extends Fragment  {
                                 eventObject=new Evento();
                                 eventObject.setNombre((String) evento.getData().get("nombre"));
                                 eventObject.setPoblacion((String) evento.getData().get("poblacion"));
+                                eventObject.setDescripcion((String) evento.getData().get("descripcion"));
+                                eventObject.setLongitud(evento.getDouble("longitud"));
+                                eventObject.setLatitud(evento.getDouble("latitud"));
+
                                 //eventObject.setNumParticipantes( evento.getData().get("numParticipantes"));
                                 eventObject.setImagen((String) evento.getData().get("imagen"));
                                 eventos.add(eventObject);
@@ -141,6 +149,8 @@ public class HomeFragment extends Fragment  {
 
     public void cargarRecycler(ArrayList<Evento> listaEvento){
 
+
+
         //Cargar recyclerView
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -153,8 +163,9 @@ public class HomeFragment extends Fragment  {
             public void onClick(View v) {
                 int position=recyclerView.getChildAdapterPosition(v);
                 Intent i= new Intent(getContext(),DetalleActivity.class);
-                i.putExtra("eventoActual",  listaEvento.get(position));
+                i.putParcelableArrayListExtra("eventoActual",  listaEvento.get(position));
                 startActivity(i);
+
             }
         });
 
