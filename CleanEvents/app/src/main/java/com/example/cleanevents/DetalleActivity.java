@@ -32,10 +32,10 @@ public class DetalleActivity extends AppCompatActivity {
         horaInicio=findViewById(R.id.hora_inicio);
         horaFinal=findViewById(R.id.hora_final);
 
-        recibirIntent();
+        //recibirIntent();
     }
 
-    public void recibirIntent(){
+    /*public void recibirIntent(){
 
         eventoRecibido= (Evento) getIntent().getExtras().getParcelable("eventoActual");
         twPoblacion.setText(eventoRecibido.getPoblacion());
@@ -63,7 +63,7 @@ public class DetalleActivity extends AppCompatActivity {
         editor.apply();
 
 
-    }
+    }*/
 
 
 

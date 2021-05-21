@@ -69,7 +69,36 @@ public class AlertMapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+        rootView = inflater.inflate(R.layout.fragment_alert_maps, container, false);
+
+        DatosTemporales dt = new DatosTemporales();
+
+        aceptar = rootView.findViewById(R.id.aceptar);
+        aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enviarDatosAfragment();
+                dt.setCoordenadas(lat, lon);
+                FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragmentContainerView, new NuevoEventoFragment()).addToBackStack(null).commit();
+            }
+        });
+        atras = rootView.findViewById(R.id.atras);
+        atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragmentContainerView, new NuevoEventoFragment()).addToBackStack(null).commit();
+            }
+        });
+        return rootView;
+    }
+
+    public void enviarDatosAfragment(){
+        Bundle bundle = new Bundle();
+        bundle.putDouble("Lon", lon);
+        bundle.putDouble("Lat", lat);
+        getParentFragmentManager().setFragmentResult("lonlat", bundle);
     }
 
     @Override

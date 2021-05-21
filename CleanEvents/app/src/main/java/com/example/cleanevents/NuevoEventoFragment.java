@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Environment;
@@ -74,12 +75,9 @@ import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NuevoEventoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class NuevoEventoFragment extends Fragment {
+
+    DatosTemporales dt;
 
     TextView get_fecha, get_lonlat;
     EditText lugar, descripcion, zona, pista;
@@ -114,47 +112,37 @@ public class NuevoEventoFragment extends Fragment {
     StorageReference downloadsStorage = fs.getReference().child("fotos").child("21147");
     DatabaseReference data = FirebaseDatabase.getInstance().getReference().child("evento").child("C6uBVl8H1c9UbEZhhTSM").child("descripcion");
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public NuevoEventoFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NuevoEventoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static NuevoEventoFragment newInstance(String param1, String param2) {
-        NuevoEventoFragment fragment = new NuevoEventoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        }*/
+
+       /*getParentFragmentManager().setFragmentResultListener("lonlat", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull @NotNull String requestKey, @NonNull @NotNull Bundle result) {
+                lon = result.getDouble("Lon");
+                lat = result.getDouble("Lat");
+            }
+        });*/
     }
 
     public void cargarMap() {
+        DatosTemporales dt = new DatosTemporales();
+        dt.setPista(txtPista);
+        dt.setZona(txtZona);
+        dt.setDescripcion(txtDescripcion);
+        dt.setLugar(txtLugar);
+        dt.setFecha(dateLog);
+        dt.setTipo_actividad(actividadTexto);
+        dt.setTesoro(tesoro);
+        dt.setNombre_evento("evento");
         FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentContainerView, new AlertMapsFragment()).addToBackStack(null).commit();
     }
@@ -164,6 +152,16 @@ public class NuevoEventoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate( R.layout.fragment_nuevo_evento, container, false );
         imagen = rootView.findViewById(R.id.image_lugar_tesoro);
+        bajarImagenStorage();
+        dt = new DatosTemporales();
+
+        /*pista.setText(dt.getPista());
+        descripcion.setText(dt.getDescripcion());
+        lugar.setText(dt.getLugar());
+        zona.setText(dt.getZona());
+        get_fecha.setText(dt.getFecha());
+        get_lonlat.setText(dt.getCoordenadas());
+        anadir_tesoro.setChecked(dt.getTesoro());*/
 
         /* Spiner Actividades */
 
@@ -198,7 +196,7 @@ public class NuevoEventoFragment extends Fragment {
         anadir_tesoro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(anadir_tesoro.isChecked()){
+                if(anadir_tesoro.isChecked() || tesoro){
                     tesoro = true;
                     Log.d("TESORO:", "SI");
                 } else {
@@ -223,7 +221,7 @@ public class NuevoEventoFragment extends Fragment {
                         @Override
                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                             dateLog = dayOfMonth + "/" + (month + 1) + "/" + year;
-                            get_fecha.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                            get_fecha.setText(dateLog);
                         }
                     }, dia, mes, ano);
                     datePickerDialog.show();
@@ -243,13 +241,6 @@ public class NuevoEventoFragment extends Fragment {
             }
         });
 
-        /* CAPTURAR DATOS DEL MAPA*/
-        AlertMapsFragment dataMap = new AlertMapsFragment();
-        lat = dataMap.lat;
-        lon = dataMap.lon;
-        get_lonlat = rootView.findViewById(R.id.input_cordenadas);
-        get_lonlat.setText("Lon:"+String.valueOf(lon)+" - Lat:"+String.valueOf(lat));
-
         /* BOTON GUARDAR */
 
         btnGuardar = rootView.findViewById(R.id.btn_guardar);
@@ -257,36 +248,52 @@ public class NuevoEventoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Confirmacion");
-                builder.setMessage("¿Seguro que quieres guardar?");
-                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Guardar evento
-                        lugar = rootView.findViewById(R.id.input_lugar);
-                        txtLugar = lugar.getText().toString();
-                        descripcion = rootView.findViewById(R.id.input_descripcion);
-                        txtDescripcion = descripcion.getText().toString();
-                        zona = rootView.findViewById(R.id.input_zona);
-                        txtZona = zona.getText().toString();
-                        pista = rootView.findViewById(R.id.input_pista);
-                        txtPista = pista.getText().toString();
-                        subirImagenStorage();
-                        crearEventos();
-                        bajarImagenStorage();
-                        Toast.makeText(getActivity(), "Has Aceptado", Toast.LENGTH_LONG).show();
-                        Log.d("spinner", actividadTexto);
-                    }
-                });
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Cancelar evento
-                        Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                String title = "Confirmacion";
+                String mensaje = "¿Seguro que quieres guardar?", mal = "Faltan datos:";
+                if(((txtLugar == "") || (txtDescripcion == "") || (txtPista == "") || (txtZona == "") || (dateLog == ""))){
+                    builder.setTitle("Error");
+                    builder.setMessage("Faltan datos: comprueba que no te hayas dejado un dato sin rellenar.");
+                    builder.setPositiveButton("Atras", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getActivity(), "Atras", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                } //else if((txtLugar != "") && (txtDescripcion != "") && (txtPista != "") && (txtZona != "") && (dateLog != "")) {
+                else {
+                    builder.setTitle(title);
+                    builder.setMessage(mensaje);
+                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Guardar evento
+                            lugar = rootView.findViewById(R.id.input_lugar);
+                            txtLugar = lugar.getText().toString();
+                            descripcion = rootView.findViewById(R.id.input_descripcion);
+                            txtDescripcion = descripcion.getText().toString();
+                            zona = rootView.findViewById(R.id.input_zona);
+                            txtZona = zona.getText().toString();
+                            pista = rootView.findViewById(R.id.input_pista);
+                            txtPista = pista.getText().toString();
+                            subirImagenStorage();
+                            crearEventos();
+                            bajarImagenStorage();
+                            Toast.makeText(getActivity(), "Has Aceptado", Toast.LENGTH_LONG).show();
+                            Log.d("spinner", actividadTexto);
+                        }
+                    });
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Cancelar evento
+                            Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
             }
         });
 
@@ -343,10 +350,12 @@ public class NuevoEventoFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
+            assert data != null;
             Bitmap bitmap =(Bitmap) data.getExtras().get("data");
             imagen.setImageBitmap(bitmap);
             Log.d("IMG", "Resultado:"+bitmap);
         } else if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+            assert data != null;
             txtImagen = data.getData();
             imageUri = data.getData();
             imagen.setImageURI(imageUri);
@@ -413,7 +422,7 @@ public class NuevoEventoFragment extends Fragment {
         evento.put("idEvento", idEvento);
         evento.put("idUsuario", idUsuario);
         evento.put("nombre", txtLugar);
-        evento.put("dia", (String)dateLog);
+        evento.put("dia", dateLog);
         evento.put("Longitud", lon);
         evento.put("Latitud", lat);
         evento.put("descripcion", txtDescripcion);
