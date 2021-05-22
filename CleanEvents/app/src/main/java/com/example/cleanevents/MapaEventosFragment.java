@@ -3,8 +3,8 @@ package com.example.cleanevents;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -20,8 +20,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-public class MapaEstaticoFragment extends Fragment {
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+
+public class MapaEventosFragment extends Fragment {
+
+
+    ArrayList<Evento> eventos;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -36,27 +48,37 @@ public class MapaEstaticoFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            SharedPreferences pref=getContext().getSharedPreferences("coordprefs",0);
-            String lat= pref.getString("lat","");
-            String lon= pref.getString("lon","");
 
+
+            getParentFragmentManager().setFragmentResultListener("parent", getActivity(), new FragmentResultListener() {
+                @Override
+                public void onFragmentResult(@NonNull @NotNull String requestKey, @NonNull @NotNull Bundle result) {
+                    eventos=new ArrayList<>();
+
+                    eventos=(ArrayList<Evento>) result.getSerializable("eventos");
+                    Log.d("MARICARMEN"," "+       eventos.toString());
+
+                }
+            });
 
             //cargar imagen para el marker
-
             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marker);
             Bitmap b = bitmapdraw.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b, 120, 120, false);
-
-            //Double.parseDouble(lat), Double.parseDouble(lon);
-            LatLng ubicacionEvento = new LatLng(Double.parseDouble(lat), Double.parseDouble(lon));
-            MarkerOptions markerOptions=new MarkerOptions();
+            ArrayList<LatLng> coordenadas= new ArrayList<>();
+            for(int i=0; i<eventos.size();i++) {
+                LatLng ubicacionEvento = new LatLng(eventos.get(i).latitud, eventos.get(i).getLongitud());
+                coordenadas.add(ubicacionEvento);
+            }
+            LatLng ubicacionEvento = new LatLng(49,2.9);
+            MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(ubicacionEvento);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
             googleMap.addMarker(markerOptions);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento,10));
-
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 10));
         }
     };
+
 
     @Nullable
     @Override
@@ -64,20 +86,36 @@ public class MapaEstaticoFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_mapa_estatico, container, false);
+
+
+
+
+
+        return inflater.inflate(R.layout.fragment_mapa_eventos, container, false);
     }
+
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapa);
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapaEventos);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
 
-
-
-
     }
+
+
+
+
+
+
+
+
+
+
+
 }

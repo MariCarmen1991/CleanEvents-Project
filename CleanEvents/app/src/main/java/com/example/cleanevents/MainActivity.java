@@ -35,17 +35,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         bar = findViewById(R.id.mytoolbar);
         setSupportActionBar(bar);
+
         btnFiltros = findViewById(R.id.btn_filtros);
         btnMapa = findViewById(R.id.btn_mapa);
         btnListado = findViewById(R.id.btn_listado);
-
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(bNavigationView);
-        cargarFragment(new HomeFragment());
-        //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new HomeFragment()).commit();
         btnListado.setVisibility(View.GONE);
+
+
+        //cargarFragment(new HomeFragment());
         cargarMapa();
         cargarListado();
         cargarFiltro();
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         btnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cargarFragment(new MapsFragment());
+                cargarFragment(new MapaEventosFragment());
                 btnMapa.setVisibility(View.GONE); //Oculta botón mapa
                 btnListado.setVisibility(View.VISIBLE); //muestra botón listado
 

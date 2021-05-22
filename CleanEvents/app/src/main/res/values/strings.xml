@@ -20,15 +20,18 @@
     <string name="btn_unirse">Unirse al Evento</string>
 
 
-    <string name="txt_filtro_tipo_actividad">Tipo de Actividad</string>
+    <!-- STRING FILTROS -->
+
+
+    <string name="txt_filtro_tipo_actividad">¿Qué entorno te apetece?</string>
     <string name="txt_filtro_tipo_playa">Playa</string>
     <string name="txt_filtro_tipo_montanya">Montaña</string>
     <string name="txt_filtro_tipo_fondo_marino">Fondo Marino</string>
     <string name="txt_filtro_tipo_bosque">Bosque</string>
     <string name="txt_filtro_tipo_ciudad">Ciudad</string>
     <string name="txt_filtro_tipo_rio">Rio</string>
-    <string name="txt_filtro_fecha">Fecha</string>
-    <string name="txt_filtro_zona">Zona/Lugar</string>
+    <string name="txt_filtro_fecha">¿Qué día te va bien?</string>
+    <string name="txt_filtro_zona">Escoge una localización</string>
     <string name="txt_btn_filtro_aceptar">Aplicar</string>
     <string name="txt_btn_borrar_filtros">Borrar</string>
 
@@ -49,6 +52,7 @@
     <string name="txt_bottom_plus">Añadir</string>
     <string name="txt_bottom_perfil">Perfil</string>
     <string name="txt_acerca_de_Clean">Acerca de Clean Events</string>
+
 
     <!--STRINGS MENSAJES Y TEXTOS LARGOS-->
 
@@ -182,4 +186,5 @@ Esta Política está sujeta a revisiones periódicas y la empresa puede modifica
     <string name="txt_descripción">Descripción</string>
     <string name="txt_h">h</string>
     <string name="title_activity_maps_estatico">Map</string>
+    <string name="title_activity_maps_eventos">Map</string>
 </resources>

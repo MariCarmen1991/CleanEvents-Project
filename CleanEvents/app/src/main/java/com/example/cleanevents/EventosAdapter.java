@@ -24,6 +24,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
     private LayoutInflater mInflater;
     private Context context;
     private View.OnClickListener listener;
+    ImageView iconoActividad;
 
     public EventosAdapter(ArrayList<Evento> itemEventos, Context context) {
         this.listEventos = itemEventos;
@@ -46,7 +47,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
     public EventosAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View v=mInflater.inflate(R.layout.card_evento, null);
         v.setOnClickListener(this);
-        Log.d("MARICARMEN", "HOLAAAAAA1!");
+        Log.d("MARICARMEN", "RECYCLER!!");
 
         return new EventosAdapter.ViewHolder(v);
     }
@@ -68,7 +69,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView iconoActividad, imagenActividad;
+        ImageView  imagenActividad;
         TextView nombreActividad, fechaActividad, organizadorActividad, lugarActividad;
         Usuario usuario = new Usuario();
 
@@ -87,6 +88,33 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
             //fechaActividad.setText(item.getFecha().toString());//modificar si es necesario pueden haber problemas con el tipo
             organizadorActividad.setText("organizador "+item.getIdUsuario());
             lugarActividad.setText(item.getPoblacion());
+
+            switch (item.getTipoActividad()){
+
+                case "Playa":
+                    iconoActividad.setImageResource(R.drawable.outline_waves_black_18);
+                    break;
+                case "Fondo Marino":
+                    iconoActividad.setImageResource(R.drawable.sea3);
+
+                    break;
+
+                case "Bosque":
+                    iconoActividad.setImageResource(R.drawable.round_nature_black_18);
+                    break;
+                case "Río":
+                    iconoActividad.setImageResource(R.drawable.twotone_legend_toggle_black_18);
+
+                    break;
+
+                case "Ciudad":
+                    iconoActividad.setImageResource(R.drawable.twotone_location_city_black_18);
+
+                    break;
+
+            }
+
+
             //falta hacer el set de las imágenes
 
         }

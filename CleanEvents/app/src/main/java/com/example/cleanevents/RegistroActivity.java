@@ -93,8 +93,6 @@ public class RegistroActivity extends AppCompatActivity {
         bd.collection("usuario").add(usuario);
 
 
-
-
     }
 
     public void registro(){

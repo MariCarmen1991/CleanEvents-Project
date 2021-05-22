@@ -39,7 +39,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".FiltrosActivity" />
+        <activity
+            android:name=".FiltrosActivity"
+            android:theme="@style/Theme.CleanEvents.Filtros" />
         <activity android:name=".DetalleActivity" />
 
         <meta-data

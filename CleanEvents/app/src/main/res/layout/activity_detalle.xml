@@ -83,7 +83,6 @@
         android:id="@+id/nombre_evento_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="@string/txt_nombre_actividad"
         android:textAlignment="center"
         android:textSize="34sp"
@@ -97,7 +96,7 @@
         android:id="@+id/descripcion_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="24dp"
         android:text="@string/txt_mensaje_3"
         app:layout_constraintEnd_toStartOf="@+id/guideline18"
         app:layout_constraintHorizontal_bias="0.0"
@@ -244,6 +243,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
+        app:layout_constraintGuide_percent="0.23" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

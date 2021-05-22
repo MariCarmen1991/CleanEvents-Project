@@ -147,19 +147,19 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout5"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:clipChildren="false"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout7"
                 app:layout_constraintTop_toTopOf="@+id/linearLayout4">
 
                 <ImageView
                     android:id="@+id/imagen_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     tools:srcCompat="@tools:sample/avatars" />
             </LinearLayout>
 

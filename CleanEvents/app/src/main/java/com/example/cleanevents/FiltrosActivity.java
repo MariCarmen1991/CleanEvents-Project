@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Calendar;
 
 public class FiltrosActivity extends AppCompatActivity {
+    //obtener medidas de ventana para el efecto POP-UP
+    DisplayMetrics medidasVentana;
+
 
     private static final String CERO = "0";
     private static final String BARRA = "/";
@@ -65,6 +69,7 @@ public class FiltrosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filtros);
 
         inicializar();
+        cambiaMedidas();
         filtros_tipo();
         filtros_tiempo();
         filtros_zona_lugar();
@@ -157,6 +162,18 @@ public class FiltrosActivity extends AppCompatActivity {
         btn_borrar_filtros = findViewById(R.id.btn_borrar_filtros);
 
         db = FirebaseFirestore.getInstance();
+
+        //inicializa displaymetrics
+        medidasVentana=new DisplayMetrics();
+
+    }
+
+    //MÉTODO PARA CAMBIAR LAS MEDIDAS DE LA ACTIVITY
+    private void cambiaMedidas(){
+        getWindowManager().getDefaultDisplay().getRealMetrics(medidasVentana);
+        int ancho=medidasVentana.widthPixels;
+        int alto=medidasVentana.heightPixels;
+        getWindow().setLayout((int)(ancho*0.85), (int) (alto*0.7) );
     }
 
     // CLICK LISTENER DE LOS FILTROS DE TIPO DE ACTIVIDAD

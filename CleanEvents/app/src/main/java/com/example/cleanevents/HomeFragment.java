@@ -1,6 +1,8 @@
 package com.example.cleanevents;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
 import com.google.android.gms.maps.GoogleMap;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -28,6 +32,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
@@ -39,9 +45,10 @@ public class HomeFragment extends Fragment  {
 
     RecyclerView recyclerView;
     EventosAdapter adapter;
-    FirebaseFirestore baseDatos;
     Evento eventObject;
-    ArrayList<Evento> eventos= new ArrayList<>();
+    FirebaseFirestore baseDatos;
+    ArrayList<Evento> eventos;
+    ProgressBar progress;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -81,7 +88,10 @@ public class HomeFragment extends Fragment  {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        };
+
+
+
     }
 
     @Override
@@ -89,30 +99,18 @@ public class HomeFragment extends Fragment  {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        recyclerView =rootView.findViewById(R.id.recyclerView); //inicializa recycler
 
+        recyclerView =(RecyclerView) rootView.findViewById(R.id.recyclerView); //inicializa recycler
+        progress=rootView.findViewById(R.id.progress);
+        leerBaseDatos("evento");
 
-        ArrayList<Evento> lista = new ArrayList<>();
-        Evento nuevoEvento = new Evento();
-        nuevoEvento.setNombre("LIMPIEMOS LA PLAYA");
-        nuevoEvento.setIdUsuario(2);
-        nuevoEvento.setNumParticipantes(10);
-        nuevoEvento.setPoblacion("LLORET DE MAR");
-        lista.add(nuevoEvento);
-        lista.add(nuevoEvento);
-        lista.add(nuevoEvento);
-        lista.add(nuevoEvento);
-        //cargarRecycler(lista);
-        leerBaseDatos("eventos");
-        Log.d("maricarmen",""+leerBaseDatos("evento").toString());
-
-        return rootView;//inflater.inflate(R.layout.fragment_home, container, false);
+        return rootView;
 
     }
 
     public  ArrayList<Evento> leerBaseDatos(String colection){
         baseDatos=FirebaseFirestore.getInstance();
-
+        eventos=new ArrayList<>();
         baseDatos.collection(colection)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -125,13 +123,16 @@ public class HomeFragment extends Fragment  {
                                 eventObject.setNombre((String) evento.getData().get("nombre"));
                                 eventObject.setPoblacion((String) evento.getData().get("poblacion"));
                                 eventObject.setDescripcion((String) evento.getData().get("descripcion"));
-                                eventObject.setLongitud(evento.getDouble("longitud"));
-                                eventObject.setLatitud(evento.getDouble("latitud"));
-
-                                //eventObject.setNumParticipantes( evento.getData().get("numParticipantes"));
+                                eventObject.setLongitud(evento.getDouble("Longitud"));
+                                eventObject.setLatitud(evento.getDouble("Latitud"));
                                 eventObject.setImagen((String) evento.getData().get("imagen"));
+                                eventObject.setTipoActividad((String) evento.getData().get("tipoActividad"));
                                 eventos.add(eventObject);
                                 cargarRecycler(eventos);
+
+                                //guardar datos
+
+
 
                                 Log.d("maricarmen"," OBJETOGUARDADO--> "+eventos.toString());
                             }
@@ -141,19 +142,22 @@ public class HomeFragment extends Fragment  {
                         else {
                             Log.w("maricarmen" ,"ha habido un error");
                         }
+                        progress.setVisibility(View.GONE);
+
                     }
                 });
-
+        Bundle objeto= new Bundle();
+        objeto.putSerializable("eventos",eventos);
+        getParentFragmentManager().setFragmentResult("parent",objeto);
         return eventos;
     }
 
     public void cargarRecycler(ArrayList<Evento> listaEvento){
 
-
-
-        //Cargar recyclerView
+        LinearLayoutManager linearlayout = new LinearLayoutManager(getLayoutInflater().getContext());
+        linearlayout.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearlayout);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new EventosAdapter(listaEvento, getActivity());
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -163,19 +167,12 @@ public class HomeFragment extends Fragment  {
             public void onClick(View v) {
                 int position=recyclerView.getChildAdapterPosition(v);
                 Intent i= new Intent(getContext(),DetalleActivity.class);
-                i.putParcelableArrayListExtra("eventoActual",  listaEvento.get(position));
+                i.putExtra("eventoActual",  listaEvento.get(position));
                 startActivity(i);
 
             }
         });
 
     }
-
-
-
-    /*private void cargarFragment(Fragment fragment) {
-        FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragmentContainerView, fragment).addToBackStack(null).commit();
-    }*/
 
 }
