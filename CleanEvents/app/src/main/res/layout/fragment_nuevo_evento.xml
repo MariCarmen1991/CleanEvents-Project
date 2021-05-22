@@ -12,48 +12,11 @@
             android:orientation="vertical"
             tools:context=".NuevoEventoFragment">
 
-            <TextView
-                android:id="@+id/pista_evento2"
-                android:layout_width="91dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="484dp"
-                android:text="@string/txt_pista"
-                android:textAlignment="viewStart"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <EditText
-                android:id="@+id/input_lugar"
+                android:id="@+id/input_nombre_evento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="124dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.741"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-            <TextView
-                android:id="@+id/lugar_evento"
-                android:layout_width="91dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="124dp"
-                android:text="@string/txt_lugar"
-                android:textAlignment="viewStart"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/input_pista"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="484dp"
+                android:layout_marginTop="132dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text=""
@@ -62,12 +25,72 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <EditText
+                android:id="@+id/input_lugar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="196dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.742"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_date"
+                android:layout_width="80dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="264dp"
+                android:layout_marginEnd="40dp"
+                android:text="@string/txt_date"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/input_descripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="592dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:maxLength="500"
+                android:maxLines="25"
+                android:text=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.778"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/descripcion_evento"
+                android:layout_width="91dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="592dp"
+                android:text="@string/txt_descripcion"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/zona_evento"
+                android:layout_width="91dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="708dp"
+                android:text="@string/txt_zona"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/actividad_evento"
                 android:layout_width="86dp"
                 android:layout_height="36dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="552dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="836dp"
                 android:text="@string/txt_actividad"
                 android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,9 +100,9 @@
                 android:id="@+id/anadir_tesoro"
                 android:layout_width="49dp"
                 android:layout_height="23dp"
-                android:layout_marginTop="372dp"
+                android:layout_marginTop="660dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.405"
+                app:layout_constraintHorizontal_bias="0.469"
                 app:layout_constraintStart_toEndOf="@+id/tesoro_evento"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,12 +110,12 @@
                 android:id="@+id/input_zona"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="420dp"
+                android:layout_marginTop="708dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.752"
+                app:layout_constraintHorizontal_bias="0.773"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,100 +123,65 @@
                 android:id="@+id/tesoro_evento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="372dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="660dp"
                 android:text="@string/txt_busqueda_tesoro"
                 android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/zona_evento"
-                android:layout_width="91dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="420dp"
-                android:text="@string/txt_zona"
-                android:textAlignment="viewStart"
+            <Spinner
+                android:id="@+id/actividades"
+                android:layout_width="213dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.535"
+                app:layout_constraintStart_toEndOf="@+id/actividad_evento"
+                app:layout_constraintTop_toBottomOf="@+id/input_pista" />
+
+            <EditText
+                android:id="@+id/input_pista"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="772dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.773"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/btn_date"
-                android:layout_width="80dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="192dp"
-                android:layout_marginEnd="44dp"
-                android:text="@string/txt_date"
-                app:layout_constraintEnd_toEndOf="parent"
+            <TextView
+                android:id="@+id/pista_evento"
+                android:layout_width="91dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="772dp"
+                android:text="@string/txt_pista"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/get_fecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="192dp"
+                android:layout_marginTop="264dp"
                 android:text="DD/MM/YYYY"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toStartOf="@+id/btn_date"
-                app:layout_constraintHorizontal_bias="0.63"
+                app:layout_constraintHorizontal_bias="0.635"
                 app:layout_constraintStart_toEndOf="@+id/fecha_evento"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/fecha_evento"
-                android:layout_width="91dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="192dp"
-                android:text="@string/txt_fecha"
-                android:textAlignment="viewStart"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/descripcion_evento"
-                android:layout_width="91dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="304dp"
-                android:text="@string/txt_descripcion"
-                android:textAlignment="viewStart"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/input_descripcion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="304dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:maxLength="500"
-                android:maxLines="25"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.762"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/btn_map"
-                android:layout_width="79dp"
-                android:layout_height="39dp"
-                android:layout_marginTop="248dp"
-                android:layout_marginEnd="44dp"
-                android:text="@string/txt_mapa"
-                android:textAlignment="viewStart"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/cordenadas_evento"
                 android:layout_width="91dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="252dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="324dp"
                 android:text="@string/txt_cordenadas"
                 android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
@@ -203,12 +191,56 @@
                 android:id="@+id/input_cordenadas"
                 android:layout_width="127dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="252dp"
+                android:layout_marginTop="324dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.534"
+                app:layout_constraintHorizontal_bias="0.535"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_map"
+                android:layout_width="79dp"
+                android:layout_height="39dp"
+                android:layout_marginTop="320dp"
+                android:layout_marginEnd="40dp"
+                android:text="@string/txt_mapa"
+                android:textAlignment="viewStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fecha_evento"
+                android:layout_width="91dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="264dp"
+                android:text="@string/txt_fecha"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/lugar_evento"
+                android:layout_width="91dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="196dp"
+                android:text="@string/txt_lugar"
+                android:textAlignment="viewStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nombre_evento"
+                android:layout_width="89dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="136dp"
+                android:text="@string/txt_nombre_evento"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -216,15 +248,16 @@
                 android:id="@+id/btn_guardar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/txt_guardar"
                 android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintHorizontal_bias="0.484"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/actividades" />
+                app:layout_constraintTop_toBottomOf="@+id/actividades"
+                app:layout_constraintVertical_bias="0.048" />
 
             <Button
                 android:id="@+id/btn_cargar_foto"
@@ -278,15 +311,19 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="375dp" />
 
-            <Spinner
-                android:id="@+id/actividades"
-                android:layout_width="213dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="12dp"
+            <FrameLayout
+                android:id="@+id/mapa_nuevo_evento"
+                android:layout_width="334dp"
+                android:layout_height="194dp"
+                android:descendantFocusability="blocksDescendants"
+                app:layout_constraintBottom_toTopOf="@+id/input_descripcion"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.461"
-                app:layout_constraintStart_toEndOf="@+id/actividad_evento"
-                app:layout_constraintTop_toBottomOf="@+id/input_pista" />
+                app:layout_constraintHorizontal_bias="0.311"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_cordenadas"
+                app:layout_constraintVertical_bias="0.431">
+
+            </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -187,4 +187,5 @@ Esta Política está sujeta a revisiones periódicas y la empresa puede modifica
     <string name="txt_h">h</string>
     <string name="title_activity_maps_estatico">Map</string>
     <string name="title_activity_maps_eventos">Map</string>
+    <string name="txt_nombre_evento">Nombre del Evento:</string>
 </resources>
