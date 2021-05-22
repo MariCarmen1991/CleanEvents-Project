@@ -80,7 +80,7 @@ public class DetalleActivity extends AppCompatActivity {
 
 
 
-private void unirme(){
+    private void unirme(){
 
         btnUnirse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,9 +90,9 @@ private void unirme(){
         });
 
 
-}
+    }
 
-private void guardarParticipante(){
+    private void guardarParticipante(){
 
 /*
     bd= FirebaseFirestore.getInstance();
@@ -102,7 +102,7 @@ private void guardarParticipante(){
     databaseReference.setValue(usuario);
     bd.collection("usuario").add(usuario);*/
 
-}
+    }
 
 
 }

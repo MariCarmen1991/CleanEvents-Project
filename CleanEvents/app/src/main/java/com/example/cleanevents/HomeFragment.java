@@ -162,7 +162,7 @@ public class HomeFragment extends Fragment  {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        adapter.setOnClickListener(new View.OnClickListener() {
+        /*adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position=recyclerView.getChildAdapterPosition(v);
@@ -171,7 +171,7 @@ public class HomeFragment extends Fragment  {
                 startActivity(i);
 
             }
-        });
+        });*/
 
     }
 
