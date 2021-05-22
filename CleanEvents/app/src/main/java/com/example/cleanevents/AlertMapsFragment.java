@@ -5,6 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,9 +29,10 @@ public class AlertMapsFragment extends Fragment {
     double lon;
 
     View rootView;
-    Button atras, aceptar;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
+
+        DatosTemporales dt = new DatosTemporales();
 
         /**
          * Manipulates the map once available.
@@ -58,7 +62,9 @@ public class AlertMapsFragment extends Fragment {
                     googleMap.addMarker(markerOptions);
                     lat = latLng.latitude;
                     lon = latLng.longitude;
-                    Log.d("Mohamed", "Lon:"+String.valueOf(lon)+" - Lat:"+String.valueOf(lat));
+                    //SharedPreferences pref =getContext().getSharedPreferences("coordenadas", Context.MODE_PRIVATE);
+                    //String latlon = pref.getString("latlon", lat+""+lon);
+                    //Log.d("Mohamed", "Lon:"+String.valueOf(lon)+" - Lat:"+String.valueOf(lat));
                 }
             });
 
@@ -69,36 +75,7 @@ public class AlertMapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_alert_maps, container, false);
-
-        DatosTemporales dt = new DatosTemporales();
-
-        aceptar = rootView.findViewById(R.id.aceptar);
-        aceptar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enviarDatosAfragment();
-                dt.setCoordenadas(lat, lon);
-                FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragmentContainerView, new NuevoEventoFragment()).addToBackStack(null).commit();
-            }
-        });
-        atras = rootView.findViewById(R.id.atras);
-        atras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragmentContainerView, new NuevoEventoFragment()).addToBackStack(null).commit();
-            }
-        });
-        return rootView;
-    }
-
-    public void enviarDatosAfragment(){
-        Bundle bundle = new Bundle();
-        bundle.putDouble("Lon", lon);
-        bundle.putDouble("Lat", lat);
-        getParentFragmentManager().setFragmentResult("lonlat", bundle);
+        return inflater.inflate(R.layout.fragment_alert_maps, container, false);
     }
 
     @Override

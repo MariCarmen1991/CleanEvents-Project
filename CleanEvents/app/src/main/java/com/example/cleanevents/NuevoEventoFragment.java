@@ -4,9 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 
-import android.app.Dialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,14 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,34 +36,22 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.api.Context;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -77,14 +59,12 @@ import static android.app.Activity.RESULT_OK;
 
 public class NuevoEventoFragment extends Fragment {
 
-    DatosTemporales dt;
-
     TextView get_fecha, get_lonlat;
-    EditText lugar, descripcion, zona, pista;
+    EditText lugar, descripcion, zona, pista, nombre_evento;
     Button btnFecha, btnGuardar, btnCargarFoto, btnMap;
     ImageView imagen;
     Switch anadir_tesoro;
-    String txtLugar, txtDescripcion, txtZona, txtPista;
+    String txtLugar, txtDescripcion, txtZona, txtPista, txtNombreEvento;
     double lon, lat;
 
     Boolean tesoro = false;
@@ -123,28 +103,11 @@ public class NuevoEventoFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }*/
-
-       /*getParentFragmentManager().setFragmentResultListener("lonlat", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull @NotNull String requestKey, @NonNull @NotNull Bundle result) {
-                lon = result.getDouble("Lon");
-                lat = result.getDouble("Lat");
-            }
-        });*/
     }
 
     public void cargarMap() {
-        DatosTemporales dt = new DatosTemporales();
-        dt.setPista(txtPista);
-        dt.setZona(txtZona);
-        dt.setDescripcion(txtDescripcion);
-        dt.setLugar(txtLugar);
-        dt.setFecha(dateLog);
-        dt.setTipo_actividad(actividadTexto);
-        dt.setTesoro(tesoro);
-        dt.setNombre_evento("evento");
         FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragmentContainerView, new AlertMapsFragment()).addToBackStack(null).commit();
+        ft.replace(R.id.mapa_nuevo_evento, new AlertMapsFragment()).addToBackStack(null).commit();
     }
 
     @Override
@@ -152,16 +115,8 @@ public class NuevoEventoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate( R.layout.fragment_nuevo_evento, container, false );
         imagen = rootView.findViewById(R.id.image_lugar_tesoro);
+        cargarMap();
         bajarImagenStorage();
-        dt = new DatosTemporales();
-
-        /*pista.setText(dt.getPista());
-        descripcion.setText(dt.getDescripcion());
-        lugar.setText(dt.getLugar());
-        zona.setText(dt.getZona());
-        get_fecha.setText(dt.getFecha());
-        get_lonlat.setText(dt.getCoordenadas());
-        anadir_tesoro.setChecked(dt.getTesoro());*/
 
         /* Spiner Actividades */
 
@@ -196,7 +151,7 @@ public class NuevoEventoFragment extends Fragment {
         anadir_tesoro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(anadir_tesoro.isChecked() || tesoro){
+                if(anadir_tesoro.isChecked()){
                     tesoro = true;
                     Log.d("TESORO:", "SI");
                 } else {
@@ -235,9 +190,7 @@ public class NuevoEventoFragment extends Fragment {
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cargarMap();
-                //FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-                //ft.replace(R.id.fragmentContainerView, new MapsFragment()).addToBackStack(null).commit();
+                get_lonlat.setText("null");
             }
         });
 
@@ -250,25 +203,14 @@ public class NuevoEventoFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 String title = "Confirmacion";
                 String mensaje = "¿Seguro que quieres guardar?", mal = "Faltan datos:";
-                if(((txtLugar == "") || (txtDescripcion == "") || (txtPista == "") || (txtZona == "") || (dateLog == ""))){
-                    builder.setTitle("Error");
-                    builder.setMessage("Faltan datos: comprueba que no te hayas dejado un dato sin rellenar.");
-                    builder.setPositiveButton("Atras", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getActivity(), "Atras", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                } //else if((txtLugar != "") && (txtDescripcion != "") && (txtPista != "") && (txtZona != "") && (dateLog != "")) {
-                else {
-                    builder.setTitle(title);
-                    builder.setMessage(mensaje);
-                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Guardar evento
+                builder.setTitle(title);
+                builder.setMessage(mensaje);
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Guardar evento
+                            nombre_evento = rootView.findViewById(R.id.input_nombre_evento);
+                            txtNombreEvento = nombre_evento.getText().toString();
                             lugar = rootView.findViewById(R.id.input_lugar);
                             txtLugar = lugar.getText().toString();
                             descripcion = rootView.findViewById(R.id.input_descripcion);
@@ -277,23 +219,20 @@ public class NuevoEventoFragment extends Fragment {
                             txtZona = zona.getText().toString();
                             pista = rootView.findViewById(R.id.input_pista);
                             txtPista = pista.getText().toString();
-                            subirImagenStorage();
                             crearEventos();
-                            bajarImagenStorage();
                             Toast.makeText(getActivity(), "Has Aceptado", Toast.LENGTH_LONG).show();
                             Log.d("spinner", actividadTexto);
-                        }
-                    });
-                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Cancelar evento
-                            Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Cancelar evento
+                        Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -346,6 +285,8 @@ public class NuevoEventoFragment extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    Uri fotoUri;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -353,8 +294,9 @@ public class NuevoEventoFragment extends Fragment {
             assert data != null;
             Bitmap bitmap =(Bitmap) data.getExtras().get("data");
             imagen.setImageBitmap(bitmap);
+            fotoUri = data.getData();
             Log.d("IMG", "Resultado:"+bitmap);
-        } else if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+        } else if(resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             assert data != null;
             txtImagen = data.getData();
             imageUri = data.getData();
@@ -363,16 +305,25 @@ public class NuevoEventoFragment extends Fragment {
     }
 
     public void subirImagenStorage(){
-        StorageReference filepath = storage.child("fotos").child(imageUri.getLastPathSegment());
-        filepath.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        final StorageReference[] filepath = {storage.child("fotos").child(imageUri.getLastPathSegment())};
+        filepath[0].putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<UploadTask.TaskSnapshot> task) {
                 Log.d("up", "LA IMAGEN SE HA SUBIDO CORECTAMENTE.");
             }
+        }).removeOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                filepath[0] = storage.child("fotos").child(fotoUri.getLastPathSegment());
+                filepath[0].putFile(fotoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("up", "LA IMAGEN SE HA SUBIDO CORECTAMENTE.");
+                    }
+                });
+            }
         });
     }
-
-    String url;
 
     public void bajarImagenStorage(){
         FirebaseStorage down = FirebaseStorage.getInstance();
@@ -421,6 +372,7 @@ public class NuevoEventoFragment extends Fragment {
         Map<String, Object> evento = new HashMap<>();
         evento.put("idEvento", idEvento);
         evento.put("idUsuario", idUsuario);
+        evento.put("nombreEvento", txtNombreEvento);
         evento.put("nombre", txtLugar);
         evento.put("dia", dateLog);
         evento.put("Longitud", lon);
@@ -430,7 +382,7 @@ public class NuevoEventoFragment extends Fragment {
         evento.put("pista", txtPista);
         evento.put("poblacion", txtZona);
         evento.put("tipoActividad", actividadTexto);
-        evento.put("imagen", url);
+        evento.put("imagen", txtImagen);
         DatabaseReference dr = fb.getReference().child("evento");
         dr.setValue(evento);
         db.collection("evento").add(evento);
