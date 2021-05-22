@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -64,18 +66,39 @@ public class MapaEventosFragment extends Fragment {
             //cargar imagen para el marker
             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marker);
             Bitmap b = bitmapdraw.getBitmap();
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 120, 120, false);
-            ArrayList<LatLng> coordenadas= new ArrayList<>();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
             for(int i=0; i<eventos.size();i++) {
+
                 LatLng ubicacionEvento = new LatLng(eventos.get(i).latitud, eventos.get(i).getLongitud());
-                coordenadas.add(ubicacionEvento);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(ubicacionEvento).title(eventos.get(i).getNombre());
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                googleMap.addMarker(markerOptions);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 10));
+
             }
-            LatLng ubicacionEvento = new LatLng(49,2.9);
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(ubicacionEvento);
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-            googleMap.addMarker(markerOptions);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 10));
+
+            //--Función que muestra el detalle del evento si haces click en el nombre del marcador
+            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+
+                    for(int i=0; i<eventos.size(); i++){
+                        Log.d("MARICARMEN", "DATOS DE LOS MARKERS   "+eventos.get(i).getNombre()+marker.getTitle());
+
+                        if(eventos.get(i).getNombre().contains(marker.getTitle())){
+                            Intent intent= new Intent(getActivity(),DetalleActivity.class);
+                            intent.putExtra("eventoActual",  eventos.get(i));
+                            startActivity(intent);
+                        }
+
+                    }
+
+                }
+            });
+
         }
     };
 
@@ -85,11 +108,6 @@ public class MapaEventosFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-
-
-
-
 
         return inflater.inflate(R.layout.fragment_mapa_eventos, container, false);
     }
