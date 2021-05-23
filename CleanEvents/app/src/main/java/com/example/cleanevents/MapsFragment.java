@@ -46,7 +46,7 @@ public class MapsFragment extends Fragment {
                     MarkerOptions markerOptions= new MarkerOptions();
                     markerOptions.position(latLng);
                     markerOptions.title(latLng.latitude+" , "+latLng.longitude);
-                    googleMap.clear();;
+                    googleMap.clear();
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                     googleMap.addMarker(markerOptions);
                     Log.d("maricarmen", "has hechoclick en "+latLng);

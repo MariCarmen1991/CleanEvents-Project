@@ -3,6 +3,7 @@ package com.example.cleanevents;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
@@ -25,14 +26,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class AlertMapsFragment extends Fragment {
 
     GoogleMap map;
-    double lat;
-    double lon;
-
-    View rootView;
+    //double lat;
+    //double lon;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
-
-        DatosTemporales dt = new DatosTemporales();
 
         /**
          * Manipulates the map once available.
@@ -57,14 +54,11 @@ public class AlertMapsFragment extends Fragment {
                     MarkerOptions markerOptions= new MarkerOptions();
                     markerOptions.position(latLng);
                     markerOptions.title(latLng.latitude+" , "+latLng.longitude);
-                    googleMap.clear();;
+                    googleMap.clear();
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                     googleMap.addMarker(markerOptions);
-                    lat = latLng.latitude;
-                    lon = latLng.longitude;
-                    //SharedPreferences pref =getContext().getSharedPreferences("coordenadas", Context.MODE_PRIVATE);
-                    //String latlon = pref.getString("latlon", lat+""+lon);
-                    //Log.d("Mohamed", "Lon:"+String.valueOf(lon)+" - Lat:"+String.valueOf(lat));
+                    //lat = latLng.latitude;
+                    //lon = latLng.longitude;
                 }
             });
 
@@ -75,6 +69,12 @@ public class AlertMapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        /*Bundle result = new Bundle();
+        result.putString("bundleKey", lat+""+lon);
+        getParentFragmentManager().setFragmentResult("key", result);*/
+
+
         return inflater.inflate(R.layout.fragment_alert_maps, container, false);
     }
 
