@@ -64,6 +64,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class NuevoEventoFragment extends Fragment {
 
+    View rootView;
+
     TextView get_fecha, get_lonlat;
     EditText lugar, descripcion, zona, pista, nombre_evento;
     Button btnFecha, btnGuardar, btnCargarFoto, btnMap;
@@ -127,7 +129,7 @@ public class NuevoEventoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate( R.layout.fragment_nuevo_evento, container, false );
+        rootView = inflater.inflate( R.layout.fragment_nuevo_evento, container, false );
         imagen = rootView.findViewById(R.id.image_lugar_tesoro);
         cargarMap();
         bajarImagenStorage();
@@ -155,19 +157,6 @@ public class NuevoEventoFragment extends Fragment {
 
             }
         });
-
-        /* INPUT DATOS */
-
-        nombre_evento = rootView.findViewById(R.id.input_nombre_evento);
-        txtNombreEvento = nombre_evento.getText().toString();
-        lugar = rootView.findViewById(R.id.input_lugar);
-        txtLugar = lugar.getText().toString();
-        descripcion = rootView.findViewById(R.id.input_descripcion);
-        txtDescripcion = descripcion.getText().toString();
-        zona = rootView.findViewById(R.id.input_zona);
-        txtZona = zona.getText().toString();
-        pista = rootView.findViewById(R.id.input_pista);
-        txtPista = pista.getText().toString();
 
         /* SWITCH BUTTON */
 
@@ -242,8 +231,9 @@ public class NuevoEventoFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Guardar evento
-                            crearEventos();
-                            Toast.makeText(getActivity(), "Has Aceptado", Toast.LENGTH_LONG).show();
+                        inputData();
+                        crearEventos();
+                        Toast.makeText(getActivity(), "Has Aceptado", Toast.LENGTH_LONG).show();
                     }
                 });
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -293,6 +283,20 @@ public class NuevoEventoFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    public void inputData(){
+        /* INPUT DATOS */
+        nombre_evento = rootView.findViewById(R.id.input_nombre_evento);
+        txtNombreEvento = nombre_evento.getText().toString();
+        lugar = rootView.findViewById(R.id.input_lugar);
+        txtLugar = lugar.getText().toString();
+        descripcion = rootView.findViewById(R.id.input_descripcion);
+        txtDescripcion = descripcion.getText().toString();
+        zona = rootView.findViewById(R.id.input_zona);
+        txtZona = zona.getText().toString();
+        pista = rootView.findViewById(R.id.input_pista);
+        txtPista = pista.getText().toString();
     }
 
     @Override
@@ -396,16 +400,13 @@ public class NuevoEventoFragment extends Fragment {
         evento.put("pista", txtPista);
         evento.put("poblacion", txtZona);
         evento.put("tipoActividad", actividadTexto);
-        DatabaseReference dr = fb.getReference().child("evento");
-        dr.setValue(evento);
-        if(txtNombreEvento==""){
-            String n = String.valueOf(r.nextInt(1000));
-            txtNombreEvento = "Evento nª:"+n;
-            DocumentReference document = db.document("evento/"+txtNombreEvento);
-            document.set(evento);
-        } else {
-            db.collection("evento").add(evento);
-        }
+        //DatabaseReference dr = fb.getReference().child("evento");
+        //dr.setValue(evento);
+        String n = String.valueOf(r.nextInt(1000));
+        txtNombreEvento = "Evento nª:"+n;
+        DocumentReference document = db.document("evento/"+txtNombreEvento);
+        document.set(evento);
+        //db.collection("evento").add(evento);
     }
 
     /*public void leerDatosFB(){
