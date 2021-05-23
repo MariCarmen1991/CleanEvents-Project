@@ -22,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -103,6 +104,7 @@ public class HomeFragment extends Fragment  {
         recyclerView =(RecyclerView) rootView.findViewById(R.id.recyclerView); //inicializa recycler
         progress=rootView.findViewById(R.id.progress);
         leerBaseDatos("evento");
+
 
         return rootView;
 

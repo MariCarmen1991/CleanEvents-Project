@@ -1,6 +1,7 @@
 package com.example.cleanevents;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
@@ -42,6 +44,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -51,6 +55,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -82,6 +87,7 @@ public class NuevoEventoFragment extends Fragment {
     String actividadTexto;
 
     private static final int REQUEST_PERMISSION_CAMERA = 101;
+    private static final int REQUEST_IMAGE_CAMERA = 102;
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
 
@@ -103,6 +109,14 @@ public class NuevoEventoFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }*/
+
+        getChildFragmentManager().setFragmentResultListener("key", getActivity(), new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
+                String result = bundle.getString("bundleKey");
+                get_lonlat.setText(result);
+            }
+        });
     }
 
     public void cargarMap() {
@@ -141,6 +155,19 @@ public class NuevoEventoFragment extends Fragment {
 
             }
         });
+
+        /* INPUT DATOS */
+
+        nombre_evento = rootView.findViewById(R.id.input_nombre_evento);
+        txtNombreEvento = nombre_evento.getText().toString();
+        lugar = rootView.findViewById(R.id.input_lugar);
+        txtLugar = lugar.getText().toString();
+        descripcion = rootView.findViewById(R.id.input_descripcion);
+        txtDescripcion = descripcion.getText().toString();
+        zona = rootView.findViewById(R.id.input_zona);
+        txtZona = zona.getText().toString();
+        pista = rootView.findViewById(R.id.input_pista);
+        txtPista = pista.getText().toString();
 
         /* SWITCH BUTTON */
 
@@ -190,7 +217,13 @@ public class NuevoEventoFragment extends Fragment {
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                get_lonlat.setText("null");
+                getChildFragmentManager().setFragmentResultListener("key", getActivity(), new FragmentResultListener() {
+                    @Override
+                    public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
+                        String result = bundle.getString("bundleKey");
+                        get_lonlat.setText(result);
+                    }
+                });
             }
         });
 
@@ -202,26 +235,15 @@ public class NuevoEventoFragment extends Fragment {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 String title = "Confirmacion";
-                String mensaje = "¿Seguro que quieres guardar?", mal = "Faltan datos:";
+                String mensaje = "¿Seguro que quieres guardar?";
                 builder.setTitle(title);
                 builder.setMessage(mensaje);
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Guardar evento
-                            nombre_evento = rootView.findViewById(R.id.input_nombre_evento);
-                            txtNombreEvento = nombre_evento.getText().toString();
-                            lugar = rootView.findViewById(R.id.input_lugar);
-                            txtLugar = lugar.getText().toString();
-                            descripcion = rootView.findViewById(R.id.input_descripcion);
-                            txtDescripcion = descripcion.getText().toString();
-                            zona = rootView.findViewById(R.id.input_zona);
-                            txtZona = zona.getText().toString();
-                            pista = rootView.findViewById(R.id.input_pista);
-                            txtPista = pista.getText().toString();
                             crearEventos();
                             Toast.makeText(getActivity(), "Has Aceptado", Toast.LENGTH_LONG).show();
-                            Log.d("spinner", actividadTexto);
                     }
                 });
                 builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -285,45 +307,36 @@ public class NuevoEventoFragment extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    Uri fotoUri;
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            assert data != null;
+        if (requestCode == REQUEST_IMAGE_CAMERA && resultCode == Activity.RESULT_OK) {
+            //assert data != null;
+            Uri foto = data.getData();
             Bitmap bitmap =(Bitmap) data.getExtras().get("data");
             imagen.setImageBitmap(bitmap);
-            fotoUri = data.getData();
-            Log.d("IMG", "Resultado:"+bitmap);
+            Log.d("IMG", "Resultado:"+bitmap+foto);
         } else if(resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            assert data != null;
-            txtImagen = data.getData();
+            //assert data != null;
+            //txtImagen = data.getData();
             imageUri = data.getData();
             imagen.setImageURI(imageUri);
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void subirImagenStorage(){
-        final StorageReference[] filepath = {storage.child("fotos").child(imageUri.getLastPathSegment())};
-        filepath[0].putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+    /*public void subirImagenStorage(){
+        StorageReference filepath = storage.child("fotos").child(imageUri.getLastPathSegment());
+        StorageReference fileRef = filepath.child(txtNombreEvento);
+        StorageReference mImagesRef = fileRef.child("fotos/"+txtNombreEvento);
+        mImagesRef.getName().equals(fileRef.getName());  // true
+        mImagesRef.getPath().equals(fileRef.getPath()); // false
+        mImagesRef.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<UploadTask.TaskSnapshot> task) {
                 Log.d("up", "LA IMAGEN SE HA SUBIDO CORECTAMENTE.");
             }
-        }).removeOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-                filepath[0] = storage.child("fotos").child(fotoUri.getLastPathSegment());
-                filepath[0].putFile(fotoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("up", "LA IMAGEN SE HA SUBIDO CORECTAMENTE.");
-                    }
-                });
-            }
         });
-    }
+    }*/
 
     public void bajarImagenStorage(){
         FirebaseStorage down = FirebaseStorage.getInstance();
@@ -342,13 +355,13 @@ public class NuevoEventoFragment extends Fragment {
     public void goTocamera() {
         Intent hacerFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(hacerFoto.resolveActivity(getContext().getPackageManager())!=null){
-            startActivityForResult(hacerFoto, 1);
+            startActivityForResult(hacerFoto, REQUEST_IMAGE_CAMERA);
         }
     }
 
     public void hacerFoto() {
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 goTocamera();
             } else {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSION_CAMERA);
@@ -359,9 +372,10 @@ public class NuevoEventoFragment extends Fragment {
     }
 
     public void cargarFoto() {
+        //Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         gallery.setType("image/*");
-        startActivityForResult(gallery, PICK_IMAGE);
+        startActivityForResult(Intent.createChooser(gallery, "Selecciona una foto"), PICK_IMAGE);
     }
 
     Random r = new Random();
@@ -375,17 +389,23 @@ public class NuevoEventoFragment extends Fragment {
         evento.put("nombreEvento", txtNombreEvento);
         evento.put("nombre", txtLugar);
         evento.put("dia", dateLog);
-        evento.put("Longitud", lon);
-        evento.put("Latitud", lat);
+        //evento.put("Longitud", lon);
+        //evento.put("Latitud", lat);
         evento.put("descripcion", txtDescripcion);
         evento.put("tesoro", tesoro);
         evento.put("pista", txtPista);
         evento.put("poblacion", txtZona);
         evento.put("tipoActividad", actividadTexto);
-        evento.put("imagen", txtImagen);
         DatabaseReference dr = fb.getReference().child("evento");
         dr.setValue(evento);
-        db.collection("evento").add(evento);
+        if(txtNombreEvento==""){
+            String n = String.valueOf(r.nextInt(1000));
+            txtNombreEvento = "Evento nª:"+n;
+            DocumentReference document = db.document("evento/"+txtNombreEvento);
+            document.set(evento);
+        } else {
+            db.collection("evento").add(evento);
+        }
     }
 
     /*public void leerDatosFB(){
