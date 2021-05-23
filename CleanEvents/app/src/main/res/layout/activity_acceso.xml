@@ -125,7 +125,7 @@
         android:id="@+id/btn_registrarse"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/cardview_shadow_end_color"
+        android:backgroundTint="@color/white_trans"
         android:text="@string/txt_boton_registro"
         android:textAllCaps="false"
         android:textColor="@color/material_on_background_emphasis_medium"

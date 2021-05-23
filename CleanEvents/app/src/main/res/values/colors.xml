@@ -8,11 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_trans">#B7FFFFFF</color>
-    <color name="color_corporativo">#369C8D</color>
-    <color name="color_boton_main">#257569</color>
+    <color name="color_corporativo">#B1D66D</color>
+    <color name="color_boton_main">#88A652</color>
     <color name="color_boton_card">#51257569</color>
     <color name="color_corporativo_trans">#EE369C8D</color>
-    <color name="color_acento">#86D38A1C</color>
+    <color name="color_acento">#102844</color>
 
 
 </resources>

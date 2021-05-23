@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
-        android:backgroundTint="@color/color_corporativo_trans"
+        android:backgroundTint="@color/color_acento"
         app:cardBackgroundColor="@color/color_corporativo"
         app:cardCornerRadius="30dp"
         app:cardElevation="0dp"

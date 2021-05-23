@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         bar = findViewById(R.id.mytoolbar);
         setSupportActionBar(bar);
-
+        setTitle("");
         btnFiltros = findViewById(R.id.btn_filtros);
         btnMapa = findViewById(R.id.btn_mapa);
         btnListado = findViewById(R.id.btn_listado);
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.home:
                     selectFragment = new HomeFragment();
+                    setTitleColor(R.color.white);
                     break;
                 case R.id.perfil_usuario:
                     selectFragment = new PerfilFragment();

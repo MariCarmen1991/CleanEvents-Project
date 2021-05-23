@@ -64,7 +64,7 @@ public class MapaEventosFragment extends Fragment {
             });
 
             //cargar imagen para el marker
-            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marker);
+            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marcadormapa);
             Bitmap b = bitmapdraw.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
             for(int i=0; i<eventos.size();i++) {

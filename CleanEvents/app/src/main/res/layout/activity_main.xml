@@ -77,6 +77,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/white" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:src="@drawable/fondoremoved"
+        android:tint="@color/white"
+        android:tintMode="src_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/mytoolbar"
+        tools:layout_editor_absoluteY="-4dp" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="com.example.cleanevents.HomeFragment"
@@ -93,8 +103,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/color_corporativo"
-        app:itemIconTint="@color/white"
+        app:itemHorizontalTranslationEnabled="true"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@drawable/colorbar"
+        app:itemRippleColor="@color/color_boton_card"
         app:itemTextColor="@color/white"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
