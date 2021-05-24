@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class FiltrosActivity extends AppCompatActivity {
@@ -63,6 +64,9 @@ public class FiltrosActivity extends AppCompatActivity {
     Button btn_filtro_fondo_marino,btn_filtro_bosque, btn_filtro_rio, btn_aplicar;
     FirebaseFirestore db;
 
+    Evento eventObject;
+    ArrayList<Evento> eventos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,18 +77,6 @@ public class FiltrosActivity extends AppCompatActivity {
         filtros_tipo();
         filtros_tiempo();
         filtros_zona_lugar();
-
-/*
-        btn_borrar_filtros.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                et_FinishHora.setText("");
-                et_PlannedHora.setText("");
-                et_PlannedDate.setText("");
-                et_zona_lugar.setText("");
-            }
-        });
- */
 
         btn_borrar_filtros.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -293,6 +285,26 @@ public class FiltrosActivity extends AppCompatActivity {
         recogerHora.show();
     }
 
+    public void guardar_en_array_list(QueryDocumentSnapshot evento)
+    {
+        Log.d("ian", " EVENTO RECUPERADO--> " + evento.getData());
+        eventObject = new Evento();
+        eventObject.setNombre((String) evento.getData().get("nombre"));
+        eventObject.setPoblacion((String) evento.getData().get("poblacion"));
+        eventObject.setDescripcion((String) evento.getData().get("descripcion"));
+        eventObject.setLongitud(evento.getDouble("Longitud"));
+        eventObject.setLatitud(evento.getDouble("Latitud"));
+        eventObject.setImagen((String) evento.getData().get("imagen"));
+        eventObject.setTipoActividad((String) evento.getData().get("tipoActividad"));
+        eventos.add(eventObject);
+        //cargarRecycler(eventos); // TODO ARREGLAR ESTO
+
+        //guardar datos
+
+        Log.d("ian", " OBJETOGUARDADO--> " + eventos.toString());
+
+    }
+
     public void hacer_query()
     {
         //filtro_zona_lugar = et_zona_lugar.getText().toString();
@@ -307,9 +319,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -330,9 +342,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -356,9 +368,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -379,9 +391,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -405,9 +417,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -433,9 +445,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -462,9 +474,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -490,9 +502,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -517,9 +529,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -545,9 +557,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -571,9 +583,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -598,9 +610,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
@@ -624,9 +636,9 @@ public class FiltrosActivity extends AppCompatActivity {
                 {
                     if(task.isSuccessful())
                     {
-                        for (QueryDocumentSnapshot document : task.getResult())
+                        for (QueryDocumentSnapshot evento : task.getResult())
                         {
-                            Log.d("ian", document.getId() + " => " + document.getData());
+                            guardar_en_array_list(evento);
                         }
                     }
                     else
