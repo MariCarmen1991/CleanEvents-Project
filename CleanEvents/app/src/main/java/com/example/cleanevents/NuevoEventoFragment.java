@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -63,24 +64,27 @@ import java.util.Map;
 import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 public class NuevoEventoFragment extends Fragment {
 
     View rootView;
 
-    TextView get_fecha, get_lonlat;
+    TextView get_fecha, tvlatitud,tvlongitud;
     EditText lugar, descripcion, zona, pista, nombre_evento;
     Button btnFecha, btnGuardar, btnCargarFoto, btnMap;
     ImageView imagen;
     Switch anadir_tesoro;
     String txtLugar, txtDescripcion, txtZona, txtPista, txtNombreEvento;
-    double lon, lat;
+    Double lon, lat;
 
     Boolean tesoro = false;
 
     DatePickerDialog datePickerDialog;
     Calendar calendario;
     int ano, mes, dia;
+
+
 
     String dateLog;
     Uri txtImagen;
@@ -111,6 +115,7 @@ public class NuevoEventoFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
+
     }
 
 
@@ -121,32 +126,12 @@ public class NuevoEventoFragment extends Fragment {
       startActivity(i);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-
-
-
-
-    }
 
 
     @Override
     public void onStart() {
         super.onStart();
-        try{
-        if(get.getArguments()!=null) {
-            Bundle datosRecibidos = getParentFragment().getArguments();
-
-            Log.d("MARICARMEN", " ONstart" + datosRecibidos.getDouble("latitud"));
-        }
-        }
-        catch (Exception e){
-
-        }
-
+        leerlatlng();
     }
 
     @Override
@@ -155,6 +140,8 @@ public class NuevoEventoFragment extends Fragment {
         rootView = inflater.inflate( R.layout.fragment_nuevo_evento, container, false );
         imagen = rootView.findViewById(R.id.image_lugar_tesoro);
         btnMap=rootView.findViewById(R.id.btn_map);
+        tvlatitud=rootView.findViewById(R.id.tv_lat);
+        tvlongitud=rootView.findViewById(R.id.tv_lon);
 
         bajarImagenStorage();
 
@@ -265,6 +252,9 @@ public class NuevoEventoFragment extends Fragment {
             }
         });
 
+
+
+
         /* CAMERA Y GALERIA DE FOTOS*/
 
         imagen = rootView.findViewById(R.id.image_lugar_tesoro);
@@ -313,7 +303,29 @@ public class NuevoEventoFragment extends Fragment {
         zona = rootView.findViewById(R.id.input_zona);
         txtZona = zona.getText().toString();
         pista = rootView.findViewById(R.id.input_pista);
+
+
         txtPista = pista.getText().toString();
+    }
+
+    /*LEER LATITUD Y LONGITOD DE SHARED PREFERENCES*/
+
+    public void leerlatlng(){
+        String latitud="0";
+        String longitud="0";
+
+        SharedPreferences preferences= getContext().getSharedPreferences("prefsAlert", MODE_PRIVATE);
+        if(!preferences.getString("Alatitud","").isEmpty() && !preferences.getString("Alongitud","").isEmpty()) {
+            latitud = preferences.getString("Alatitud", "");
+            longitud = preferences.getString("Alongitud", "");
+
+            lat = Double.parseDouble(latitud);
+            lon = Double.parseDouble(longitud);
+            tvlatitud.setText(latitud);
+            tvlongitud.setText(longitud);
+
+            Log.d("MARICARMEN", "COORD"+ preferences.getString("Alatitud", ""));
+        }
     }
 
     @Override
@@ -403,6 +415,9 @@ public class NuevoEventoFragment extends Fragment {
     int idEvento = r.nextInt(1000)+1;
     int idUsuario = r.nextInt(1000)+1;
 
+
+
+
     public void crearEventos(){
         Map<String, Object> evento = new HashMap<>();
         evento.put("idEvento", idEvento);
@@ -410,8 +425,8 @@ public class NuevoEventoFragment extends Fragment {
         evento.put("nombreEvento", txtNombreEvento);
         evento.put("nombre", txtLugar);
         evento.put("dia", dateLog);
-        //evento.put("Longitud", lon);
-        //evento.put("Latitud", lat);
+        evento.put("Longitud", lon);
+        evento.put("Latitud", lat);
         evento.put("descripcion", txtDescripcion);
         evento.put("tesoro", tesoro);
         evento.put("pista", txtPista);
@@ -420,7 +435,7 @@ public class NuevoEventoFragment extends Fragment {
         //DatabaseReference dr = fb.getReference().child("evento");
         //dr.setValue(evento);
         String n = String.valueOf(r.nextInt(1000));
-        txtNombreEvento = "Evento nª:"+n;
+        txtNombreEvento = "Evento nº:"+n;
         DocumentReference document = db.document("evento/"+txtNombreEvento);
         document.set(evento);
         //db.collection("evento").add(evento);

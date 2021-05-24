@@ -67,17 +67,17 @@ public class AlertMapsFragment extends Fragment {
 
                             builder.setTitle("Guardar Coordenadas de mi Evento");
                             builder.setMessage("¿Estás seguro que quieres guardar estas coordenadas?");
-
+                            Bundle latlong= new Bundle();
                             builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
-
-                                    Bundle coordenadas= new Bundle();
-                                    coordenadas.putDouble("latitud",marker.getPosition().latitude);
-                                    coordenadas.putDouble("longitud", marker.getPosition().longitude);
-                                    getParentFragment().setArguments(coordenadas);
-
+                                    SharedPreferences preferences=getContext().getSharedPreferences("prefsAlert", 0);
+                                    SharedPreferences.Editor editor;
+                                    editor=preferences.edit();
+                                    editor.putString("Alatitud",String.valueOf(marker.getPosition().latitude));
+                                    editor.putString("Alongitud",String.valueOf( marker.getPosition().longitude));
+                                    editor.apply();
 
                                     getActivity().onBackPressed();
 
