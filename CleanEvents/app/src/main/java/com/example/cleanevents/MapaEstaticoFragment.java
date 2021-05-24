@@ -45,7 +45,7 @@ public class MapaEstaticoFragment extends Fragment {
 
             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marcadormapa);
             Bitmap b = bitmapdraw.getBitmap();
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 150, 150, false);
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 200, 200, false);
 
             //Double.parseDouble(lat), Double.parseDouble(lon);
             LatLng ubicacionEvento = new LatLng(Double.parseDouble(lat), Double.parseDouble(lon));

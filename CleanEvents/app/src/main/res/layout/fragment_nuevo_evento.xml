@@ -40,8 +40,8 @@
 
             <Button
                 android:id="@+id/btn_date"
-                android:layout_width="80dp"
-                android:layout_height="38dp"
+                android:layout_width="97dp"
+                android:layout_height="37dp"
                 android:layout_marginTop="264dp"
                 android:layout_marginEnd="40dp"
                 android:text="@string/txt_date"
@@ -310,20 +310,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="375dp" />
-
-            <FrameLayout
-                android:id="@+id/mapa_nuevo_evento"
-                android:layout_width="334dp"
-                android:layout_height="194dp"
-                android:descendantFocusability="blocksDescendants"
-                app:layout_constraintBottom_toTopOf="@+id/input_descripcion"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.311"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/input_cordenadas"
-                app:layout_constraintVertical_bias="0.431">
-
-            </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

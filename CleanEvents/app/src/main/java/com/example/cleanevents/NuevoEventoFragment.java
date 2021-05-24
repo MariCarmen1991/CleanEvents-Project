@@ -20,6 +20,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -107,23 +109,44 @@ public class NuevoEventoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
 
-        getChildFragmentManager().setFragmentResultListener("key", getActivity(), new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
-                String result = bundle.getString("bundleKey");
-                get_lonlat.setText(result);
-            }
-        });
+
     }
 
+
+
+// función que carga  el mapa
     public void cargarMap() {
-        FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mapa_nuevo_evento, new AlertMapsFragment()).addToBackStack(null).commit();
+      Intent i=new Intent(getContext(), MuestraMapaActivity.class);
+      startActivity(i);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+
+
+
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        try{
+        if(get.getArguments()!=null) {
+            Bundle datosRecibidos = getParentFragment().getArguments();
+
+            Log.d("MARICARMEN", " ONstart" + datosRecibidos.getDouble("latitud"));
+        }
+        }
+        catch (Exception e){
+
+        }
+
     }
 
     @Override
@@ -131,7 +154,8 @@ public class NuevoEventoFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate( R.layout.fragment_nuevo_evento, container, false );
         imagen = rootView.findViewById(R.id.image_lugar_tesoro);
-        cargarMap();
+        btnMap=rootView.findViewById(R.id.btn_map);
+
         bajarImagenStorage();
 
         /* Spiner Actividades */
@@ -206,16 +230,9 @@ public class NuevoEventoFragment extends Fragment {
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getChildFragmentManager().setFragmentResultListener("key", getActivity(), new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
-                        String result = bundle.getString("bundleKey");
-                        get_lonlat.setText(result);
-                    }
-                });
+                cargarMap();
             }
         });
-
         /* BOTON GUARDAR */
 
         btnGuardar = rootView.findViewById(R.id.btn_guardar);
@@ -305,7 +322,7 @@ public class NuevoEventoFragment extends Fragment {
             if(permissions.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 goTocamera();
             } else {
-                Toast.makeText(getActivity(), "Necesitar activar permisos.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Necesita activar permisos.", Toast.LENGTH_LONG).show();
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

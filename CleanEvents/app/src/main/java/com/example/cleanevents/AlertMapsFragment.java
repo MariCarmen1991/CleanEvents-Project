@@ -6,9 +6,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,48 +24,76 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class AlertMapsFragment extends Fragment {
-
-    GoogleMap map;
+     GoogleMap mMap;
     //double lat;
     //double lon;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
+
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(42, 2.81);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap=googleMap;;
+            LatLng ubicacionEvento = new LatLng(48,2.8);
+            MarkerOptions markerOptions=new MarkerOptions();
+            markerOptions.position(ubicacionEvento);
+            mMap.addMarker(markerOptions);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento,10));
 
-
-
-            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
+
                     MarkerOptions markerOptions= new MarkerOptions();
                     markerOptions.position(latLng);
                     markerOptions.title(latLng.latitude+" , "+latLng.longitude);
-                    googleMap.clear();
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                    googleMap.addMarker(markerOptions);
-                    //lat = latLng.latitude;
-                    //lon = latLng.longitude;
+                    mMap.clear();;
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.addMarker(markerOptions);
+
+
+
+                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            Log.d("MARICARMEN", "has hecho click");
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                            builder.setTitle("Guardar Coordenadas de mi Evento");
+                            builder.setMessage("¿Estás seguro que quieres guardar estas coordenadas?");
+
+                            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+
+                                    Bundle coordenadas= new Bundle();
+                                    coordenadas.putDouble("latitud",marker.getPosition().latitude);
+                                    coordenadas.putDouble("longitud", marker.getPosition().longitude);
+                                    getParentFragment().setArguments(coordenadas);
+
+
+                                    getActivity().onBackPressed();
+
+                                }
+                            });
+
+
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+
+
+                        }
+                    });
+
                 }
             });
-
         }
     };
 
@@ -70,9 +102,6 @@ public class AlertMapsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        /*Bundle result = new Bundle();
-        result.putString("bundleKey", lat+""+lon);
-        getParentFragmentManager().setFragmentResult("key", result);*/
 
 
         return inflater.inflate(R.layout.fragment_alert_maps, container, false);
@@ -82,7 +111,7 @@ public class AlertMapsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapa);
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }

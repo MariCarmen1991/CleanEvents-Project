@@ -6,40 +6,189 @@
     android:layout_height="match_parent"
     tools:context=".FiltrosActivity">
 
-    <TextView
-        android:id="@+id/tesoro_evento"
-        android:layout_width="wrap_content"
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline19"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.98" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.02872777" />
+
+    <EditText
+        android:id="@+id/et_PlannedHora"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/txt_filtro_tipo_actividad"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="Hora Inicio"
+        android:inputType="time"
+        app:layout_constraintEnd_toStartOf="@+id/et_FinishHora"
+        app:layout_constraintStart_toStartOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_filtro_fecha"
+        android:textAlignment="center"
         android:textColor="@color/color_boton_main"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_filtro_montanya"
+        app:layout_constraintTop_toTopOf="@+id/guideline16"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <EditText
+        android:id="@+id/et_FinishHora"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="Hora Final"
+        android:inputType="time"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.98" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.32" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.64" />
+
+    <EditText
+        android:id="@+id/et_PlannedDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="Dia actividad"
+        android:inputType="date"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/guideline17"
         app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="@+id/guideline14"
-        app:layout_constraintVertical_bias="0.238" />
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline21"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.52" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="348dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/txt_filtro_zona"
+        android:textAlignment="center"
+        android:textColor="@color/color_boton_main"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintStart_toStartOf="@+id/guideline13"
+        app:layout_constraintTop_toBottomOf="@+id/et_PlannedHora" />
+
+    <TextView
+        android:id="@+id/tesoro_evento"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_filtro_tipo_actividad"
+        android:textAlignment="center"
+        android:textColor="@color/color_boton_main"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintStart_toStartOf="@+id/guideline13"
+        app:layout_constraintTop_toTopOf="@+id/guideline14" />
 
     <Button
-        android:id="@+id/btn_filtro_playa"
+        android:id="@+id/btn_aplicar"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="2dp"
-        android:clickable="true"
-        android:drawableTop="@drawable/outline_waves_black_18"
-        android:drawableTint="@color/color_acento"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:text="@string/txt_filtro_tipo_playa"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline16"
-        app:layout_constraintEnd_toStartOf="@+id/guideline17"
-        app:layout_constraintHorizontal_bias="0.4"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white_trans"
+        android:text="@string/txt_btn_filtro_aceptar"
+        android:textColor="@color/color_acento"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_borrar_filtros"
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
         app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="@+id/guideline15"
-        app:layout_constraintVertical_bias="0.0"
-        app:strokeColor="@color/color_boton_main"
+        app:strokeColor="@color/color_acento"
         app:strokeWidth="2dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.01" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.47" />
+
+    <Button
+        android:id="@+id/btn_borrar_filtros"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/txt_btn_borrar_filtros"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline22"
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintStart_toStartOf="@+id/guideline18" />
+
+    <EditText
+        android:id="@+id/et_zona_lugar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/txt_filtro_zona"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/btn_aplicar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintStart_toStartOf="@+id/guideline13"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
     <Button
         android:id="@+id/btn_filtro_montanya"
@@ -52,30 +201,11 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:text="@string/txt_filtro_tipo_montanya"
+        android:textSize="13dp"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline16"
-        app:layout_constraintEnd_toStartOf="@+id/guideline18"
-        app:layout_constraintStart_toStartOf="@+id/guideline17"
-        app:layout_constraintTop_toTopOf="@+id/guideline15"
-        app:strokeColor="@color/color_boton_main"
-        app:strokeWidth="2dp" />
-
-    <Button
-        android:id="@+id/btn_filtro_fondo_marino"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="2dp"
-        android:clickable="true"
-        android:drawableTop="@drawable/sea3"
-        android:drawableTint="@color/color_acento"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:text="@string/txt_filtro_tipo_fondo_marino"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline16"
-        app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintEnd_toStartOf="@+id/guideline17"
+        app:layout_constraintStart_toStartOf="@+id/guideline13"
         app:layout_constraintTop_toTopOf="@+id/guideline15"
         app:strokeColor="@color/color_boton_main"
         app:strokeWidth="2dp" />
@@ -93,32 +223,12 @@
         android:singleLine="false"
         android:text="@string/txt_filtro_tipo_bosque"
         android:textAlignment="gravity"
+        android:textSize="13dp"
         app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline20"
-        app:layout_constraintEnd_toStartOf="@+id/guideline17"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="@+id/guideline16"
-        app:strokeColor="@color/color_boton_main"
-        app:strokeWidth="2dp" />
-
-    <Button
-        android:id="@+id/btn_filtro_rio"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="2dp"
-        android:clickable="true"
-        android:drawableTop="@drawable/twotone_legend_toggle_black_18"
-        android:drawableTint="@color/color_acento"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:text="@string/txt_filtro_tipo_rio"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline20"
+        app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline18"
-        app:layout_constraintTop_toTopOf="@+id/guideline16"
-        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintTop_toBottomOf="@+id/tesoro_evento"
         app:strokeColor="@color/color_boton_main"
         app:strokeWidth="2dp" />
 
@@ -133,194 +243,76 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:text="@string/txt_filtro_tipo_ciudad"
+        android:textSize="13dp"
         app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline20"
-        app:layout_constraintEnd_toStartOf="@+id/guideline18"
-        app:layout_constraintStart_toStartOf="@+id/guideline17"
-        app:layout_constraintTop_toTopOf="@+id/guideline16"
+        app:layout_constraintBottom_toTopOf="@+id/guideline15"
+        app:layout_constraintEnd_toStartOf="@+id/guideline17"
+        app:layout_constraintStart_toStartOf="@+id/guideline13"
+        app:layout_constraintTop_toBottomOf="@+id/tesoro_evento"
         app:strokeColor="@color/color_boton_main"
         app:strokeWidth="2dp" />
 
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/txt_filtro_fecha"
-        android:textAlignment="center"
-        android:textColor="@color/color_boton_main"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="0.386"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toBottomOf="@+id/et_zona_lugar" />
-
-    <EditText
-        android:id="@+id/et_PlannedHora"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:clickable="true"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="Hora Inicio"
-        android:inputType="time"
-        app:layout_constraintEnd_toStartOf="@+id/guideline18"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline17"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
-
-    <EditText
-        android:id="@+id/et_FinishHora"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:clickable="true"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="Hora Final"
-        android:inputType="time"
-        app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline18"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
-
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_filtro_zona"
-        android:textAlignment="center"
-        android:textColor="@color/color_boton_main"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="@+id/guideline21" />
-
-    <EditText
-        android:id="@+id/et_zona_lugar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="@string/txt_filtro_zona"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
-
-    <EditText
-        android:id="@+id/et_PlannedDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:clickable="true"
-        android:focusable="false"
-        android:hint="Dia actividad"
-        android:inputType="date"
-        android:maxLines="1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline17"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.02872777" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.02872777" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.08" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.28" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.32" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.64" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.98" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.52" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.73" />
-
     <Button
-        android:id="@+id/btn_aplicar"
+        android:id="@+id/btn_filtro_playa"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/white_trans"
-        android:text="@string/txt_btn_filtro_aceptar"
-        android:textColor="@color/color_acento"
-        app:cornerRadius="30dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="@+id/guideline22"
-        app:strokeColor="@color/color_acento"
+        android:layout_height="0dp"
+        android:layout_margin="2dp"
+        android:clickable="true"
+        android:drawableTop="@drawable/outline_waves_black_18"
+        android:drawableTint="@color/color_acento"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="@string/txt_filtro_tipo_playa"
+        android:textSize="13dp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline16"
+        app:layout_constraintEnd_toStartOf="@+id/guideline18"
+        app:layout_constraintStart_toStartOf="@+id/guideline17"
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        app:strokeColor="@color/color_boton_main"
         app:strokeWidth="2dp" />
 
     <Button
-        android:id="@+id/btn_borrar_filtros"
+        android:id="@+id/btn_filtro_rio"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="2dp"
         android:clickable="true"
-        android:text="@string/txt_btn_borrar_filtros"
-        app:cornerRadius="30dp"
+        android:drawableTop="@drawable/twotone_legend_toggle_black_18"
+        android:drawableTint="@color/color_acento"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="@string/txt_filtro_tipo_rio"
+        android:textSize="13dp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline15"
+        app:layout_constraintEnd_toStartOf="@+id/guideline18"
+        app:layout_constraintStart_toStartOf="@+id/guideline17"
+        app:layout_constraintTop_toBottomOf="@+id/tesoro_evento"
+        app:strokeColor="@color/color_boton_main"
+        app:strokeWidth="2dp" />
+
+    <Button
+        android:id="@+id/btn_filtro_fondo_marino"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="2dp"
+        android:clickable="true"
+        android:drawableTop="@drawable/sea3"
+        android:drawableTint="@color/color_acento"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="@string/txt_filtro_tipo_fondo_marino"
+        android:textSize="13dp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline16"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.293"
         app:layout_constraintStart_toStartOf="@+id/guideline18"
-        app:layout_constraintTop_toBottomOf="@+id/btn_aplicar" />
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeColor="@color/color_boton_main"
+        app:strokeWidth="2dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

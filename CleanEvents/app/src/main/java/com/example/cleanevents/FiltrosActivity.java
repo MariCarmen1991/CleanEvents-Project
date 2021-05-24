@@ -173,7 +173,7 @@ public class FiltrosActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getRealMetrics(medidasVentana);
         int ancho=medidasVentana.widthPixels;
         int alto=medidasVentana.heightPixels;
-        getWindow().setLayout((int)(ancho*0.85), (int) (alto*0.7) );
+        getWindow().setLayout((int)(ancho*0.9), (int) (alto*0.8) );
     }
 
     // CLICK LISTENER DE LOS FILTROS DE TIPO DE ACTIVIDAD
