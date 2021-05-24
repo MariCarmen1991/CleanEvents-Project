@@ -42,15 +42,12 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class HomeFragment extends Fragment  {
 
-
-
     RecyclerView recyclerView;
     EventosAdapter adapter;
     Evento eventObject;
     FirebaseFirestore baseDatos;
     ArrayList<Evento> eventos;
     ProgressBar progress;
-
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
