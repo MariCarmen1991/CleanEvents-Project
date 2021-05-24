@@ -70,7 +70,7 @@ public class NuevoEventoFragment extends Fragment {
 
     View rootView;
 
-    TextView get_fecha, tvlatitud,tvlongitud;
+    TextView get_fecha, tvlatitud,tvlongitud, get_coord;
     EditText lugar, descripcion, zona, pista, nombre_evento;
     Button btnFecha, btnGuardar, btnCargarFoto, btnMap;
     ImageView imagen;
@@ -371,9 +371,11 @@ public class NuevoEventoFragment extends Fragment {
         });
     }*/
 
+    StorageReference imageRef;
+
     public void bajarImagenStorage(){
         FirebaseStorage down = FirebaseStorage.getInstance();
-        StorageReference imageRef = down.getReference().child("fotos").child("21147");
+        imageRef = down.getReference().child("fotos").child("21147");
         imageRef.getBytes(1024*1024)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override
@@ -415,8 +417,24 @@ public class NuevoEventoFragment extends Fragment {
     int idEvento = r.nextInt(1000)+1;
     int idUsuario = r.nextInt(1000)+1;
 
-
-
+    public String urlImage(){
+        final String[] url = new String[1];
+        final String[] web = new String[1];
+        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                url[0] = uri.getPath();
+                web[0] = "httpsfirebasestorage.googleapis.com";
+                get_coord.setText(web[0] + url[0]);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Toast.makeText(getContext(), "image not dowloaded", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return web[0] + url[0];
+    }
 
     public void crearEventos(){
         Map<String, Object> evento = new HashMap<>();
