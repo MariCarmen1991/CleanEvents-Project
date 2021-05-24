@@ -1,6 +1,7 @@
 package com.example.cleanevents;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -24,12 +25,17 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    private static final int FILTROS_ACTIVITY_REQUEST_CODE = 17;
 
     Button btnFiltros, btnMapa, btnListado;
     Toolbar bar;
     BottomNavigationView bottomNavigationView;
 
+    ArrayList<Evento> eventoArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -86,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -129,9 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
     //función para cargar el listado de los eventos
     public void cargarListado(){
 
@@ -152,9 +153,25 @@ public class MainActivity extends AppCompatActivity {
         btnFiltros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, FiltrosActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, FiltrosActivity.class), FILTROS_ACTIVITY_REQUEST_CODE);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // check that it is the SecondActivity with an OK result
+        if (requestCode == FILTROS_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) { // Activity.RESULT_OK
+
+                // get ARRAYLIST data from Intent
+                //String returnString = data.getStringExtra("keyName");
+                eventoArrayList = (ArrayList<Evento>) data.getSerializableExtra("arrayList");
+
+            }
+        }
     }
 
     //función para cargar fragments.

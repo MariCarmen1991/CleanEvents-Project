@@ -87,9 +87,6 @@ public class HomeFragment extends Fragment  {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         };
-
-
-
     }
 
     @Override
@@ -102,9 +99,7 @@ public class HomeFragment extends Fragment  {
         progress=rootView.findViewById(R.id.progress);
         leerBaseDatos("evento");
 
-
         return rootView;
-
     }
 
     public  ArrayList<Evento> leerBaseDatos(String colection){
@@ -151,8 +146,8 @@ public class HomeFragment extends Fragment  {
         return eventos;
     }
 
-    public void cargarRecycler(ArrayList<Evento> listaEvento){
-
+    public void cargarRecycler(ArrayList<Evento> listaEvento)
+    {
         LinearLayoutManager linearlayout = new LinearLayoutManager(getLayoutInflater().getContext());
         linearlayout.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearlayout);
@@ -161,17 +156,24 @@ public class HomeFragment extends Fragment  {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-       adapter.setOnClickListener(new View.OnClickListener() {
+        adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position=recyclerView.getChildAdapterPosition(v);
                 Intent i= new Intent(getContext(),DetalleActivity.class);
                 i.putExtra("eventoActual",  listaEvento.get(position));
                 startActivity(i);
-
             }
         });
-
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(((MainActivity)getActivity()).eventoArrayList != null)
+        {
+            cargarRecycler(((MainActivity)getActivity()).eventoArrayList);
+        }
+    }
 }

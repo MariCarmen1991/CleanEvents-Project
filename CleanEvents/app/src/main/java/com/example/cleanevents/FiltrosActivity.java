@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -110,12 +111,10 @@ public class FiltrosActivity extends AppCompatActivity {
                 hacer_query();
             }
         });
-
-
-
     }
 
-    private void filtros_zona_lugar() {
+    private void filtros_zona_lugar()
+    {
         et_zona_lugar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -161,7 +160,8 @@ public class FiltrosActivity extends AppCompatActivity {
     }
 
     //MÉTODO PARA CAMBIAR LAS MEDIDAS DE LA ACTIVITY
-    private void cambiaMedidas(){
+    private void cambiaMedidas()
+    {
         getWindowManager().getDefaultDisplay().getRealMetrics(medidasVentana);
         int ancho=medidasVentana.widthPixels;
         int alto=medidasVentana.heightPixels;
@@ -241,7 +241,8 @@ public class FiltrosActivity extends AppCompatActivity {
         });
     }
 
-    private void obtenerFecha(){
+    private void obtenerFecha()
+    {
         DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
         {
             @Override
@@ -285,6 +286,13 @@ public class FiltrosActivity extends AppCompatActivity {
         recogerHora.show();
     }
 
+    public void enviar_a_homeFragment()
+    {
+        Intent intent = new Intent();
+        intent.putExtra("arrayList", eventos);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
     public void guardar_en_array_list(QueryDocumentSnapshot evento)
     {
         Log.d("ian", " EVENTO RECUPERADO--> " + evento.getData());
@@ -297,12 +305,6 @@ public class FiltrosActivity extends AppCompatActivity {
         eventObject.setImagen((String) evento.getData().get("imagen"));
         eventObject.setTipoActividad((String) evento.getData().get("tipoActividad"));
         eventos.add(eventObject);
-        //cargarRecycler(eventos); // TODO ARREGLAR ESTO
-
-        //guardar datos
-
-        Log.d("ian", " OBJETOGUARDADO--> " + eventos.toString());
-
     }
 
     public void hacer_query()
@@ -323,6 +325,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -346,6 +349,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -372,6 +376,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -395,6 +400,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -421,6 +427,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -449,6 +456,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -478,6 +486,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -506,6 +515,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -533,6 +543,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -561,6 +572,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -587,6 +599,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -614,6 +627,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {
@@ -640,6 +654,7 @@ public class FiltrosActivity extends AppCompatActivity {
                         {
                             guardar_en_array_list(evento);
                         }
+                        enviar_a_homeFragment();
                     }
                     else
                     {

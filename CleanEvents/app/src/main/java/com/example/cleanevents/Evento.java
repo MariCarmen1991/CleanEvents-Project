@@ -1,5 +1,7 @@
 package com.example.cleanevents;
 
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.GeoPoint;
 
