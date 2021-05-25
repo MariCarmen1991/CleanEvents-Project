@@ -12,6 +12,7 @@ public class Evento implements Serializable {
     long idEvento;
     String nombre;
     long idUsuario;
+    String nombreOrganizador;
     String tipoActividad;
     String imagen;
     Fecha fecha;
@@ -26,6 +27,7 @@ public class Evento implements Serializable {
         this.idEvento = idEvento;
         this.nombre = nombre;
         this.idUsuario = idUsuario;
+        this.nombreOrganizador = nombreOrganizador;
         this.tipoActividad = tipoActividad;
         this.imagen = imagen;
         this.fecha = fecha;
@@ -36,11 +38,11 @@ public class Evento implements Serializable {
         this.longitud = longitud;
     }
 
-
-    public Evento(long idEvento, String nombre, long idUsuario, String tipoActividad, String imagen, Fecha fecha, String descripcion, String poblacion, long numParticipantes, Double latitud, Double longitud) {
+    public Evento(long idEvento, String nombre, long idUsuario, String nombreOrganizador, String tipoActividad, String imagen, Fecha fecha, String descripcion, String poblacion, long numParticipantes, Double latitud, Double longitud) {
         this.idEvento = idEvento;
         this.nombre = nombre;
         this.idUsuario = idUsuario;
+        this.nombreOrganizador = nombreOrganizador;
         this.tipoActividad = tipoActividad;
         this.imagen = imagen;
         this.fecha = fecha;
@@ -73,6 +75,14 @@ public class Evento implements Serializable {
 
     public void setIdUsuario(long idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getNombreOrganizador() {
+        return nombreOrganizador;
+    }
+
+    public void setNombreOrganizador(String nombreOrganizador) {
+        this.nombreOrganizador = nombreOrganizador;
     }
 
     public String getTipoActividad() {

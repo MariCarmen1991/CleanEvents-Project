@@ -87,6 +87,7 @@ import static android.content.Context.MODE_PRIVATE;
         Double lon, lat;
         Map<String, Object> evento;
         Boolean tesoro = false;
+        Boolean imagenGuardada=false;
 
         DatePickerDialog datePickerDialog;
         Calendar calendario = Calendar.getInstance();
@@ -161,7 +162,7 @@ import static android.content.Context.MODE_PRIVATE;
             progressImage.setVisibility(View.GONE);
             evento=new HashMap<>();
 
-            //bajarImagenStorage();
+
             leerUsuario();
             /* Spiner Actividades */
 
@@ -273,40 +274,42 @@ import static android.content.Context.MODE_PRIVATE;
             });
             /* BOTON GUARDAR */
 
-            btnGuardar = rootView.findViewById(R.id.btn_guardar);
-            btnGuardar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    String title = "Confirmación";
-                    String mensaje = "¿Seguro que quieres guardar?";
-                    builder.setTitle(title);
-                    builder.setMessage(mensaje);
-                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Guardar evento
-                            inputData();
-                            crearEventos();
-                            bajarImagenStorage(IMAGE_PATH);
+                btnGuardar = rootView.findViewById(R.id.btn_guardar);
+                btnGuardar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                            ft.replace(R.id.fragmentContainerView, new HomeFragment()).addToBackStack(null).commit();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        String title = "Confirmación";
+                        String mensaje = "¿Seguro que quieres guardar?";
+                        builder.setTitle(title);
+                        builder.setMessage(mensaje);
+                        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Guardar evento
+                                inputData();
+                                crearEventos();
 
-                            Toast.makeText(getActivity(), "TU EVENTO SE HA PUBLICADO", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Cancelar evento
-                            Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
-            });
+
+                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.fragmentContainerView, new HomeFragment()).addToBackStack(null).commit();
+
+                                Toast.makeText(getActivity(), "TU EVENTO SE HA PUBLICADO", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Cancelar evento
+                                Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
+
 
 
 
@@ -417,7 +420,7 @@ import static android.content.Context.MODE_PRIVATE;
         }
 
 
-
+//-----------------------------carga de imagen al storage de firebase----------------------------
         public void subirImagenStorage(Intent data){
             imageUri = data.getData();
             imagen.setImageURI(imageUri);
@@ -452,7 +455,7 @@ import static android.content.Context.MODE_PRIVATE;
 
         }
 
-
+//-----------descarga de url de la imagen cargada y guardar la url como imagen de evento---------------
 
         public void bajarImagenStorage( String IMAGE_PATH){
             StorageReference baseImage = FirebaseStorage.getInstance().getReference();
@@ -469,6 +472,8 @@ import static android.content.Context.MODE_PRIVATE;
                             Log.d("MARICARMEN", "url"+urlImagen);
 
                             crearEventos();
+                            imagenGuardada=true;
+
 
                         }
                     })
@@ -520,7 +525,7 @@ import static android.content.Context.MODE_PRIVATE;
     public void crearEventos(){
 
         long numParticipantes=0;
-
+        bajarImagenStorage(IMAGE_PATH);
         evento.put("idEvento", idEvento);
         evento.put("nombreEvento", txtNombreEvento);
         evento.put("nombre", txtLugar);
@@ -554,7 +559,7 @@ import static android.content.Context.MODE_PRIVATE;
         evento.put("idUsuario", idUsuario);
 
         db= FirebaseFirestore.getInstance();
-        db.collection("Usuario")
+        db.collection("usuario")
                .whereEqualTo("idUsuario",idUsuario)
                .get()
                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -564,7 +569,8 @@ import static android.content.Context.MODE_PRIVATE;
 
                            for(QueryDocumentSnapshot user: task.getResult()){
 
-                               Log.d("MARICARMEN", ""+user.getData());
+                               evento.put("nombreOrganizador", user.get("nombre"));
+                               Log.d("MARICARMEN",""+ user.get("nombre"));
                            }
                        }
                    }

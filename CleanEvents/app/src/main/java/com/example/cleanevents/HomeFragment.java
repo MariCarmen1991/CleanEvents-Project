@@ -124,6 +124,7 @@ public class HomeFragment extends Fragment  {
                                 eventObject.setNumParticipantes((Long) evento.getData().get("numParticipantes"));
                                 eventObject.setIdUsuario((Long)evento.getData().get("idUsuario"));
                                 eventObject.setIdEvento((Long)evento.getData().get("idEvento"));
+                                eventObject.setNombreOrganizador((String) evento.get("nombreOrganizador"));
 
                                 eventos.add(eventObject);
                                 cargarRecycler(eventos);
