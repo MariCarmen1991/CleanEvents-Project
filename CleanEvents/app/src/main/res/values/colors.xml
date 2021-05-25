@@ -13,6 +13,7 @@
     <color name="color_boton_card">#51257569</color>
     <color name="color_corporativo_trans">#EE369C8D</color>
     <color name="color_acento">#102844</color>
+    <color name="color_transparente">#00000000</color>
 
 
 </resources>
