@@ -12,12 +12,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.type.LatLng;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Document;
+
+import java.util.HashMap;
 
 public class DetalleActivity extends AppCompatActivity {
 
@@ -37,6 +43,7 @@ public class DetalleActivity extends AppCompatActivity {
 
         inicializar();
         recibirIntent();
+        unirme();
     }
 
     private void inicializar(){
@@ -85,7 +92,8 @@ public class DetalleActivity extends AppCompatActivity {
         btnUnirse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                guardarParticipante();
+                Toast.makeText(DetalleActivity.this, "Te has unido al evento!", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -95,15 +103,20 @@ public class DetalleActivity extends AppCompatActivity {
 
     private void guardarParticipante(){
 
-/*
-    bd= FirebaseFirestore.getInstance();
-    baseDatos= FirebaseDatabase.getInstance();
-    Log.d("maricarmen","ha funcionado");
-    databaseReference=baseDatos.getReference().child("usuario");
-    databaseReference.setValue(usuario);
-    bd.collection("usuario").add(usuario);*/
+        SharedPreferences preferences=DetalleActivity.this.getSharedPreferences("idUsuarioPref", MODE_PRIVATE);
+        long idUsuario= preferences.getLong("idUsuario",0);
+
+
+        HashMap eventoUsuario = new HashMap();
+        eventoUsuario.put("idUsuario",idUsuario);
+        eventoUsuario.put("idEvento",eventoRecibido.getIdEvento() );
+
+        bd=FirebaseFirestore.getInstance();
+        baseDatos=FirebaseDatabase.getInstance();
+        Log.d("maricarmen","ha funcionado");
+        databaseReference=baseDatos.getReference().child("EventoUsuario");
+        bd.collection("EventoUsuario").add(eventoUsuario);
 
     }
-
 
 }

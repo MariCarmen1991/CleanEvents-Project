@@ -7,14 +7,6 @@
     android:orientation="vertical"
     tools:context=".PerfilFragment">
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/guideline27"
-        app:layout_constraintTop_toTopOf="@+id/guideline28"
-        tools:src="@tools:sample/avatars" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline27"
         android:layout_width="wrap_content"
@@ -40,10 +32,11 @@
         android:id="@+id/btn_eventos_organizados"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="232dp"
         android:text="@string/txt_btn_eventos_organizados"
+        app:cornerRadius="30dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline29"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline27"
         app:layout_constraintTop_toBottomOf="@+id/txt_descripcion" />
 
@@ -51,36 +44,48 @@
         android:id="@+id/btn_eventos_participados"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/color_transparente"
         android:text="@string/txt_btn_eventos_participados"
+        android:textColor="@color/color_acento"
+        app:cornerRadius="30dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline29"
         app:layout_constraintStart_toStartOf="@+id/guideline27"
-        app:layout_constraintTop_toBottomOf="@+id/btn_eventos_organizados" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_eventos_organizados"
+        app:strokeColor="@color/color_acento"
+        app:strokeWidth="1dp" />
 
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="@string/txt_nombre_usuario"
+    <View
+        android:id="@+id/divider14"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toStartOf="@+id/guideline29"
         app:layout_constraintStart_toStartOf="@+id/guideline27"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <TextView
         android:id="@+id/txt_nombre_usuario"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+        android:layout_marginBottom="4dp"
+        android:text="tu nombre"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/color_acento"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline25"
+        app:layout_constraintEnd_toStartOf="@+id/guideline29"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline27" />
 
     <TextView
         android:id="@+id/textView26"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:text="@string/txt_sobre_mi"
         app:layout_constraintStart_toStartOf="@+id/guideline27"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+        app:layout_constraintTop_toBottomOf="@+id/divider14" />
 
     <TextView
         android:id="@+id/txt_descripcion"
@@ -94,7 +99,30 @@
         android:id="@+id/btn_editar_perfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/color_transparente"
         android:text="@string/txt_btn_editar_perfil"
+        android:textColor="@color/color_corporativo"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toStartOf="@+id/guideline29"
-        app:layout_constraintTop_toTopOf="@+id/guideline28" />
+        app:layout_constraintStart_toEndOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/guideline25"
+        app:strokeColor="@color/color_corporativo"
+        app:strokeWidth="2dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="54dp" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="101dp"
+        android:layout_height="110dp"
+        android:src="@drawable/nodisponible"
+        app:layout_constraintEnd_toStartOf="@+id/guideline29"
+        app:layout_constraintStart_toStartOf="@+id/guideline27"
+        app:layout_constraintTop_toTopOf="@+id/guideline25" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -128,6 +128,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 
+
         }
 
 
@@ -504,74 +505,72 @@ import static android.content.Context.MODE_PRIVATE;
             }
         }
 
-        public void cargarFoto() {
-            //Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-            Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-            gallery.setType("image/*");
-            startActivityForResult(Intent.createChooser(gallery, "Selecciona una foto"), PICK_IMAGE);
-        }
-
-        Random r = new Random();
-        long idEvento = r.nextInt(1000)+1;
-
-
-
-        public void crearEventos(){
-
-            long numParticipantes=0;
-
-            evento.put("idEvento", idEvento);
-            evento.put("nombreEvento", txtNombreEvento);
-            evento.put("nombre", txtLugar);
-            evento.put("dia", dateLog);
-            evento.put("horaInicio", horaInicioEvento);
-            evento.put("horaFinal", horaFinalEvento);
-            evento.put("Longitud", lon);
-            evento.put("Latitud", lat);
-            evento.put("descripcion", txtDescripcion);
-            evento.put("tesoro", tesoro);
-            evento.put("pista", txtPista);
-            evento.put("poblacion", txtZona);
-            evento.put("tipoActividad", actividadTexto);
-            evento.put("numParticipantes", numParticipantes);
-
-            //DatabaseReference dr = fb.getReference().child("evento");
-            //dr.setValue(evento);
-            String n = String.valueOf(r.nextInt(1000));
-            txtNombreEvento = "Evento nº:"+n;
-            DocumentReference document = db.document("evento/"+txtNombreEvento);
-            document.set(evento);
-
-            //db.collection("evento").add(evento);
-            Log.d("MARICARMEN","evento creado");
-        }
-
-        public void leerUsuario(){
-            SharedPreferences preferences=getContext().getSharedPreferences("idUsuarioPref", MODE_PRIVATE);
-            long idUsuario= preferences.getLong("idUsuario", 0);
-            Log.d("MARICARMEN", "IDUSUARIOSHARED"+idUsuario);
-            evento.put("idUsuario", idUsuario);
-
-            db= FirebaseFirestore.getInstance();
-            db.collection("Usuario")
-                    .whereEqualTo("idUsuario",idUsuario)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-
-                                for(QueryDocumentSnapshot user: task.getResult()){
-
-                                    Log.d("MARICARMEN", ""+user.getData());
-                                }
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull @NotNull Exception e) {
-
-                }
-            });
-        }
+    public void cargarFoto() {
+        //Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        gallery.setType("image/*");
+        startActivityForResult(Intent.createChooser(gallery, "Selecciona una foto"), PICK_IMAGE);
     }
+
+    Random r = new Random();
+    long idEvento = r.nextInt(1000)+1;
+
+
+
+    public void crearEventos(){
+
+        long numParticipantes=0;
+
+        evento.put("idEvento", idEvento);
+        evento.put("nombreEvento", txtNombreEvento);
+        evento.put("nombre", txtLugar);
+        evento.put("dia", dateLog);
+        evento.put("Longitud", lon);
+        evento.put("Latitud", lat);
+        evento.put("descripcion", txtDescripcion);
+        evento.put("tesoro", tesoro);
+        evento.put("pista", txtPista);
+        evento.put("poblacion", txtZona);
+        evento.put("tipoActividad", actividadTexto);
+        evento.put("numParticipantes", numParticipantes);
+
+        //DatabaseReference dr = fb.getReference().child("evento");
+        //dr.setValue(evento);
+        String n = String.valueOf(r.nextInt(1000));
+        txtNombreEvento = "Evento nº:"+n;
+        DocumentReference document = db.document("evento/"+txtNombreEvento);
+        document.set(evento);
+
+        //db.collection("evento").add(evento);
+        Log.d("MARICARMEN","evento creado");
+    }
+
+    public void leerUsuario(){
+        SharedPreferences preferences=getContext().getSharedPreferences("idUsuarioPref", MODE_PRIVATE);
+        long idUsuario= preferences.getLong("idUsuario", 0);
+        Log.d("MARICARMEN", "IDUSUARIOSHARED"+idUsuario);
+        evento.put("idUsuario", idUsuario);
+
+        db= FirebaseFirestore.getInstance();
+        db.collection("Usuario")
+               .whereEqualTo("idUsuario",idUsuario)
+               .get()
+               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                   @Override
+                   public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                       if(task.isSuccessful()){
+
+                           for(QueryDocumentSnapshot user: task.getResult()){
+
+                               Log.d("MARICARMEN", ""+user.getData());
+                           }
+                       }
+                   }
+               }).addOnFailureListener(new OnFailureListener() {
+           @Override
+           public void onFailure(@NonNull @NotNull Exception e) {
+
+           }
+       });
+    }
+}

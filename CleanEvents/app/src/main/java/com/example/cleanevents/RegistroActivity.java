@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -49,7 +51,7 @@ public class RegistroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registro);
         inicializar();
         registro();
-        datosUsuario();
+
     }
 
 
@@ -67,8 +69,8 @@ public class RegistroActivity extends AppCompatActivity {
 
         String nombre=etNombre.getText().toString();
         String mail=etCorreo.getText().toString();
-        Random r= new Random();
-        int idUsuario=r.nextInt();
+        Random r = new Random();
+        long idUsuario = r.nextInt(1000)+1;
         Log.d("MARICARMEN", ""+idUsuario);
         int rol=0;
 
@@ -77,8 +79,7 @@ public class RegistroActivity extends AppCompatActivity {
         usuario.setRol(rol);
         usuario.setIdUsuario(idUsuario);
         Log.d("maricarmen","ha funcionado"+usuario.toString());
-
-
+        guardarIdUsuario(RegistroActivity.this,idUsuario);
 
     }
 
@@ -153,5 +154,12 @@ public class RegistroActivity extends AppCompatActivity {
 
 
 
+    public static void guardarIdUsuario(Context context,  Long valor){
+        SharedPreferences preferences=context.getSharedPreferences("idUsuarioPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor;
+        editor=preferences.edit();
+        editor.putLong("idUsuario", valor);
+        editor.apply();
+    }
 
 }

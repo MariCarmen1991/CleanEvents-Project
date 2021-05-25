@@ -4,23 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_transparente"
     tools:context=".FiltrosActivity">
 
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline19"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline19"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.98" />
+        app:layout_constraintGuide_percent="0.98" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.02872777" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.02872777" />
 
     <EditText
         android:id="@+id/et_PlannedHora"
@@ -39,6 +40,7 @@
         android:id="@+id/textView19"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:text="@string/txt_filtro_fecha"
         android:textAlignment="center"
         android:textColor="@color/color_boton_main"
@@ -67,32 +69,32 @@
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+        android:id="@+id/guideline20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.500684" />
 
     <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline22"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.98" />
+        android:id="@+id/guideline22"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.98" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline17"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.32" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline17"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.32" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline18"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.64" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.64" />
 
     <EditText
         android:id="@+id/et_PlannedDate"
@@ -108,22 +110,23 @@
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline21"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.52" />
+        android:id="@+id/guideline21"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.54" />
 
     <TextView
         android:id="@+id/textView20"
-        android:layout_width="348dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:text="@string/txt_filtro_zona"
         android:textAlignment="center"
         android:textColor="@color/color_boton_main"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline13"
         app:layout_constraintTop_toBottomOf="@+id/et_PlannedHora" />
 
@@ -131,6 +134,7 @@
         android:id="@+id/tesoro_evento"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="@string/txt_filtro_tipo_actividad"
         android:textAlignment="center"
         android:textColor="@color/color_boton_main"
@@ -158,7 +162,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.01" />
+        app:layout_constraintGuide_begin="7dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline16"
@@ -176,7 +180,8 @@
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline22"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintStart_toStartOf="@+id/guideline18" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline13" />
 
     <EditText
         android:id="@+id/et_zona_lugar"
@@ -194,7 +199,7 @@
         android:id="@+id/btn_filtro_montanya"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="2dp"
+        android:layout_margin="1dp"
         android:clickable="true"
         android:drawableTop="@drawable/twotone_terrain_black_18"
         android:drawableTint="@color/color_acento"
@@ -214,7 +219,7 @@
         android:id="@+id/btn_filtro_bosque"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="2dp"
+        android:layout_margin="1dp"
         android:clickable="true"
         android:drawableTop="@drawable/round_nature_black_18"
         android:drawableTint="@color/color_acento"
@@ -236,7 +241,7 @@
         android:id="@+id/btn_filtro_ciudad"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="2dp"
+        android:layout_margin="1dp"
         android:clickable="true"
         android:drawableTop="@drawable/twotone_location_city_black_18"
         android:drawableTint="@color/color_acento"
@@ -256,7 +261,7 @@
         android:id="@+id/btn_filtro_playa"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="2dp"
+        android:layout_margin="1dp"
         android:clickable="true"
         android:drawableTop="@drawable/outline_waves_black_18"
         android:drawableTint="@color/color_acento"
@@ -276,7 +281,7 @@
         android:id="@+id/btn_filtro_rio"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="2dp"
+        android:layout_margin="1dp"
         android:clickable="true"
         android:drawableTop="@drawable/twotone_legend_toggle_black_18"
         android:drawableTint="@color/color_acento"
@@ -296,7 +301,7 @@
         android:id="@+id/btn_filtro_fondo_marino"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="2dp"
+        android:layout_margin="1dp"
         android:clickable="true"
         android:drawableTop="@drawable/sea3"
         android:drawableTint="@color/color_acento"
@@ -307,10 +312,10 @@
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline16"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline18"
         app:layout_constraintTop_toTopOf="@+id/guideline15"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:strokeColor="@color/color_boton_main"
         app:strokeWidth="2dp" />
 

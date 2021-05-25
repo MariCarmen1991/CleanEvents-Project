@@ -89,7 +89,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
             //fechaActividad.setText(item.getFecha().toString());//modificar si es necesario pueden haber problemas con el tipo
             organizadorActividad.setText("organizador "+item.getIdUsuario());
             lugarActividad.setText(item.getPoblacion());
-//            numeroParticipantes.setText(item.getNumParticipantes());
+            numeroParticipantes.setText(""+item.getNumParticipantes());
 
             switch (item.getTipoActividad()){
 
