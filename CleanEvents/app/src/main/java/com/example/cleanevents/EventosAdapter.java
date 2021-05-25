@@ -70,7 +70,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView  imagenActividad;
-        TextView nombreActividad, fechaActividad, organizadorActividad, lugarActividad;
+        TextView nombreActividad, fechaActividad, organizadorActividad, lugarActividad, numeroParticipantes;
         Usuario usuario = new Usuario();
 
         ViewHolder(View itemView) {
@@ -81,6 +81,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
             fechaActividad=itemView.findViewById(R.id.fecha_actividad_id);
             organizadorActividad=itemView.findViewById(R.id.organizador_actividad_id);
             lugarActividad=itemView.findViewById(R.id.lugar_actividad_id);
+            numeroParticipantes=itemView.findViewById(R.id.participantes_actividad_id);
         }
 
         public void bindData(final Evento item) {
@@ -88,6 +89,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
             //fechaActividad.setText(item.getFecha().toString());//modificar si es necesario pueden haber problemas con el tipo
             organizadorActividad.setText("organizador "+item.getIdUsuario());
             lugarActividad.setText(item.getPoblacion());
+//            numeroParticipantes.setText(item.getNumParticipantes());
 
             switch (item.getTipoActividad()){
 

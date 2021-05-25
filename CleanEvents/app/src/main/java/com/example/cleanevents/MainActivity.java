@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnFiltros, btnMapa, btnListado;
     Toolbar bar;
     BottomNavigationView bottomNavigationView;
-
+    ProgressBar barra;
     ArrayList<Evento> eventoArrayList;
 
     @Override
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(bNavigationView);
         btnListado.setVisibility(View.GONE);
+
 
 
         //cargarFragment(new HomeFragment());

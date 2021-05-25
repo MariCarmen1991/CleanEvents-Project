@@ -121,6 +121,10 @@ public class HomeFragment extends Fragment  {
                                 eventObject.setLatitud(evento.getDouble("Latitud"));
                                 eventObject.setImagen((String) evento.getData().get("imagen"));
                                 eventObject.setTipoActividad((String) evento.getData().get("tipoActividad"));
+                                //eventObject.setNumParticipantes((Integer) evento.getData().get("numParticipantes"));
+                                //eventObject.setIdUsuario((int)evento.getData().get("idUsuario"));
+                                //eventObject.setIdEvento((int)evento.getData().get("idEvento"));
+
                                 eventos.add(eventObject);
                                 cargarRecycler(eventos);
 
@@ -167,7 +171,7 @@ public class HomeFragment extends Fragment  {
         });
     }
 
-    @Override
+    /*@Override
     public void onStart() {
         super.onStart();
 
@@ -175,5 +179,5 @@ public class HomeFragment extends Fragment  {
         {
             cargarRecycler(((MainActivity)getActivity()).eventoArrayList);
         }
-    }
+    }*/
 }

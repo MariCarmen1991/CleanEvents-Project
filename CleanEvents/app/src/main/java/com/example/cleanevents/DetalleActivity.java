@@ -86,6 +86,7 @@ public class DetalleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
             }
         });
 

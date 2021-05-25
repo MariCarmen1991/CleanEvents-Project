@@ -50,6 +50,7 @@ public class Evento implements Serializable {
         this.longitud = longitud;
     }
 
+
     public int getIdEvento() {
         return idEvento;
     }
@@ -114,6 +115,10 @@ public class Evento implements Serializable {
         this.poblacion = poblacion;
     }
 
+    public Integer getNumParticipantes() {
+        return numParticipantes;
+    }
+
     public void setNumParticipantes(Integer numParticipantes) {
         this.numParticipantes = numParticipantes;
     }
@@ -132,14 +137,6 @@ public class Evento implements Serializable {
 
     public void setLongitud(Double longitud) {
         this.longitud = longitud;
-    }
-
-    public int getNumParticipantes() {
-        return numParticipantes;
-    }
-
-    public void setNumParticipantes(int numParticipantes) {
-        this.numParticipantes = numParticipantes;
     }
 
     @Override

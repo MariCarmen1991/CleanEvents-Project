@@ -166,11 +166,11 @@ Esta Política está sujeta a revisiones periódicas y la empresa puede modifica
 
     <!--STRINGS NUEVO EVENTO-->
     <string name="txt_lugar">Lugar:</string>
-    <string name="txt_fecha">Fecha:</string>
-    <string name="txt_cordenadas">Cordenadas:</string>
-    <string name="txt_descripcion">Descripcion:</string>
+    <string name="txt_fecha">Día del Evento</string>
+    <string name="txt_cordenadas">Cordenadas</string>
+    <string name="txt_descripcion">Explica los detalles de tu evento</string>
     <string name="txt_busqueda_tesoro">¿quieres añadir un tesoro a tu evento?</string>
-    <string name="txt_guardar">Guardar</string>
+    <string name="txt_guardar">Publicar Evento</string>
     <string name="txt_cargar_foto">Cargar Foto</string>
     <string name="txt_date">Fecha</string>
     <string name="txt_mapa">Mapa</string>
@@ -187,5 +187,8 @@ Esta Política está sujeta a revisiones periódicas y la empresa puede modifica
     <string name="txt_h">h</string>
     <string name="title_activity_maps_estatico">Map</string>
     <string name="title_activity_maps_eventos">Map</string>
-    <string name="txt_nombre_evento">Nombre del Evento:</string>
+    <string name="txt_nombre_evento">Nombre del Evento</string>
+    <string name="txt_lat">LATITUD</string>
+    <string name="txt_lon">LONGITUD</string>
+
 </resources>
