@@ -135,7 +135,8 @@ import static android.content.Context.MODE_PRIVATE;
 
         // función que carga  el mapa
         public void cargarMap() {
-            Intent i=new Intent(getContext(), MuestraMapaActivity.class);
+            Intent i = new Intent(getContext(), BuscadorMapaActivity.class);
+            //Intent i=new Intent(getContext(), MuestraMapaActivity.class);
             startActivity(i);
         }
 
@@ -300,7 +301,9 @@ import static android.content.Context.MODE_PRIVATE;
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Cancelar evento
-                            Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(getContext(), BuscadorMapaActivity.class);
+                            startActivity(i);
+                            // Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
                         }
                     });
                     AlertDialog dialog = builder.create();
