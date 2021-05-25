@@ -53,6 +53,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -152,7 +154,7 @@ public class NuevoEventoFragment extends Fragment {
         evento=new HashMap<>();
 
         //bajarImagenStorage();
-
+        leerUsuario();
         /* Spiner Actividades */
 
         tipo_actividad = rootView.findViewById(R.id.actividades);
@@ -470,16 +472,15 @@ public class NuevoEventoFragment extends Fragment {
     }
 
     Random r = new Random();
-    int idEvento = r.nextInt(1000)+1;
-    int idUsuario = r.nextInt(1000)+1;
+    long idEvento = r.nextInt(1000)+1;
+
 
 
     public void crearEventos(){
 
-        int numParticipantes=0;
+        long numParticipantes=0;
 
         evento.put("idEvento", idEvento);
-        evento.put("idUsuario", idUsuario);
         evento.put("nombreEvento", txtNombreEvento);
         evento.put("nombre", txtLugar);
         evento.put("dia", dateLog);
@@ -498,26 +499,37 @@ public class NuevoEventoFragment extends Fragment {
         txtNombreEvento = "Evento nº:"+n;
         DocumentReference document = db.document("evento/"+txtNombreEvento);
         document.set(evento);
+
         //db.collection("evento").add(evento);
         Log.d("MARICARMEN","evento creado");
     }
 
-    /*public void leerDatosFB(){
-        Query recuperar = (Query) data.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                String valor = (String) snapshot.getValue();
-                get_fecha.setText(valor);
-            }
+    public void leerUsuario(){
+        SharedPreferences preferences=getContext().getSharedPreferences("idUsuarioPref", MODE_PRIVATE);
+        long idUsuario= preferences.getLong("idUsuario", 0);
+        Log.d("MARICARMEN", "IDUSUARIOSHARED"+idUsuario);
+        evento.put("idUsuario", idUsuario);
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                Log.e("TAGLOG", "Error!", error.toException());
-            }
-        });
+        db= FirebaseFirestore.getInstance();
+        db.collection("Usuario")
+               .whereEqualTo("idUsuario",idUsuario)
+               .get()
+               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                   @Override
+                   public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                       if(task.isSuccessful()){
+
+                           for(QueryDocumentSnapshot user: task.getResult()){
+
+                               Log.d("MARICARMEN", ""+user.getData());
+                           }
+                       }
+                   }
+               }).addOnFailureListener(new OnFailureListener() {
+           @Override
+           public void onFailure(@NonNull @NotNull Exception e) {
+
+           }
+       });
     }
-
-    public void eliminarDatosFB(){
-        db.collection("evento").document("7Kr1STuyuIIcVNNMAXcW").delete();
-    }*/
 }

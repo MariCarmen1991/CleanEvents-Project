@@ -9,15 +9,15 @@ import java.io.Serializable;
 
 public class Evento implements Serializable {
 
-    int idEvento;
+    long idEvento;
     String nombre;
-    int idUsuario;
+    long idUsuario;
     String tipoActividad;
     String imagen;
     Fecha fecha;
     String descripcion;
     String poblacion;
-    Integer numParticipantes;
+    long numParticipantes;
     Double latitud;
     Double longitud;
 
@@ -36,7 +36,8 @@ public class Evento implements Serializable {
         this.longitud = longitud;
     }
 
-    public Evento(int idEvento, String nombre, int idUsuario, String tipoActividad, String imagen, Fecha fecha, String descripcion, String poblacion, Integer numParticipantes, Double latitud, Double longitud) {
+
+    public Evento(long idEvento, String nombre, long idUsuario, String tipoActividad, String imagen, Fecha fecha, String descripcion, String poblacion, long numParticipantes, Double latitud, Double longitud) {
         this.idEvento = idEvento;
         this.nombre = nombre;
         this.idUsuario = idUsuario;
@@ -50,12 +51,11 @@ public class Evento implements Serializable {
         this.longitud = longitud;
     }
 
-
-    public int getIdEvento() {
+    public long getIdEvento() {
         return idEvento;
     }
 
-    public void setIdEvento(int idEvento) {
+    public void setIdEvento(long idEvento) {
         this.idEvento = idEvento;
     }
 
@@ -67,11 +67,11 @@ public class Evento implements Serializable {
         this.nombre = nombre;
     }
 
-    public int getIdUsuario() {
+    public long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -115,11 +115,11 @@ public class Evento implements Serializable {
         this.poblacion = poblacion;
     }
 
-    public Integer getNumParticipantes() {
+    public long getNumParticipantes() {
         return numParticipantes;
     }
 
-    public void setNumParticipantes(Integer numParticipantes) {
+    public void setNumParticipantes(long numParticipantes) {
         this.numParticipantes = numParticipantes;
     }
 

@@ -2,7 +2,7 @@ package com.example.cleanevents;
 
 public class Usuario {
 
-    int idUsuario;
+    long idUsuario;
     String nombre;
     String email;
     String descripcion;
@@ -19,7 +19,7 @@ public class Usuario {
         this.rol = 0;
     }
 
-    public Usuario(int idUsuario, String nombre, String email, String descripcion, String imagen, int rol) {
+    public Usuario(long idUsuario, String nombre, String email, String descripcion, String imagen, int rol) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.email = email;
@@ -28,11 +28,11 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public int getIdUsuario() {
+    public long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(long idUsuario) {
         this.idUsuario = idUsuario;
     }
 

@@ -121,17 +121,14 @@ public class HomeFragment extends Fragment  {
                                 eventObject.setLatitud(evento.getDouble("Latitud"));
                                 eventObject.setImagen((String) evento.getData().get("imagen"));
                                 eventObject.setTipoActividad((String) evento.getData().get("tipoActividad"));
-                                //eventObject.setNumParticipantes((Integer) evento.getData().get("numParticipantes"));
-                                //eventObject.setIdUsuario((int)evento.getData().get("idUsuario"));
-                                //eventObject.setIdEvento((int)evento.getData().get("idEvento"));
+                                eventObject.setNumParticipantes((Long) evento.getData().get("numParticipantes"));
+                                eventObject.setIdUsuario((Long)evento.getData().get("idUsuario"));
+                                eventObject.setIdEvento((Long)evento.getData().get("idEvento"));
 
                                 eventos.add(eventObject);
                                 cargarRecycler(eventos);
 
                                 //guardar datos
-
-
-
                                 Log.d("maricarmen"," OBJETOGUARDADO--> "+eventos.toString());
                             }
 
