@@ -525,6 +525,8 @@ import static android.content.Context.MODE_PRIVATE;
         evento.put("nombreEvento", txtNombreEvento);
         evento.put("nombre", txtLugar);
         evento.put("dia", dateLog);
+        evento.put("horaInicio", horaInicioEvento);
+        evento.put("horaFinal", horaFinalEvento);
         evento.put("Longitud", lon);
         evento.put("Latitud", lat);
         evento.put("descripcion", txtDescripcion);

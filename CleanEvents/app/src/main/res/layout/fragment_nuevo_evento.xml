@@ -407,7 +407,7 @@
             android:clickable="true"
             android:ems="10"
             android:focusable="false"
-            android:hint="Hora Inicio"
+            android:hint="Hora Final"
             android:inputType="time"/>
 
         <EditText
