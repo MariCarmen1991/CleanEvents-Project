@@ -301,9 +301,7 @@ import static android.content.Context.MODE_PRIVATE;
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Cancelar evento
-                            Intent i = new Intent(getContext(), BuscadorMapaActivity.class);
-                            startActivity(i);
-                            // Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
                         }
                     });
                     AlertDialog dialog = builder.create();

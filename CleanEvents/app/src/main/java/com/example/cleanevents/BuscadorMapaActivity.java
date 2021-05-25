@@ -43,6 +43,7 @@ public class BuscadorMapaActivity extends AppCompatActivity {
                 String lon = lonlng[1];
                 lon = lon.substring(0, lon.length()-1);
                 Toast.makeText(BuscadorMapaActivity.this, "Bienvenido a "+lugar+" en las coordenadas LAT: "+lng+" y LON: "+lon, Toast.LENGTH_LONG).show();
+                finish();
             }
         });
 
