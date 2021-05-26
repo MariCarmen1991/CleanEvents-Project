@@ -60,7 +60,7 @@ public class MapaEventosFragment extends Fragment {
                     eventos=new ArrayList<>();
 
                     eventos=(ArrayList<Evento>) result.getSerializable("eventos");
-                    Log.d("MARICARMEN"," "+       eventos.toString());
+                    Log.d("MARICARMEN","555 "+       eventos.toString());
 
                 }
             });
@@ -69,15 +69,17 @@ public class MapaEventosFragment extends Fragment {
             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marcadormapa);
             Bitmap b = bitmapdraw.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
-            for(int i=0; i<eventos.size();i++) {
+            if(eventos!=null) {
+                for (int i = 0; i < eventos.size(); i++) {
 
-                LatLng ubicacionEvento = new LatLng(eventos.get(i).latitud, eventos.get(i).getLongitud());
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(ubicacionEvento).title(eventos.get(i).getNombre());
-                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-                googleMap.addMarker(markerOptions);
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 10));
+                    LatLng ubicacionEvento = new LatLng(eventos.get(i).latitud, eventos.get(i).getLongitud());
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(ubicacionEvento).title(eventos.get(i).getNombre());
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    googleMap.addMarker(markerOptions);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 10));
 
+                }
             }
 
             //--Función que muestra el detalle del evento si haces click en el nombre del marcador

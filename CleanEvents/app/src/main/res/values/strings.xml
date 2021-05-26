@@ -18,6 +18,7 @@
     <string name="btn_mapa">Mapa</string>
     <string name="btn_listado">Listado</string>
     <string name="btn_unirse">Unirse al Evento</string>
+    <string name="txt_mensaje_inicio">Estamos cargando algunos datos</string>
 
 
     <!-- STRING FILTROS -->
@@ -190,5 +191,7 @@ Esta Política está sujeta a revisiones periódicas y la empresa puede modifica
     <string name="txt_nombre_evento">Nombre del Evento</string>
     <string name="txt_lat">LATITUD</string>
     <string name="txt_lon">LONGITUD</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

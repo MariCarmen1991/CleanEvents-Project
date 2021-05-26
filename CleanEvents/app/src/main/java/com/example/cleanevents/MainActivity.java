@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        LinearLayout layoutsplah;
         bar = findViewById(R.id.mytoolbar);
         setSupportActionBar(bar);
         setTitle("");
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         cargarFiltro();
 
     }
+
 
 
     //BOTTOM NAVIGATION BAR  : Carga los fragments del menú inferior (listado eventos, añdir eventos, perfil usuario)

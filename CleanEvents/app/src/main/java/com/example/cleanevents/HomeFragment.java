@@ -48,6 +48,7 @@ public class HomeFragment extends Fragment  {
     FirebaseFirestore baseDatos;
     ArrayList<Evento> eventos;
     ProgressBar progress;
+    Boolean datosCargados=false;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -128,9 +129,12 @@ public class HomeFragment extends Fragment  {
 
                                 eventos.add(eventObject);
                                 cargarRecycler(eventos);
+                                datosCargados=true;
+                                Bundle datosOk= new Bundle();
+                                datosOk.putBoolean("datosCargados", datosCargados);
 
                                 //guardar datos
-                                Log.d("maricarmen"," OBJETOGUARDADO--> "+eventos.toString());
+                                Log.d("maricarmen"," OBJETOGUARDADO--> "+eventos.toString()+datosCargados);
                             }
 
 

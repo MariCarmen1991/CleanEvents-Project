@@ -78,7 +78,6 @@ public class PerfilFragment extends Fragment {
         txtDescripcion=root.findViewById(R.id.txt_descripcion);
         descargarUsuario();
 
-
         return root;
     }
 
@@ -104,8 +103,12 @@ public class PerfilFragment extends Fragment {
 
                                 usuarioActual.setNombre((String) user.get("nombre"));
                                 usuarioActual.setDescripcion((String) user.get("descripcion"));
+                                usuarioActual.setIdUsuario((Long) user.get("idUsuario"));
                                 txtNombreUsuario.setText(usuarioActual.getNombre());
                                 Log.d("MARICARMEN", "USER "+usuarioActual.toString());
+
+
+
 
 
                             }
@@ -118,6 +121,72 @@ public class PerfilFragment extends Fragment {
             }
         });
     }
+
+
+    public void eventosOrganizados(){
+
+        FirebaseFirestore db;
+        FirebaseDatabase database;
+
+        db= FirebaseFirestore.getInstance();
+        db.collection("evento")
+                .whereEqualTo("idUsuario",usuarioActual.getIdUsuario())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+
+                            for(QueryDocumentSnapshot organizado: task.getResult()){
+
+
+                                Log.d("MARICARMEN", "USER "+organizado.getData());
+
+
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+
+            }
+        });
+
+
+    }
+
+    public void  eventosParticipados(){
+
+        db= FirebaseFirestore.getInstance();
+        db.collection("evento")
+                .whereEqualTo("idUsuario",usuarioActual.getIdUsuario())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+
+                            for(QueryDocumentSnapshot organizado: task.getResult()){
+
+
+                                Log.d("MARICARMEN", "USER "+organizado.getData());
+
+
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+
+            }
+        });
+
+
+    }
+
+
 }
 
 

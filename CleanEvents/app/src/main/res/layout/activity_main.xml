@@ -94,6 +94,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/color_corporativo"
+        android:elevation="1dp"
+        android:visibility="visible"
         app:itemHorizontalTranslationEnabled="true"
         app:itemIconSize="30dp"
         app:itemIconTint="@drawable/colorbar"
@@ -115,7 +117,6 @@
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
