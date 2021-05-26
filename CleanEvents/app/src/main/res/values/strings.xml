@@ -18,6 +18,8 @@
     <string name="btn_mapa">Mapa</string>
     <string name="btn_listado">Listado</string>
     <string name="btn_unirse">Unirse al Evento</string>
+    <string name="btn_buscar_mapa">BUSCAR</string>
+    <string name="btn_guardar_coordenadas">Guardar Localización</string>
     <string name="txt_mensaje_inicio">Estamos cargando algunos datos</string>
 
 

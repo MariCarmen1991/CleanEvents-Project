@@ -43,7 +43,7 @@ import java.util.List;
 public class AlertMapsFragment extends Fragment {
      GoogleMap mMap;
      EditText busqueda;
-     Button aceptar;
+     Button buscar, guardarCoordenadas;
      String lugar, coordenadas;
      final Double[] latitud = new Double[1];
      final Double[] longitud = new Double[1];
@@ -70,7 +70,8 @@ public class AlertMapsFragment extends Fragment {
         View rootView=inflater.inflate(R.layout.fragment_alert_maps, container, false);
 
         busqueda= rootView.findViewById(R.id.buscador);
-        aceptar=rootView.findViewById(R.id.aceptar);
+        buscar=rootView.findViewById(R.id.aceptar);
+        guardarCoordenadas=rootView.findViewById(R.id.guardar_coordenadas);
 
         buscar();
         return rootView;
@@ -95,7 +96,7 @@ public class AlertMapsFragment extends Fragment {
         longitud [0]=2.9;
 
 
-        aceptar.setOnClickListener(new View.OnClickListener() {
+        buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] lonlng = coordenadas.split(",");
@@ -104,14 +105,7 @@ public class AlertMapsFragment extends Fragment {
                 lat = lng2[1];
                 String lon = lonlng[1];
                 lon = lon.substring(0, lon.length()-1);
-                //Toast.makeText(BuscadorMapaActivity.this, "Bienvenido a "+lugar+" en las coordenadas LAT: "+lng+" y LON: "+lon, Toast.LENGTH_LONG).show();
-                SharedPreferences preferences=getContext().getSharedPreferences("prefsAlert", 0);
-                SharedPreferences.Editor editor;
-                editor=preferences.edit();
-                editor.putString("Alatitud",lat);
-                editor.putString("Alongitud",lon);
-                editor.apply();
-                //getActivity().onBackPressed();
+
                 Log.d("MARICARMEN", " "+lat+lon);
                 latitud[0] = Double.parseDouble(lat);
                 longitud[0] =Double.parseDouble(lon);
@@ -121,59 +115,52 @@ public class AlertMapsFragment extends Fragment {
                 mMap.clear();
                 MarkerOptions markerOptions=new MarkerOptions();
                 markerOptions.position(ubicacionEvento);
-
                 mMap.addMarker(markerOptions);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento,13));
-
 
                 mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-
-
-
-                        MarkerOptions markerOptions= new MarkerOptions();
-                        markerOptions.position(latLng);
-                        markerOptions.title(latLng.latitude+" , "+latLng.longitude);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                        Log.d("MARICARMEN", "HELLO");
+                        LatLng ubicacionEvento = latLng;
+                        mMap.clear();
+                        MarkerOptions markerOptions=new MarkerOptions();
+                        markerOptions.position(ubicacionEvento);
                         mMap.addMarker(markerOptions);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento,16));
+                        latitud[0]=latLng.latitude;
+                        longitud[0]=latLng.longitude;
+                    }
+                });
 
 
+                guardarCoordenadas.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+                        builder.setTitle("Guardar Coordenadas de mi Evento");
+                        builder.setMessage("¿Estás seguro que quieres guardar estas coordenadas?");
 
-                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onInfoWindowClick(Marker marker) {
-                                Log.d("MARICARMEN", "has hecho click");
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            public void onClick(DialogInterface dialog, int which) {
 
-                                builder.setTitle("Guardar Coordenadas de mi Evento");
-                                builder.setMessage("¿Estás seguro que quieres guardar estas coordenadas?");
-                                Bundle latlong= new Bundle();
-                                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences preferences=getContext().getSharedPreferences("prefsAlert", 0);
+                                SharedPreferences.Editor editor;
+                                editor=preferences.edit();
+                                editor.putString("Alatitud",String.valueOf(latitud[0]));
+                                editor.putString("Alongitud",String.valueOf(longitud[0]));
+                                editor.apply();
 
-                                        SharedPreferences preferences=getContext().getSharedPreferences("prefsAlert", 0);
-                                        SharedPreferences.Editor editor;
-                                        editor=preferences.edit();
-                                        editor.putString("Alatitud",String.valueOf(marker.getPosition().latitude));
-                                        editor.putString("Alongitud",String.valueOf( marker.getPosition().longitude));
-                                        editor.apply();
-
-                                        getActivity().onBackPressed();
-
-                                    }
-                                });
-
-
-                                AlertDialog dialog = builder.create();
-                                dialog.show();
-
+                                getActivity().onBackPressed();
 
                             }
                         });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
 
                     }
                 });

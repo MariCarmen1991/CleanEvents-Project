@@ -37,6 +37,7 @@ public class MapaEventosFragment extends Fragment {
 
 
     ArrayList<Evento> eventos;
+    GoogleMap mapa;
 
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -52,66 +53,30 @@ public class MapaEventosFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            mapa=googleMap;
+
+            recargarMapa();
 
 
-            getParentFragmentManager().setFragmentResultListener("parent", getActivity(), new FragmentResultListener() {
-                @Override
-                public void onFragmentResult(@NonNull @NotNull String requestKey, @NonNull @NotNull Bundle result) {
-                    eventos=new ArrayList<>();
 
-                    eventos=(ArrayList<Evento>) result.getSerializable("eventos");
-                    Log.d("MARICARMEN","555 "+       eventos.toString());
-
-                }
-            });
-
-            //cargar imagen para el marker
-            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marcadormapa);
-            Bitmap b = bitmapdraw.getBitmap();
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
-            if(eventos!=null) {
-                for (int i = 0; i < eventos.size(); i++) {
-
-                    LatLng ubicacionEvento = new LatLng(eventos.get(i).latitud, eventos.get(i).getLongitud());
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(ubicacionEvento).title(eventos.get(i).getNombre());
-                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-                    googleMap.addMarker(markerOptions);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 10));
-
-                }
-            }
-
-            //--Función que muestra el detalle del evento si haces click en el nombre del marcador
-            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
-
-                @Override
-                public void onInfoWindowClick(Marker marker) {
-
-                    for(int i=0; i<eventos.size(); i++){
-                        Log.d("MARICARMEN", "DATOS DE LOS MARKERS   "+eventos.get(i).getNombre()+marker.getTitle());
-
-                        if(eventos.get(i).getNombre().contains(marker.getTitle())){
-                            Intent intent= new Intent(getActivity(),DetalleActivity.class);
-                            intent.putExtra("eventoActual",  eventos.get(i));
-                            startActivity(intent);
-                        }
-
-                    }
-
-                }
-            });
 
         }
     };
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        recargarMapa();
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+
 
         return inflater.inflate(R.layout.fragment_mapa_eventos, container, false);
     }
@@ -128,12 +93,61 @@ public class MapaEventosFragment extends Fragment {
             mapFragment.getMapAsync(callback);
         }
 
+
+
     }
 
 
 
 
+    public void recargarMapa(){
 
+        getParentFragmentManager().setFragmentResultListener("parent", getActivity(), new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull @NotNull String requestKey, @NonNull @NotNull Bundle result) {
+                eventos=new ArrayList<>();
+
+                eventos=(ArrayList<Evento>) result.getSerializable("eventos");
+
+            }
+        });
+       if(mapa!=null) {
+           if (eventos != null) {
+               for (int i = 0; i < eventos.size(); i++) {
+                   Log.d("MARICARMEN", "555 " + eventos.toString());
+
+                   LatLng ubicacionEvento = new LatLng(eventos.get(i).latitud, eventos.get(i).getLongitud());
+                   MarkerOptions markerOptions = new MarkerOptions();
+                   markerOptions.position(ubicacionEvento).title(eventos.get(i).getNombre());
+                   mapa.addMarker(markerOptions);
+                   mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 13));
+
+               }
+           }
+
+           //--Función que muestra el detalle del evento si haces click en el nombre del marcador
+           mapa.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+
+               @Override
+               public void onInfoWindowClick(Marker marker) {
+
+                   for (int i = 0; i < eventos.size(); i++) {
+                       Log.d("MARICARMEN", "DATOS DE LOS MARKERS   " + eventos.get(i).getNombre() + marker.getTitle());
+
+                       if (eventos.get(i).getNombre().contains(marker.getTitle())) {
+                           Intent intent = new Intent(getActivity(), DetalleActivity.class);
+                           intent.putExtra("eventoActual", eventos.get(i));
+                           startActivity(intent);
+                       }
+
+                   }
+
+               }
+           });
+
+       }
+    }
 
 
 
