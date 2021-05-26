@@ -173,13 +173,16 @@ public class HomeFragment extends Fragment  {
         });
     }
 
-    /*@Override
-    public void onStart() {
-        super.onStart();
+    @Override
+    public void onResume() {
+        super.onResume();
 
         if(((MainActivity)getActivity()).eventoArrayList != null)
         {
-            cargarRecycler(((MainActivity)getActivity()).eventoArrayList);
+            eventos.clear();
+            eventos.addAll(((MainActivity)getActivity()).eventoArrayList);
+            // cargarRecycler(((MainActivity)getActivity()).eventoArrayList);
+            adapter.notifyDataSetChanged();
         }
-    }*/
+    }
 }

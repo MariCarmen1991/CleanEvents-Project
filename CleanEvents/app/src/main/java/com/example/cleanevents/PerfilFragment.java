@@ -158,7 +158,9 @@ public class PerfilFragment extends Fragment {
 
     public void  eventosParticipados(){
 
-        db= FirebaseFirestore.getInstance();
+        FirebaseFirestore db;
+
+        db = FirebaseFirestore.getInstance();
         db.collection("evento")
                 .whereEqualTo("idUsuario",usuarioActual.getIdUsuario())
                 .get()

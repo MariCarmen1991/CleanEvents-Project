@@ -66,7 +66,7 @@ public class FiltrosActivity extends AppCompatActivity {
     FirebaseFirestore db;
 
     Evento eventObject;
-    ArrayList<Evento> eventos;
+    ArrayList<Evento> eventos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -295,7 +295,7 @@ public class FiltrosActivity extends AppCompatActivity {
     }
     public void guardar_en_array_list(QueryDocumentSnapshot evento)
     {
-        Log.d("ian", " EVENTO RECUPERADO--> " + evento.getData());
+        //Log.d("ian", " EVENTO RECUPERADO--> " + evento.getData());
         eventObject = new Evento();
         eventObject.setNombre((String) evento.getData().get("nombre"));
         eventObject.setPoblacion((String) evento.getData().get("poblacion"));
@@ -309,8 +309,8 @@ public class FiltrosActivity extends AppCompatActivity {
 
     public void hacer_query()
     {
-        //filtro_zona_lugar = et_zona_lugar.getText().toString();
-        // TODO: CREACION DE LA QUERY PARA LA BASE DE DATOS (las horas tienen k ser exactas)
+        filtro_zona_lugar = et_zona_lugar.getText().toString();
+        // CREACION DE LA QUERY PARA LA BASE DE DATOS (las horas tienen k ser exactas)
 
         if(!filtro_tipo.isEmpty() && filtro_dia.isEmpty() && filtro_hora_inicio.isEmpty() && filtro_hora_final.isEmpty() && filtro_zona_lugar.isEmpty())
         {
@@ -663,6 +663,5 @@ public class FiltrosActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 }
