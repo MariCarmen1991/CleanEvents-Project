@@ -160,7 +160,9 @@ public class PerfilFragment extends Fragment {
 
         FirebaseFirestore db;
 
+
         db= FirebaseFirestore.getInstance();
+
         db.collection("evento")
                 .whereEqualTo("idUsuario",usuarioActual.getIdUsuario())
                 .get()
