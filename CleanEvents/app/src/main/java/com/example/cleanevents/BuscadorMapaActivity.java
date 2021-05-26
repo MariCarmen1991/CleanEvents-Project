@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +43,14 @@ public class BuscadorMapaActivity extends AppCompatActivity {
                 lng = lng2[1];
                 String lon = lonlng[1];
                 lon = lon.substring(0, lon.length()-1);
-                Toast.makeText(BuscadorMapaActivity.this, "Bienvenido a "+lugar+" en las coordenadas LAT: "+lng+" y LON: "+lon, Toast.LENGTH_LONG).show();
+                //Toast.makeText(BuscadorMapaActivity.this, "Bienvenido a "+lugar+" en las coordenadas LAT: "+lng+" y LON: "+lon, Toast.LENGTH_LONG).show();
+                SharedPreferences preferences=getSharedPreferences("prefsAlert", 0);
+                SharedPreferences.Editor editor;
+                editor=preferences.edit();
+                editor.putString("Alatitud",lng);
+                editor.putString("Alongitud",lon);
+                editor.apply();
+                onBackPressed();
                 finish();
             }
         });
@@ -70,7 +78,7 @@ public class BuscadorMapaActivity extends AppCompatActivity {
             busqueda.setText(place.getAddress());
             lugar = place.getName();
             coordenadas = String.valueOf(place.getLatLng());
-            Toast.makeText(this,"[NAME:"+place.getName()+"LATLNG:"+place.getLatLng()+"]", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,"[NAME:"+place.getName()+"LATLNG:"+place.getLatLng()+"]", Toast.LENGTH_LONG).show();
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             Status status = Autocomplete.getStatusFromIntent(data);
             Toast.makeText(this,""+status.getStatusMessage(), Toast.LENGTH_LONG).show();
