@@ -88,16 +88,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="116dp"
-        android:layout_height="114dp"
-        android:tint="@color/color_corporativo"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:srcCompat="@drawable/logo1" />
-
     <TextView
         android:id="@+id/tw_olvido"
         android:layout_width="wrap_content"
@@ -182,5 +172,18 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="@+id/guideline4" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="261dp"
+        android:layout_height="139dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logoclean" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

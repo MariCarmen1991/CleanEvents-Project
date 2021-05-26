@@ -88,7 +88,6 @@ public class PerfilFragment extends Fragment {
         long idUsuario= preferences.getLong("idUsuario", 0);
         Log.d("MARICARMEN", "IDUSUARIOS fragment"+idUsuario);
         FirebaseFirestore db;
-        FirebaseDatabase database;
 
         db= FirebaseFirestore.getInstance();
         db.collection("usuario")

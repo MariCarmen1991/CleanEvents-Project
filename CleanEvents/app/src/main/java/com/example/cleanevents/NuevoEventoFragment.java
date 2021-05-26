@@ -472,7 +472,7 @@ import static android.content.Context.MODE_PRIVATE;
                             evento.put("imagen",urlImagen);
                             Log.d("MARICARMEN", "url"+urlImagen);
 
-                            crearEventos();
+
                             imagenGuardada=true;
 
 

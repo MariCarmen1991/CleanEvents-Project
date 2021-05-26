@@ -42,20 +42,16 @@ public class MapaEventosFragment extends Fragment {
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
+
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mapa=googleMap;
+                recargarMapa();
 
-            recargarMapa();
+
+            Log.d("MARICARMEN", "ONRESUME"+mapa.toString());
+
+
 
 
 
@@ -63,12 +59,7 @@ public class MapaEventosFragment extends Fragment {
         }
     };
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        recargarMapa();
-    }
 
     @Nullable
     @Override
@@ -76,9 +67,12 @@ public class MapaEventosFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        View rootView = inflater.inflate(R.layout.fragment_mapa_eventos, container, false);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapaEventos);
 
 
-        return inflater.inflate(R.layout.fragment_mapa_eventos, container, false);
+        return rootView;
     }
 
 
@@ -92,6 +86,8 @@ public class MapaEventosFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+
+
 
 
 
@@ -111,7 +107,7 @@ public class MapaEventosFragment extends Fragment {
 
             }
         });
-       if(mapa!=null) {
+
            if (eventos != null) {
                for (int i = 0; i < eventos.size(); i++) {
                    Log.d("MARICARMEN", "555 " + eventos.toString());
@@ -119,34 +115,38 @@ public class MapaEventosFragment extends Fragment {
                    LatLng ubicacionEvento = new LatLng(eventos.get(i).latitud, eventos.get(i).getLongitud());
                    MarkerOptions markerOptions = new MarkerOptions();
                    markerOptions.position(ubicacionEvento).title(eventos.get(i).getNombre());
-                   mapa.addMarker(markerOptions);
-                   mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 13));
+                   if(mapa!=null) {
+                       mapa.addMarker(markerOptions);
+                       mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 13));
+                   }
 
                }
            }
 
            //--Función que muestra el detalle del evento si haces click en el nombre del marcador
-           mapa.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        if (mapa!=null) {
+            mapa.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
 
-               @Override
-               public void onInfoWindowClick(Marker marker) {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
 
-                   for (int i = 0; i < eventos.size(); i++) {
-                       Log.d("MARICARMEN", "DATOS DE LOS MARKERS   " + eventos.get(i).getNombre() + marker.getTitle());
+                    for (int i = 0; i < eventos.size(); i++) {
+                        Log.d("MARICARMEN", "DATOS DE LOS MARKERS   " + eventos.get(i).getNombre() + marker.getTitle());
 
-                       if (eventos.get(i).getNombre().contains(marker.getTitle())) {
-                           Intent intent = new Intent(getActivity(), DetalleActivity.class);
-                           intent.putExtra("eventoActual", eventos.get(i));
-                           startActivity(intent);
-                       }
+                        if (eventos.get(i).getNombre().contains(marker.getTitle())) {
+                            Intent intent = new Intent(getActivity(), DetalleActivity.class);
+                            intent.putExtra("eventoActual", eventos.get(i));
+                            startActivity(intent);
+                        }
 
-                   }
+                    }
 
-               }
-           });
+                }
+            });
+        }
 
-       }
+
     }
 
 

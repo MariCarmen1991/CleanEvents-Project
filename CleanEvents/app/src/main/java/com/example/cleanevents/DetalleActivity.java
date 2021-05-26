@@ -1,5 +1,6 @@
 package com.example.cleanevents;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -14,13 +15,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.type.LatLng;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 
 import java.util.HashMap;
@@ -93,6 +104,8 @@ public class DetalleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 guardarParticipante();
+
+                sumarParticipante();
                 Toast.makeText(DetalleActivity.this, "Te has unido al evento!", Toast.LENGTH_SHORT).show();
 
             }
@@ -116,6 +129,42 @@ public class DetalleActivity extends AppCompatActivity {
         Log.d("maricarmen","ha funcionado");
         databaseReference=baseDatos.getReference().child("EventoUsuario");
         bd.collection("EventoUsuario").add(eventoUsuario);
+
+
+
+    }
+
+    private void sumarParticipante(){
+        FirebaseFirestore db;
+        db= FirebaseFirestore.getInstance();
+        db.collection("evento")
+                .whereEqualTo("idEvento",eventoRecibido.getIdEvento())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+
+                            for(QueryDocumentSnapshot evento: task.getResult()){
+
+                                long numParticipantes = (long) evento.get("numParticipantes");
+                                numParticipantes=numParticipantes+1;
+
+                                Log.d("maricarmen","--"+evento.getData().toString());
+
+
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+
+            }
+        });
+
+
+
 
     }
 
