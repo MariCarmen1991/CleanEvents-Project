@@ -7,7 +7,7 @@
     tools:context=".MuestraMapaActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView4"
+        android:id="@+id/fragmentContainerView3"
         android:name="com.example.cleanevents.AlertMapsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"

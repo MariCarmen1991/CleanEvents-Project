@@ -136,8 +136,8 @@ import static android.content.Context.MODE_PRIVATE;
 
         // función que carga  el mapa
         public void cargarMap() {
-            Intent i = new Intent(getContext(), BuscadorMapaActivity.class);
-            //Intent i=new Intent(getContext(), MuestraMapaActivity.class);
+
+            Intent i=new Intent(getContext(), MuestraMapaActivity.class);
             startActivity(i);
         }
 

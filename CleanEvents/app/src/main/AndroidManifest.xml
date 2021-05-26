@@ -26,7 +26,6 @@
         android:roundIcon="@drawable/icnap"
         android:supportsRtl="true"
         android:theme="@style/Theme.CleanEvents">
-        <activity android:name=".BuscadorMapaActivity"></activity>
         <activity android:name=".MuestraMapaActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

@@ -19,7 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,72 +31,34 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class AlertMapsFragment extends Fragment {
      GoogleMap mMap;
-    //double lat;
-    //double lon;
+     EditText busqueda;
+     Button aceptar;
+     String lugar, coordenadas;
+     final Double[] latitud = new Double[1];
+     final Double[] longitud = new Double[1];
+
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            mMap=googleMap;;
-            LatLng ubicacionEvento = new LatLng(48,2.8);
-            MarkerOptions markerOptions=new MarkerOptions();
-            markerOptions.position(ubicacionEvento);
-            mMap.addMarker(markerOptions);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento,10));
 
-            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-
-                    MarkerOptions markerOptions= new MarkerOptions();
-                    markerOptions.position(latLng);
-                    markerOptions.title(latLng.latitude+" , "+latLng.longitude);
-                    mMap.clear();;
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                    mMap.addMarker(markerOptions);
+            mMap=googleMap;
 
 
 
-                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                        @Override
-                        public void onInfoWindowClick(Marker marker) {
-                            Log.d("MARICARMEN", "has hecho click");
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                            builder.setTitle("Guardar Coordenadas de mi Evento");
-                            builder.setMessage("¿Estás seguro que quieres guardar estas coordenadas?");
-                            Bundle latlong= new Bundle();
-                            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    SharedPreferences preferences=getContext().getSharedPreferences("prefsAlert", 0);
-                                    SharedPreferences.Editor editor;
-                                    editor=preferences.edit();
-                                    editor.putString("Alatitud",String.valueOf(marker.getPosition().latitude));
-                                    editor.putString("Alongitud",String.valueOf( marker.getPosition().longitude));
-                                    editor.apply();
-
-                                    getActivity().onBackPressed();
-
-                                }
-                            });
-
-
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-
-
-                        }
-                    });
-
-                }
-            });
         }
     };
 
@@ -102,9 +67,13 @@ public class AlertMapsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        View rootView=inflater.inflate(R.layout.fragment_alert_maps, container, false);
 
+        busqueda= rootView.findViewById(R.id.buscador);
+        aceptar=rootView.findViewById(R.id.aceptar);
 
-        return inflater.inflate(R.layout.fragment_alert_maps, container, false);
+        buscar();
+        return rootView;
     }
 
     @Override
@@ -114,6 +83,141 @@ public class AlertMapsFragment extends Fragment {
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
+
         }
     }
+
+
+
+
+    public void buscar(){
+        latitud [0]=49.0;
+        longitud [0]=2.9;
+
+
+        aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] lonlng = coordenadas.split(",");
+                String lat = lonlng[0];
+                String[] lng2 = lat.split("\\(");
+                lat = lng2[1];
+                String lon = lonlng[1];
+                lon = lon.substring(0, lon.length()-1);
+                //Toast.makeText(BuscadorMapaActivity.this, "Bienvenido a "+lugar+" en las coordenadas LAT: "+lng+" y LON: "+lon, Toast.LENGTH_LONG).show();
+                SharedPreferences preferences=getContext().getSharedPreferences("prefsAlert", 0);
+                SharedPreferences.Editor editor;
+                editor=preferences.edit();
+                editor.putString("Alatitud",lat);
+                editor.putString("Alongitud",lon);
+                editor.apply();
+                //getActivity().onBackPressed();
+                Log.d("MARICARMEN", " "+lat+lon);
+                latitud[0] = Double.parseDouble(lat);
+                longitud[0] =Double.parseDouble(lon);
+
+                Log.d("MARICARMEN", "COORD"+latitud[0]+","+longitud[0]);
+                LatLng ubicacionEvento = new LatLng(latitud[0],longitud[0]);
+                mMap.clear();
+                MarkerOptions markerOptions=new MarkerOptions();
+                markerOptions.position(ubicacionEvento);
+
+                mMap.addMarker(markerOptions);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento,13));
+
+
+                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+
+
+
+                        MarkerOptions markerOptions= new MarkerOptions();
+                        markerOptions.position(latLng);
+                        markerOptions.title(latLng.latitude+" , "+latLng.longitude);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                        mMap.addMarker(markerOptions);
+
+
+
+
+
+                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
+                                Log.d("MARICARMEN", "has hecho click");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                                builder.setTitle("Guardar Coordenadas de mi Evento");
+                                builder.setMessage("¿Estás seguro que quieres guardar estas coordenadas?");
+                                Bundle latlong= new Bundle();
+                                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        SharedPreferences preferences=getContext().getSharedPreferences("prefsAlert", 0);
+                                        SharedPreferences.Editor editor;
+                                        editor=preferences.edit();
+                                        editor.putString("Alatitud",String.valueOf(marker.getPosition().latitude));
+                                        editor.putString("Alongitud",String.valueOf( marker.getPosition().longitude));
+                                        editor.apply();
+
+                                        getActivity().onBackPressed();
+
+                                    }
+                                });
+
+
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
+
+
+                            }
+                        });
+
+                    }
+                });
+
+
+
+            }
+
+
+        });
+
+
+        Places.initialize(getContext(), "AIzaSyDXMuPCd5oSLeT3Ecm3bBAoSok6G80X-bA");
+        busqueda.setFocusable(false);
+        busqueda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS
+                        ,Place.Field.LAT_LNG, Place.Field.NAME);
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(getContext());
+                startActivityForResult(intent, 100);
+            }
+        });
+
+
+
+
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == getActivity().RESULT_OK){
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            busqueda.setText(place.getAddress());
+            lugar = place.getName();
+            coordenadas = String.valueOf(place.getLatLng());
+            //Toast.makeText(this,"[NAME:"+place.getName()+"LATLNG:"+place.getLatLng()+"]", Toast.LENGTH_LONG).show();
+        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+            Status status = Autocomplete.getStatusFromIntent(data);
+            Toast.makeText(getContext(),""+status.getStatusMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
