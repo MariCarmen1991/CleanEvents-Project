@@ -174,42 +174,42 @@ public class FiltrosActivity extends AppCompatActivity {
         btn_filtro_playa.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "PLAYA";
+                filtro_tipo = "Playa";
             }
         });
 
         btn_filtro_montanya.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "MONTAÑA";
+                filtro_tipo = "Montaña";
             }
         });
 
         btn_filtro_fondo_marino.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "FONDO MARINO";
+                filtro_tipo = "Fondo marino";
             }
         });
 
         btn_filtro_bosque.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "BOSQUE";
+                filtro_tipo = "Bosque";
             }
         });
 
         btn_filtro_ciudad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "CIUDAD";
+                filtro_tipo = "Ciudad";
             }
         });
 
         btn_filtro_rio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                filtro_tipo = "RÍO";
+                filtro_tipo = "Rio";
             }
         });
     }
