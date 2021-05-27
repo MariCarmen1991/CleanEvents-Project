@@ -117,7 +117,7 @@ public class MapaEventosFragment extends Fragment {
                    markerOptions.position(ubicacionEvento).title(eventos.get(i).getNombre());
                    if(mapa!=null) {
                        mapa.addMarker(markerOptions);
-                       mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 13));
+                       mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionEvento, 10));
                    }
 
                }
