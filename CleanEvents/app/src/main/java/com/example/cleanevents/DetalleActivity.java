@@ -75,6 +75,9 @@ public class DetalleActivity extends AppCompatActivity {
         twPoblacion.setText(eventoRecibido.getPoblacion());
         twDescripcion.setText(eventoRecibido.getDescripcion());
         twNombre.setText(eventoRecibido.getNombre());
+        horaInicio.setText(eventoRecibido.getFecha().getHoraInicio());
+        horaFinal.setText(eventoRecibido.getFecha().getHoraFinal());
+
 
         Log.d("MARICARMEN", "evento"+eventoRecibido.toString());
 
@@ -163,7 +166,39 @@ public class DetalleActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+
+    public void prueba(){
+
+
+        FirebaseFirestore db;
+        db= FirebaseFirestore.getInstance();
+        db.collection("evento")
+                .whereEqualTo("idEvento",eventoRecibido.getIdEvento())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+
+                            for(QueryDocumentSnapshot evento: task.getResult()){
+
+                                long numParticipantes = (long) evento.get("numParticipantes");
+                                numParticipantes=numParticipantes+1;
+
+                                Log.d("maricarmen","--"+evento.getData().toString());
+
+
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+
+            }
+        });
 
 
     }
