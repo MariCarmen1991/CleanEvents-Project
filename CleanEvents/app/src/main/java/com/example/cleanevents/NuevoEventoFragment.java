@@ -384,8 +384,6 @@ import static android.content.Context.MODE_PRIVATE;
             zona = rootView.findViewById(R.id.input_zona);
             txtZona = zona.getText().toString();
             pista = rootView.findViewById(R.id.input_pista);
-
-
             txtPista = pista.getText().toString();
         }
 
@@ -551,7 +549,7 @@ import static android.content.Context.MODE_PRIVATE;
         evento.put("descripcion", txtDescripcion);
         evento.put("tesoro", tesoro);
         evento.put("pista", txtPista);
-        evento.put("poblacion", txtZona);
+        evento.put("poblacion", txtLugar);
         evento.put("tipoActividad", actividadTexto);
         evento.put("numParticipantes", numParticipantes);
 

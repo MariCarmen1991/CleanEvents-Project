@@ -104,7 +104,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
                 case "Bosque":
                     iconoActividad.setImageResource(R.drawable.round_nature_black_18);
                     break;
-                case "Río":
+                case "Rio":
                     iconoActividad.setImageResource(R.drawable.twotone_legend_toggle_black_18);
 
                     break;
