@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment  {
     ArrayList<Evento> eventos;
     ProgressBar progress;
     Boolean datosCargados=false;
+    Fecha fecha;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -115,7 +116,8 @@ public class HomeFragment extends Fragment  {
                             for(QueryDocumentSnapshot evento: task.getResult()) {
                                 Log.d("maricarmen"," EVENTO RECUPERADO--> "+evento.getData());
                                 eventObject=new Evento();
-                                eventObject.setNombre((String) evento.getData().get("nombre"));
+                                fecha= new Fecha();
+                                eventObject.setNombre((String) evento.getData().get("nombreEvento"));
                                 eventObject.setPoblacion((String) evento.getData().get("poblacion"));
                                 eventObject.setDescripcion((String) evento.getData().get("descripcion"));
                                 eventObject.setLongitud(evento.getDouble("Longitud"));
@@ -126,6 +128,13 @@ public class HomeFragment extends Fragment  {
                                 eventObject.setIdUsuario((Long)evento.getData().get("idUsuario"));
                                 eventObject.setIdEvento((Long)evento.getData().get("idEvento"));
                                 eventObject.setNombreOrganizador((String) evento.get("nombreOrganizador"));
+                                fecha.setDia((String) evento.get("dia"));
+                                fecha.setHoraInicio((String) evento.get("horaInicio"));
+                                fecha.setHoraFinal((String) evento.get("horaFinal"));
+                                eventObject.setFecha(fecha);
+                                Log.d("maricarmen"," EVENTO RECUPERADO--> "+evento.get("dia"));
+
+
 
                                 eventos.add(eventObject);
                                 cargarRecycler(eventos);

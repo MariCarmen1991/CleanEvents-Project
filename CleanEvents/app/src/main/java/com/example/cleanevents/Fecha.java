@@ -2,7 +2,9 @@ package com.example.cleanevents;
 
 import com.google.firebase.Timestamp;
 
-public class Fecha {
+import java.io.Serializable;
+
+public class Fecha implements Serializable {
 
     String dia;
     String horaInicio;

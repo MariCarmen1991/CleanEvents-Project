@@ -86,7 +86,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
 
         public void bindData(final Evento item) {
             nombreActividad.setText(item.getNombre());
-            //fechaActividad.setText(item.getFecha().toString());//modificar si es necesario pueden haber problemas con el tipo
+            fechaActividad.setText(item.getFecha().getDia());//modificar si es necesario pueden haber problemas con el tipo
             organizadorActividad.setText(item.getNombreOrganizador());
             lugarActividad.setText(item.getPoblacion());
             numeroParticipantes.setText(""+item.getNumParticipantes());
@@ -104,7 +104,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.ViewHold
                 case "Bosque":
                     iconoActividad.setImageResource(R.drawable.round_nature_black_18);
                     break;
-                case "Río":
+                case "Rio":
                     iconoActividad.setImageResource(R.drawable.twotone_legend_toggle_black_18);
 
                     break;

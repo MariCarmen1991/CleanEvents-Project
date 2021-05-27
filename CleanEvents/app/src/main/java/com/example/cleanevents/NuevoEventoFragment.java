@@ -91,6 +91,9 @@ import static android.content.Context.MODE_PRIVATE;
         Map<String, Object> evento;
         Boolean tesoro = false;
         Boolean imagenGuardada=false;
+        Boolean imagenSubida=false;
+        Boolean crearEvento=false;
+
 
         DatePickerDialog datePickerDialog;
         Calendar calendario = Calendar.getInstance();
@@ -280,38 +283,56 @@ import static android.content.Context.MODE_PRIVATE;
 
                 btnGuardar = rootView.findViewById(R.id.btn_guardar);
                 btnGuardar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                        @Override
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        String title = "Confirmación";
-                        String mensaje = "¿Seguro que quieres guardar?";
-                        builder.setTitle(title);
-                        builder.setMessage(mensaje);
-                        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Guardar evento
-                                inputData();
-                                crearEventos();
+                        public void onClick (View v) {
+                            if (imagenGuardada) {
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                String title = "Confirmación";
+                                String mensaje = "¿Seguro que quieres guardar?";
+                                builder.setTitle(title);
+                                builder.setMessage(mensaje);
+                                bajarImagenStorage(IMAGE_PATH);
+                                crearEvento=true;
+                                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Guardar evento
+                                        inputData();
+
+                                            if(crearEvento) {
+                                                crearEventos();
+                                            }
 
 
-                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                ft.replace(R.id.fragmentContainerView, new HomeFragment()).addToBackStack(null).commit();
 
-                                Toast.makeText(getActivity(), "TU EVENTO SE HA PUBLICADO", Toast.LENGTH_LONG).show();
+
+                                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                        ft.replace(R.id.fragmentContainerView, new HomeFragment()).addToBackStack(null).commit();
+
+                                        Toast.makeText(getActivity(), "TU EVENTO SE HA PUBLICADO", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Cancelar evento
+                                        Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
+
                             }
-                        });
-                        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Cancelar evento
-                                Toast.makeText(getActivity(), "Has Cancelado", Toast.LENGTH_LONG).show();
+                            else{
+                                Toast.makeText(getActivity(), "Estamos cargando todos los datos ", Toast.LENGTH_LONG).show();
+
                             }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
+                        }
+
+
+
                 });
 
 
@@ -366,8 +387,6 @@ import static android.content.Context.MODE_PRIVATE;
             zona = rootView.findViewById(R.id.input_zona);
             txtZona = zona.getText().toString();
             pista = rootView.findViewById(R.id.input_pista);
-
-
             txtPista = pista.getText().toString();
         }
 
@@ -415,9 +434,7 @@ import static android.content.Context.MODE_PRIVATE;
 
             else if(resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
                 progressImage.setVisibility(View.VISIBLE);
-                subirImagenStorage(data);
-
-
+                imagenSubida=subirImagenStorage(data);
 
             }
             super.onActivityResult(requestCode, resultCode, data);
@@ -425,7 +442,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 //-----------------------------carga de imagen al storage de firebase----------------------------
-        public void subirImagenStorage(Intent data){
+        public Boolean  subirImagenStorage(Intent data){
             imageUri = data.getData();
             imagen.setImageURI(imageUri);
             Log.d("MARICARMEN",""+imageUri);
@@ -437,15 +454,16 @@ import static android.content.Context.MODE_PRIVATE;
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             IMAGE_PATH=taskSnapshot.getMetadata().getPath();
+                            imagenGuardada=true;
 
                             Log.d("MARICARMEN",IMAGE_PATH);
-
-
                             Log.d("MARICARMEN","FOTOS DATOS " +taskSnapshot.getMetadata().getName()+" "+taskSnapshot.getMetadata().getPath());
                             Toast.makeText(getContext(),"Se ha subido la foto de tu Evento",Toast.LENGTH_SHORT).show();
                             progressImage.setVisibility(View.GONE);
 
                         }
+
+
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -454,9 +472,7 @@ import static android.content.Context.MODE_PRIVATE;
 
                         }
                     });
-
-
-
+            return true;
         }
 
 //-----------descarga de url de la imagen cargada y guardar la url como imagen de evento---------------
@@ -475,10 +491,6 @@ import static android.content.Context.MODE_PRIVATE;
                             evento.put("imagen",urlImagen);
                             Log.d("MARICARMEN", "url"+urlImagen);
 
-
-                            imagenGuardada=true;
-
-
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -487,7 +499,6 @@ import static android.content.Context.MODE_PRIVATE;
 
                             Log.d("MARICARMEN","No se ha podido descargar la foto");
                             Log.d("MARICARMEN",""+e.getMessage());
-
 
                         }
                     });
@@ -529,7 +540,7 @@ import static android.content.Context.MODE_PRIVATE;
     public void crearEventos(){
 
         long numParticipantes=0;
-        bajarImagenStorage(IMAGE_PATH);
+
         evento.put("idEvento", idEvento);
         evento.put("nombreEvento", txtNombreEvento);
         evento.put("nombre", txtLugar);
@@ -541,7 +552,7 @@ import static android.content.Context.MODE_PRIVATE;
         evento.put("descripcion", txtDescripcion);
         evento.put("tesoro", tesoro);
         evento.put("pista", txtPista);
-        evento.put("poblacion", txtZona);
+        evento.put("poblacion", txtLugar);
         evento.put("tipoActividad", actividadTexto);
         evento.put("numParticipantes", numParticipantes);
 

@@ -21,6 +21,7 @@ public class Evento implements Serializable {
     long numParticipantes;
     Double latitud;
     Double longitud;
+    String dia;
 
 
     public Evento() {
@@ -36,9 +37,11 @@ public class Evento implements Serializable {
         this.numParticipantes = numParticipantes;
         this.latitud = latitud;
         this.longitud = longitud;
+        this.dia = dia;
     }
 
-    public Evento(long idEvento, String nombre, long idUsuario, String nombreOrganizador, String tipoActividad, String imagen, Fecha fecha, String descripcion, String poblacion, long numParticipantes, Double latitud, Double longitud) {
+
+    public Evento(long idEvento, String nombre, long idUsuario, String nombreOrganizador, String tipoActividad, String imagen, Fecha fecha, String descripcion, String poblacion, long numParticipantes, Double latitud, Double longitud, String dia) {
         this.idEvento = idEvento;
         this.nombre = nombre;
         this.idUsuario = idUsuario;
@@ -51,7 +54,18 @@ public class Evento implements Serializable {
         this.numParticipantes = numParticipantes;
         this.latitud = latitud;
         this.longitud = longitud;
+        this.dia = dia;
     }
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+
 
     public long getIdEvento() {
         return idEvento;
