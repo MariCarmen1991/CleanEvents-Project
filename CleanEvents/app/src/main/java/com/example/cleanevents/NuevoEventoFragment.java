@@ -13,12 +13,14 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.util.TimeZone;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
@@ -74,6 +76,7 @@ import java.util.Random;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public class NuevoEventoFragment extends Fragment {
 
         View rootView;
@@ -227,7 +230,7 @@ import static android.content.Context.MODE_PRIVATE;
                                 dateLog = dayOfMonth + "/" + (month + 1) + "/" + year;
                                 get_fecha.setText(dateLog);
                             }
-                        }, dia, mes, ano);
+                        }, ano, mes, dia);
                         datePickerDialog.show();
                     }
                 }
