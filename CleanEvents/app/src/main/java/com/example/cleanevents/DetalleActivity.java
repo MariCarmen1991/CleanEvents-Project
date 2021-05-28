@@ -3,10 +3,7 @@ package com.example.cleanevents;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,23 +14,23 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.LatLng;
+import com.google.firebase.firestore.Source;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Document;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DetalleActivity extends AppCompatActivity {
@@ -41,16 +38,22 @@ public class DetalleActivity extends AppCompatActivity {
     ImageView imagenEvento;
     Evento eventoRecibido;
     Button btnUnirse;
+    long idUsuario;
     TextView twNombre, twDescripcion, twPoblacion, horaInicio, horaFinal;
+    ArrayList<String> id;
+    long[] num;
     private FirebaseFirestore bd;
     private FirebaseDatabase baseDatos;
     private DatabaseReference databaseReference;
+    Boolean sumado=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle);
 
+        SharedPreferences preferences=DetalleActivity.this.getSharedPreferences("idUsuarioPref", MODE_PRIVATE);
+        idUsuario= preferences.getLong("idUsuario",0);
 
         inicializar();
         recibirIntent();
@@ -106,10 +109,11 @@ public class DetalleActivity extends AppCompatActivity {
         btnUnirse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                guardarParticipante();
 
-                sumarParticipante();
-                Toast.makeText(DetalleActivity.this, "Te has unido al evento!", Toast.LENGTH_SHORT).show();
+
+                    guardarParticipante();
+
+
 
             }
         });
@@ -119,26 +123,26 @@ public class DetalleActivity extends AppCompatActivity {
 
     private void guardarParticipante(){
 
-        SharedPreferences preferences=DetalleActivity.this.getSharedPreferences("idUsuarioPref", MODE_PRIVATE);
-        long idUsuario= preferences.getLong("idUsuario",0);
-
-
         HashMap eventoUsuario = new HashMap();
         eventoUsuario.put("idUsuario",idUsuario);
         eventoUsuario.put("idEvento",eventoRecibido.getIdEvento() );
 
         bd=FirebaseFirestore.getInstance();
         baseDatos=FirebaseDatabase.getInstance();
-        Log.d("maricarmen","ha funcionado");
+        Log.d("maricarmen","GUARDADO");
         databaseReference=baseDatos.getReference().child("EventoUsuario");
         bd.collection("EventoUsuario").add(eventoUsuario);
-
-
+        Toast.makeText(getApplicationContext(), "TE HAS UNIDO CON ÉXITO",Toast.LENGTH_SHORT).show();
 
     }
 
-    private void sumarParticipante(){
+    private Boolean sumarParticipante(){
         FirebaseFirestore db;
+        FirebaseDatabase reference = FirebaseDatabase.getInstance();
+        num = new long[0];
+        id=new ArrayList<>();
+
+
         db= FirebaseFirestore.getInstance();
         db.collection("evento")
                 .whereEqualTo("idEvento",eventoRecibido.getIdEvento())
@@ -153,13 +157,37 @@ public class DetalleActivity extends AppCompatActivity {
                                 long numParticipantes = (long) evento.get("numParticipantes");
                                 numParticipantes=numParticipantes+1;
 
-                                Log.d("maricarmen","--"+evento.getData().toString());
+                                num[0]=numParticipantes;
+                                id.add(evento.getId());
+                                sumado=true;
+                                Log.d("maricarmen","sumado"+sumado);
+
 
 
                             }
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+
+            }
+        });
+
+        return true;
+    }
+
+    public void actualizarDato(){
+
+        FirebaseFirestore db;
+        db=FirebaseFirestore.getInstance();
+        DocumentReference reference=db.collection("evento").document(id.get(0));
+        reference.update("numParticipantes",num[0]).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d("MARICARMEN", "actualizado");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull @NotNull Exception e) {
 
@@ -169,36 +197,66 @@ public class DetalleActivity extends AppCompatActivity {
     }
 
 
-    public void prueba(){
 
-
+    public  void participa(){
         FirebaseFirestore db;
         db= FirebaseFirestore.getInstance();
-        db.collection("evento")
-                .whereEqualTo("idEvento",eventoRecibido.getIdEvento())
+        db.collection("EventoUsuario")
+                .whereEqualTo("idUsuario",idUsuario)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        Boolean existe;
+
+
                         if(task.isSuccessful()){
+                            if(task.getResult().isEmpty()){
 
-                            for(QueryDocumentSnapshot evento: task.getResult()){
+                                Toast.makeText(getApplicationContext(), "TE HAS UNIDO CON ÉXITO",Toast.LENGTH_SHORT).show();
+                                guardarParticipante();
 
-                                long numParticipantes = (long) evento.get("numParticipantes");
-                                numParticipantes=numParticipantes+1;
-
-                                Log.d("maricarmen","--"+evento.getData().toString());
-
-
+                                if(sumarParticipante()){
+                                    actualizarDato();
+                                }
+                                Log.d("MARICARMEN","vacío");
                             }
+
+
+
+                            for(QueryDocumentSnapshot recibido: task.getResult()){
+                                Log.d("MARICARMEN","DATOS"+recibido.getData());
+                                if(recibido.getData().containsValue(eventoRecibido.getIdEvento())) {
+
+                                    Toast.makeText(getApplicationContext(), "YA TE HAS UNIDO A ESTE EVENTO",Toast.LENGTH_SHORT).show();
+                                break;
+                                }
+                            }
+
+
+
+
+
                         }
+
+
+
+
+
+
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull @NotNull Exception e) {
 
+                Log.d("MARICARMEN","NO HAY DATOS");
+
             }
         });
+
+
+
 
 
     }

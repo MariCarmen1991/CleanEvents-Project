@@ -15,12 +15,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 
 public class AccesoActivity extends AppCompatActivity {
@@ -101,6 +108,7 @@ public class AccesoActivity extends AppCompatActivity {
                                         Log.d("maricarmen",user.getUid());
                                         guardarValor(AccesoActivity.this, "userId",user.getUid());
                                         muestraHome();
+                                        comprobarmail();
 
                                     } else {
                                         Toast.makeText(AccesoActivity.this, "El acceso ha fallado, revisa tus datos", Toast.LENGTH_SHORT).show();
@@ -127,6 +135,44 @@ public class AccesoActivity extends AppCompatActivity {
                 }
             });
 
+
+    }
+
+
+    public void comprobarmail(){
+
+        FirebaseFirestore db;
+        FirebaseDatabase reference = FirebaseDatabase.getInstance();
+
+
+
+        db= FirebaseFirestore.getInstance();
+        db.collection("usuario")
+                .whereEqualTo("email",user.getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+
+                            for(QueryDocumentSnapshot usuario: task.getResult()){
+
+                                SharedPreferences preferences=getApplicationContext().getSharedPreferences("idUsuarioPref", MODE_PRIVATE);
+                                SharedPreferences.Editor editor;
+                                editor=preferences.edit();
+                                editor.putLong("idUsuario", (Long) usuario.getData().get("idUsuario"));
+                                editor.apply();
+
+
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+
+            }
+        });
 
     }
 

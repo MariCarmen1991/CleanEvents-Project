@@ -432,8 +432,7 @@ import static android.content.Context.MODE_PRIVATE;
             else if(resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
                 progressImage.setVisibility(View.VISIBLE);
                 imagenSubida=subirImagenStorage(data);
-
-            }
+             }
             super.onActivityResult(requestCode, resultCode, data);
         }
 
@@ -454,7 +453,6 @@ import static android.content.Context.MODE_PRIVATE;
                             imagenGuardada=true;
 
                             Log.d("MARICARMEN",IMAGE_PATH);
-                            Log.d("MARICARMEN","FOTOS DATOS " +taskSnapshot.getMetadata().getName()+" "+taskSnapshot.getMetadata().getPath());
                             Toast.makeText(getContext(),"Se ha subido la foto de tu Evento",Toast.LENGTH_SHORT).show();
                             progressImage.setVisibility(View.GONE);
 

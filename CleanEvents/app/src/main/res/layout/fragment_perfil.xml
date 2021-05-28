@@ -32,25 +32,27 @@
         android:id="@+id/btn_eventos_organizados"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="232dp"
+        android:layout_marginEnd="52dp"
         android:text="@string/txt_btn_eventos_organizados"
         app:cornerRadius="30dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline29"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintBottom_toTopOf="@+id/guideline34"
+        app:layout_constraintEnd_toStartOf="@+id/btn_eventos_participados"
         app:layout_constraintStart_toStartOf="@+id/guideline27"
-        app:layout_constraintTop_toBottomOf="@+id/txt_descripcion" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <Button
         android:id="@+id/btn_eventos_participados"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
         android:backgroundTint="@color/color_transparente"
         android:text="@string/txt_btn_eventos_participados"
         android:textColor="@color/color_acento"
         app:cornerRadius="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline34"
         app:layout_constraintEnd_toStartOf="@+id/guideline29"
-        app:layout_constraintStart_toStartOf="@+id/guideline27"
-        app:layout_constraintTop_toBottomOf="@+id/btn_eventos_organizados"
+        app:layout_constraintStart_toEndOf="@+id/btn_eventos_organizados"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
         app:strokeColor="@color/color_acento"
         app:strokeWidth="1dp" />
 
@@ -61,18 +63,22 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toStartOf="@+id/guideline29"
         app:layout_constraintStart_toStartOf="@+id/guideline27"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+        app:layout_constraintTop_toBottomOf="@+id/image_perfil" />
 
     <TextView
         android:id="@+id/txt_nombre_usuario"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
+        android:drawableStart="@drawable/baseline_account_circle_24"
+        android:drawableTint="@color/color_acento"
+        android:lineSpacingExtra="8sp"
         android:text="tu nombre"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/color_acento"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline25"
         app:layout_constraintEnd_toStartOf="@+id/guideline29"
         app:layout_constraintHorizontal_bias="1.0"
@@ -84,14 +90,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="@string/txt_sobre_mi"
+        android:textColor="@color/color_acento"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline27"
         app:layout_constraintTop_toBottomOf="@+id/divider14" />
 
     <TextView
         android:id="@+id/txt_descripcion"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/guideline29"
         app:layout_constraintStart_toStartOf="@+id/guideline27"
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
@@ -103,9 +114,9 @@
         android:text="@string/txt_btn_editar_perfil"
         android:textColor="@color/color_corporativo"
         app:cornerRadius="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintBottom_toBottomOf="@+id/image_perfil"
         app:layout_constraintEnd_toStartOf="@+id/guideline29"
-        app:layout_constraintStart_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toEndOf="@+id/image_perfil"
         app:layout_constraintTop_toTopOf="@+id/guideline25"
         app:strokeColor="@color/color_corporativo"
         app:strokeWidth="2dp" />
@@ -118,11 +129,51 @@
         app:layout_constraintGuide_begin="54dp" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/image_perfil"
         android:layout_width="101dp"
         android:layout_height="110dp"
         android:src="@drawable/nodisponible"
         app:layout_constraintEnd_toStartOf="@+id/guideline29"
         app:layout_constraintStart_toStartOf="@+id/guideline27"
         app:layout_constraintTop_toTopOf="@+id/guideline25" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline29"
+        app:layout_constraintStart_toStartOf="@+id/guideline27"
+        app:layout_constraintTop_toTopOf="@+id/guideline34">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".5" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:src="@drawable/icnap"
+        app:layout_constraintEnd_toStartOf="@+id/guideline29"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline27"
+        app:layout_constraintTop_toBottomOf="@+id/txt_descripcion" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
